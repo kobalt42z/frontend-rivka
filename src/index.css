@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+:root {
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  line-height: 1.5;
+  /* font-weight: 400; */
+
+  color:var(--main-text-color);
+ 
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --main-beige-color: #fbf8f2;
+  --main-green-color: #959c73;
+  --main-green-color-light: #959c73b9;
+  --main-text-color: #474A49;
+  --main-btn-color:#959C73;
+  --main-shop-color: #F5F5F5;
+}
+
+.topGradiant {
+
+  background: rgb(149,156,115);
+  background: -moz-linear-gradient(180deg, rgba(149,156,115,1) 38%, rgba(215,200,171,1) 80%);
+  background: -webkit-linear-gradient(180deg, rgba(149,156,115,1) 38%, rgba(215,200,171,1) 80%);
+  background: linear-gradient(180deg, rgba(149,156,115,1) 38%, rgba(215,200,171,1) 80%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#959c73",endColorstr="#d7c8ab",GradientType=1);
+}
+
+.botGradiant {
+  background: rgb(149,156,115);
+  background: -moz-linear-gradient(0deg, rgba(149,156,115,1) 38%, rgba(215,200,171,1) 80%);
+  background: -webkit-linear-gradient(0deg, rgba(149,156,115,1) 38%, rgba(215,200,171,1) 80%);
+  background: linear-gradient(0deg, rgba(149,156,115,1) 38%, rgba(215,200,171,1) 80%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#959c73",endColorstr="#d7c8ab",GradientType=1);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  
+
+  /** google font oswald */
+  
+/* font-family: 'Montserrat', sans-serif; */
+/* font-family: 'Open Sans', sans-serif; */
+font-family: 'Oswald', sans-serif; 
+/* font-family: 'Roboto Condensed', sans-serif; */
+/** ------------------------------------ */
+
+  background: var(--main-beige-color);
+}
+
+.bg-wavy{
+ background-image: url(assets/wave.svg);
+ /* background-position: center; */
+ background-size: cover;
+ background-repeat: no-repeat;
+}
+
+.start-wavey{
+  background: rgb(149,156,115);
+  background: -moz-linear-gradient(0deg, rgba(149,156,115,0.7) 36%, rgba(251,248,242,1) 100%);
+  background: -webkit-linear-gradient(0deg, rgba(149,156,115,0.7) 36%, rgba(251,248,242,1) 100%);
+  background: linear-gradient(0deg, rgba(149,156,115,0.7) 36%, rgba(251,248,242,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#959c73",endColorstr="#fbf8f2",GradientType=1);
+}
+
+.global-wave{
+  
+}
