@@ -10,11 +10,16 @@ import MenuItem from './MenuItem';
 import { ClickOutside } from '../special/ClickOutside';
 import { Link } from 'react-router-dom';
 import MenuUl from './menuUl';
+import { useAppSelector } from '../../store/hooks';
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import DropDawnAvatar from '../DropDownAvatar/DropDawnAvatar';
+
 
 const CnavBar = () => {
     const [showSearch, setShowSearch] = React.useState(false)
     const [showDrawer, setShowDrawer] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
+    const login = useAppSelector((state) => state.login)
     const openIt = () => {
         setShowSearch(true)
         console.log("clicked");
@@ -30,6 +35,12 @@ const CnavBar = () => {
         setShowMenu(!showMenu)
     }
 
+    useEffect(() => {
+
+
+    }, [])
+
+
     return (
         <nav className='container flex  justify-around items-center w-[100%]'>
 
@@ -37,13 +48,18 @@ const CnavBar = () => {
             <ClickOutside open={showDrawer} closeIt={() => setShowDrawer(false)} >
                 <BasketDrawer open={showDrawer} toggle={toggleDrawer} ></BasketDrawer>
             </ClickOutside>
-            <ClickOutside open={showMenu} closeIt={()=>setShowMenu(false)}>
+            <ClickOutside open={showMenu} closeIt={() => setShowMenu(false)}>
                 <MenuDrawer open={showMenu} toggle={toggleMenu} title={"תפריט"}>
-                    <MenuUl closeMenuOnclick={()=>setShowMenu(false)}/>
+                    <MenuUl closeMenuOnclick={() => setShowMenu(false)} />
                 </MenuDrawer>
             </ClickOutside>
             <button onClick={toggleDrawer} ><ShoppingBagIcon color='black' className='h-7  ' /></button>
-            <Link to={'/login'}><UserCircleIcon color='black' className='h-7' /></Link>
+
+            {!login.user ?
+                <DropDawnAvatar label={<UserCircleIcon color='black' className='h-7' />} /> :
+                <Link to={"/login"}> <ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
+            }
+
             <Link to={"/"}>
                 <img
                     src={Logo}
