@@ -9,7 +9,7 @@ const MenuUl = ({closeMenuOnclick}:MenuUIProps) => {
 
 
     return (
-        <ul id='menuUl_id' className='text-end' onClick={()=>closeMenuOnclick()}>
+        <ul id='menuUl_id' className='text-end rtl:text-start' onClick={()=>closeMenuOnclick()}>
             <MenuItem to={"/"}>עמוד הבית</MenuItem>
             <MenuItem to={"/shop"} >חנות אונליין</MenuItem>
             <MenuItem >קביעת תורים</MenuItem>

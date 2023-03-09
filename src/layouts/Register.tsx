@@ -5,38 +5,40 @@ import LoginInput from '../components/misc/LoginInput'
 import SelectLanguage from '../components/misc/SelectLanguage'
 const Register = () => {
     return (
-        <div className='container flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
+        <div className='  container flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
             {/* registerbtn  */}
             <div className="flex uppercase text-xs justify-around w-[80%] py-10 text-black">
-                <h2 className='font-bold '>Already registered?</h2>
-                <Link to={'/login'}><h2 className='font-semibold underline'>login </h2></Link>
+                <h2 className='font-bold text-base'>כבר יש לך חשבון?</h2>
+                <Link to={'/login'}><h2 className='font-semibold underline text-base'>התחברי </h2></Link>
             </div>
-            <h2 className="capitalize  text-xs w-[65%] text-center">This space allows you to manage your personal information,
-                e-Boutique orders, and news updates</h2>
-            <form className="w-[70%] flex flex-col  justify-center-center pt-10 space-y-10">
-                <LoginInput placeholder={'First Name *'} type="text" />
-                <LoginInput placeholder={'Last Name *'} type="text" />
+            <h2 className="capitalize   text-xs w-[65%] text-center">מידע זה ישמש להזמנות עתידיות ומעקב אחר הזמנות ושרותים </h2>
+            <form className="  w-[70%] flex flex-col  justify-center-center pt-10 space-y-10">
+                <input type={"text"} placeholder={"שם פרטי *"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
+                <input type={"text"} placeholder={"שם משפחה *"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
+
 
                 <div className='w-full'>
-                    <p className='pl-2 text-xs '>Date of birth:</p>
-                    <LoginInput type="date" InjectClass={'w-full'} />
+                    <p className='pl-2 text-sm '>תאריך לידה:</p>
+                    <input type={"Date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full `} />
                 </div>
-                <LoginInput placeholder={'Email addres *'} type="email" />
-                <LoginInput placeholder={'Password *'} type="password" />
-                <LoginInput placeholder={'Confirm Password *'} type="password" />
+                <input type={"text"} placeholder={" כתובת מייל * "} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
+                <input type={"text"} placeholder={"ססמה * "} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
+                <input type={"text"} placeholder={"ווידוא ססמה * "} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
+
                 <div className='w-full'>
-                    <p className='pl-2 text-xs '>Preferred Language</p>
+                    <p className='pl-2 text-sm '>שפה מועדפת</p>
                     <SelectLanguage />
                 </div>
 
-                
+
                 <div className="pt-5 space-y-5 flex flex-col">
-                    <Link to={'/forgotPassword'} className='capitalize text-sm underline'  >Forgot your password ?</Link>
+                    <Link to={'/forgotPassword'} className='capitalize text-base underline'  >שכחתי ססמה...</Link>
 
-                    <Link to={'/policy'} className='capitalize text-sm '>Read the <span className="underline"> Privacy Policy </span> for further information</Link>
+                    <Link to={'/policy'} className='capitalize text-sm '>עייני ב- <span className="underline"> תנאי השירות</span> למידע נוסף</Link>
 
-                    <div className=" flex space-x-3"><input type="checkbox" />
-                        <p className='text-sm'>I would also like to receive marketing information about Rivka Nakache’s products or services. We may send you this information using email, text, telephone, or post. We may also use your information to deliver personalized messages or advertising on social media or other digital platforms. You can ask us to stop marketing at any time.</p>
+                    <div className=" flex  space-x-3">
+                        <input type="checkbox" className='ml-2' />
+                        <p className='text-sm'>אני מעוניינת בקבלת עדכונים על מבצעים והטבות שלנו למייל </p>
                     </div>
                 </div>
 

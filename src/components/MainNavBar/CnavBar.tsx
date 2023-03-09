@@ -37,7 +37,7 @@ const CnavBar = () => {
 
 
     return (
-        <nav className='container flex  justify-around items-center w-[100%]'>
+        <nav className='container flex rtl:flex-row-reverse justify-around items-center w-[100%]'>
 
             <SearchBar show={showSearch} closeIt={closeIt} />
             <ClickOutside open={showDrawer} closeIt={() => setShowDrawer(false)} >

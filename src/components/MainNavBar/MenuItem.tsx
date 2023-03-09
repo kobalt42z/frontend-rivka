@@ -19,7 +19,7 @@ const MenuItem = ({ children, to, active }: MenuItemsProps) => {
   return (
     <Link to={to || '/'} >
       <li className={` py-3
-     flex justify-between items-center w-full  text-[var(--main-text-color)] font-medium text-lg  `}><ChevronLeftIcon className="h-6  text-gray-500" />{children}
+     flex rtl:flex-row-reverse justify-between items-center w-full  text-[var(--main-text-color)] font-medium text-lg  `}><ChevronLeftIcon className="h-6  text-gray-500" />{children}
       </li>
     </Link>
   )

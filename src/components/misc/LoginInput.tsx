@@ -13,3 +13,8 @@ const LoginInput = ({placeholder,InjectClass,type,useFormParams}:LoginInputProps
 }
 
 export default LoginInput
+
+/*
+
+<input  type={type} {...useFormParams}  placeholder={placeholder} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 ${InjectClass&&InjectClass}`} />
+ */

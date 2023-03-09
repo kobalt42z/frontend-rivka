@@ -13,7 +13,7 @@ interface ItemDrawerProps {
 export const ItemDrawer = ({ img, alt, title, price }: ItemDrawerProps) => {
     const [amount, setAmount] = React.useState(1)
     return (
-        <div className='flex justify-center items-center text-center text-black capitalize'>
+        <div className='flex rtl:flex-row-reverse space-x-5 justify-center items-center text-center text-black capitalize'>
 
             <img className='w-[100px] h-[100px]' src={img} alt={alt} />
 
