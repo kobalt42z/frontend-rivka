@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { loginFailure, loginStart, loginSuccess } from '../store/loginSlice'
 import axios, { AxiosError } from 'axios'
 import { Alert } from 'flowbite-react'
-import {InformationCircleIcon} from '@heroicons/react/24/outline'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 // provide type about fiealds
 type Inputs = {
@@ -24,6 +24,7 @@ export const LoginPage = () => {
   const authState = useAppSelector((state) => state.login)
   const dispatch = useAppDispatch()
   const [showError, setShowError] = useState(false)
+  const [networkERROR,setNetworkError] = useState(false)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const navigate = useNavigate();
 
@@ -38,6 +39,8 @@ export const LoginPage = () => {
       if (axios.isAxiosError(error)) {
         dispatch(loginFailure(error.response?.data))
         if (error.response?.status === 403) setShowError(true);
+        if (error.code ==="ERR_NETWORK") setNetworkError(true);
+        
       }
       throw error;
     }
@@ -50,17 +53,30 @@ export const LoginPage = () => {
 
   return (
     <div className='container flex flex-col items-center min-h-[75vh] pt-10 '>
-      {showError&&<Alert
-        color="failure"
-        icon={InformationCircleIcon}
-      >
-        <span>
-          <span className="font-medium">
-            wrong! 
+      {showError &&
+        <Alert
+          color="failure"
+          icon={InformationCircleIcon}
+        >
+          <span>
+            <span className="font-medium">
+              wrong!
+            </span>
+            {' '}one or more credential you provided is wrong.
           </span>
-          {' '}one or more credential you provided is wrong.
-        </span>
-      </Alert>}
+        </Alert>}
+      {networkERROR &&
+        <Alert
+          color="failure"
+          icon={InformationCircleIcon}
+        >
+          <span>
+            <span className="font-medium">
+              ERROR!
+            </span>
+            {' '}Server is down please try again later...
+          </span>
+        </Alert>}
       {/* registerbtn  */}
       <div className="flex uppercase text-xs justify-around w-[80%] py-10 text-black">
         <h2 className='font-bold '>dont have an accont ?</h2>

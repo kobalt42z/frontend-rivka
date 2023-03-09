@@ -1,7 +1,7 @@
-export interface user  {
-    id:string;
-    createdAt:Date;
-    updatedAt:Date;
+export interface user {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
     firstName: string;
     lastName: string;
     dateOfBirth: Date;
@@ -10,7 +10,7 @@ export interface user  {
     role: role;
 
 }
-enum role{
+export enum role {
     ADMIN,
     USER,
     EMPLOYEE,

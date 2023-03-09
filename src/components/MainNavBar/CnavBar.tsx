@@ -35,11 +35,6 @@ const CnavBar = () => {
         setShowMenu(!showMenu)
     }
 
-    useEffect(() => {
-
-
-    }, [])
-
 
     return (
         <nav className='container flex  justify-around items-center w-[100%]'>
@@ -55,7 +50,7 @@ const CnavBar = () => {
             </ClickOutside>
             <button onClick={toggleDrawer} ><ShoppingBagIcon color='black' className='h-7  ' /></button>
 
-            {!login.user ?
+            {login.user ?
                 <DropDawnAvatar label={<UserCircleIcon color='black' className='h-7' />} /> :
                 <Link to={"/login"}> <ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
             }

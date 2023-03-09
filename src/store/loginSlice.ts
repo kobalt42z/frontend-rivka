@@ -1,9 +1,10 @@
-import { configureStore, createSlice ,PayloadAction} from '@reduxjs/toolkit'
+import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { user } from '../interfaces';
 
 
 interface authState {
   token: string | null;
-  user: string | null;
+  user: null | user;
   error: string | null;
   isLoading: boolean;
 }
@@ -22,7 +23,7 @@ const authState = createSlice({
       state.isLoading = true;
     }
     ,
-    loginSuccess: (state, action:PayloadAction<authState>) => {
+    loginSuccess: (state, action: PayloadAction<authState>) => {
       state.isLoading = false;
       state.error = null;
       state.token = action.payload.token;
@@ -32,7 +33,7 @@ const authState = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    logout: (state) => {
+    logout: (state) => {    
       return { ...initialState }
     },
   }
