@@ -1,8 +1,8 @@
-export * from './Forgot'
+export * from './auth/Forgot'
 export * from './Home'
-export * from './LoginPage'
-export * from './Register'
+export * from './auth/LoginPage'
+export * from './auth/Register'
 export * from './SharedLayouts'
 export * from './Shop'
 export * from './404/NotFound'
-export * from './employs/ESharedLayouts'
+

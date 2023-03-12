@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import MainButtons from '../components/buttons/MainButtons'
-import LoginInput from '../components/misc/LoginInput'
-import SelectLanguage from '../components/misc/SelectLanguage'
+import MainButtons from '../../components/buttons/MainButtons'
+import LoginInput from '../../components/misc/LoginInput'
+import SelectLanguage from '../../components/misc/SelectLanguage'
 const Register = () => {
     return (
         <div className='  container flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
@@ -32,7 +32,7 @@ const Register = () => {
 
 
                 <div className="pt-5 space-y-5 flex flex-col">
-                    <Link to={'/forgotPassword'} className='capitalize text-base underline'  >שכחתי ססמה...</Link>
+                   
 
                     <Link to={'/policy'} className='capitalize text-sm '>עייני ב- <span className="underline"> תנאי השירות</span> למידע נוסף</Link>
 
@@ -42,7 +42,7 @@ const Register = () => {
                     </div>
                 </div>
 
-                <MainButtons custom={'h-10 rounded-[50px] w-[70%] self-center text-black font-semibold'} >Create  accont</MainButtons>
+                <MainButtons custom={'h-10 rounded-[50px] w-[70%] self-center text-black font-semibold'} >צור חשבון</MainButtons>
             </form>
 
         </div>
