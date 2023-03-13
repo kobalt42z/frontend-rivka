@@ -4,8 +4,9 @@ import SuppThead from './SuppThead';
 
 interface ProductsTableTypes {
     children: React.ReactNode;
+    toggleAddProducts:()=>void;
 }
-const ProductsTable = ({ children }: ProductsTableTypes) => {
+const ProductsTable = ({ children ,toggleAddProducts}: ProductsTableTypes) => {
 
   
     return (<>
@@ -87,7 +88,9 @@ const ProductsTable = ({ children }: ProductsTableTypes) => {
 
 
 
-                        <button type="button" className="flex items-center justify-center px-4 py-2 text-sm font-medium text-black rounded-lg bg-[var(--main-btn-color)] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
+                        <button type="button" className="flex items-center justify-center px-4 py-2 text-sm font-medium text-black rounded-lg bg-[var(--main-btn-color)] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none "
+                        onClick={toggleAddProducts}
+                        >
 
                             הוספת מוצר
                             <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

@@ -11,6 +11,7 @@ const Products = () => {
     const [showConfirmDel, setShowConfirmDel] = useState(false)
     const [idToDel, setIdToDel] = useState<string | null>(null)
     const [selectedRow, setSelectedRow] = useState<{}[] | null>(null)
+    const [showAddProduct, setShowAddProduct] = useState(false);
 
     //! testing purposes only!
     const [items, setItems] = useState([{ id: "a" }, { id: "b" }, { id: "c" }, { id: "d" }, { id: "e" }])
@@ -34,14 +35,19 @@ const Products = () => {
         setSelectedRow(items);
     }
 
-
+    const addProduct = ()=>{
+        setShowAddProduct(true);
+    }
+    const closeAddProduct = ()=>{
+        setShowAddProduct(false);
+    }
 
 
     return (
         <div>
-            <AddProductsModal/>
+            <IF condition={showAddProduct}><AddProductsModal closeAddProduct={closeAddProduct}/></IF>
             <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} /></IF>
-            <ProductsTable>
+            <ProductsTable toggleAddProducts={addProduct}>
                 {items.map((item, i) => <ProductRow key={i} handleDeletClick={deletClick} id={item.id} />)}
             </ProductsTable>
         </div>

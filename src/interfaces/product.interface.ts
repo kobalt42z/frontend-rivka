@@ -3,9 +3,9 @@ export interface Product {
     description : string;
     brand: string;
     price_ils :number ;
-    reduction_p :number ; 
+    reduction_p? :number ; 
     supply:number;
-    category:string;
+    categorys:Array<string>;
     translated:{
       fr?:ProductTranslation
       en?:ProductTranslation
