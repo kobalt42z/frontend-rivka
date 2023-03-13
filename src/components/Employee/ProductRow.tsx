@@ -17,10 +17,10 @@ const ProductRow = ({ id,handleDeletClick }:ProductRowType) => {
 
         <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
             <td className="w-4 px-4 py-3">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                     <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                     <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-                </div>
+                </div> */}
             </td>
             <th scope="row" className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <img src="https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091" alt="iMac Front Image" className="w-auto h-8 mr-3" />
@@ -31,12 +31,12 @@ const ProductRow = ({ id,handleDeletClick }:ProductRowType) => {
             </td>
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <div className="flex items-center">
-                    <div className="inline-block w-4 h-4 mr-2 bg-red-700 rounded-full"></div>
                     95
+                    <div className="inline-block w-4 h-4 mr-2 bg-red-700 rounded-full"></div>
                 </div>
             </td>
-            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">1.47</td>
-            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">0.47</td>
+            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">1.47</td>
+            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">0.47</td>
 
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <div className="flex items-center">

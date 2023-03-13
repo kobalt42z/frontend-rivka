@@ -1,14 +1,14 @@
 import React, { MouseEventHandler } from 'react'
- 
+import DarkVail from '../../special/darkVail';
+
 interface DelModalType {
-    closeF?:MouseEventHandler<HTMLButtonElement>;
-    OnAccept:()=>void;
+    closeF?: MouseEventHandler<HTMLButtonElement>;
+    OnAccept: () => void;
 }
 
-const DelModal = ({closeF,OnAccept}:DelModalType) => {
+const DelModal = ({ closeF, OnAccept }: DelModalType) => {
     return (
-        <div  className=' absolute z-50 w-full h-full bg-black bg-opacity-50'>
-            
+        <DarkVail>
             <div id="deleteModal" className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                 <div className="relative p-4 w-full max-w-md h-full md:h-auto">
                     {/*  Modal content  : */}
@@ -23,14 +23,14 @@ const DelModal = ({closeF,OnAccept}:DelModalType) => {
                             <button onClick={closeF} type="button" className="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                 No, cancel
                             </button>
-                            <button onClick={()=>OnAccept()} type="submit" className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
+                            <button onClick={() => OnAccept()} type="submit" className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
                                 Yes, I'm sure
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </DarkVail>
     )
 }
 

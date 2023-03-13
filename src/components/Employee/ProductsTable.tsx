@@ -10,11 +10,11 @@ const ProductsTable = ({ children }: ProductsTableTypes) => {
   
     return (<>
         
-        <div className="px-4 mx-auto max-w-screen-2xl lg:px-12 ">
+        <div className=" px-4 mx-auto max-w-screen-2xl lg:px-12 ">
             <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
 
                 <SuppThead />
-                <div className="flex  flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
+                <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
 
                     <div className="w-full md:w-1/2">
                         <form className="flex items-center">
@@ -114,10 +114,10 @@ const ProductsTable = ({ children }: ProductsTableTypes) => {
                         <thead className=" text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="p-4">
-                                    <div className="flex  items-center">
+                                    {/* <div className="flex  items-center">
                                         <input id="checkbox-all" type="checkbox" className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label htmlFor="checkbox-all" className="sr-only">checkbox</label>
-                                    </div>
+                                    </div> */}
                                 </th>
                                 <th scope="col" className="px-4 py-3">מוצר</th>
                                 <th scope="col" className="px-4 py-3">קטגוריה</th>
