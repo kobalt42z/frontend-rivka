@@ -12,7 +12,7 @@ import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 
-const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
+const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) => {
 
 
     type descriptionInput = {
@@ -35,15 +35,15 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
     let stepData: descriptionInput[] = [];
 
     //? react hook form : 
-    const { setValue,register, handleSubmit, watch, formState: { errors, isValid } } = useForm<Product>();
+    const { setValue, register, handleSubmit, watch, formState: { errors, isValid } } = useForm<Product>();
 
     const animatedComponents = makeAnimated();
 
 
 
     const onSubmit: SubmitHandler<Product> = data => {
-       console.log(data);
-       closeAddProduct();
+        console.log(data);
+        closeAddProduct();
     };
 
     const [userChoice, setUserChoice] = useState<MultiValue<{
@@ -65,7 +65,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                             <div className="flex  justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
 
                                 <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                onClick={closeAddProduct} >
+                                    onClick={closeAddProduct} >
                                     <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                                     <span className="sr-only">Close modal</span>
                                 </button>
@@ -97,7 +97,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                                     {...register('name', {
                                                         required: {
                                                             value: true,
-                                                            message: 'נדרש תאור מוצר אחד לפחות'
+                                                            message: 'נדרש שם מוצר אחד לפחות'
                                                         },
                                                         maxLength: {
                                                             value: 30,
@@ -105,6 +105,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                                         }
                                                     })}
                                                 />
+                                                {errors.name && <p className='text-red-500'>{errors.name?.message}</p>}
                                             </div>
 
                                             <div className="sm:col-span-2">
@@ -126,6 +127,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
 
                                                     })}
                                                 ></textarea>
+                                                {errors.description && <p className='text-red-500'>{errors.description?.message}</p>}
                                             </div>
                                         </section>
                                     </IF>
@@ -148,6 +150,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                                         }
                                                     })}
                                                 />
+                                                {errors.translated?.fr?.name && <p className='text-red-500'>{errors.translated?.fr?.name?.message}</p>}
                                             </div>
 
                                             <div className="sm:col-span-2">
@@ -164,6 +167,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                                         }
                                                     })}
                                                 ></textarea>
+                                                {errors.translated?.fr?.description && <p className='text-red-500'>{errors.translated?.fr?.description?.message}</p>}
                                             </div>
                                         </section>
                                     </IF>
@@ -186,6 +190,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                                         }
                                                     })}
                                                 />
+                                                {errors.translated?.en?.name && <p className='text-red-500'>{errors.translated?.en?.name?.message}</p>}
                                             </div>
 
                                             <div className="sm:col-span-2">
@@ -203,6 +208,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                                         }
                                                     })}
                                                 ></textarea>
+                                                {errors.translated?.en?.description && <p className='text-red-500'>{errors.translated?.en?.description?.message}</p>}
                                             </div>
                                         </section>
                                     </IF>
@@ -242,10 +248,11 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
 
                                             })}
                                         />
+                                        {errors.brand && <p className='text-red-500'>{errors.brand?.message}</p>}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מחיר</label>
+                                        <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מחיר - ₪</label>
                                         <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.price_ils && 'border-red-500'} `} placeholder="₪500"
                                             {...register('price_ils', {
                                                 required: {
@@ -260,6 +267,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
 
                                             })}
                                         />
+                                        {errors.price_ils && <p className='text-red-500'>{errors.price_ils?.message}</p>}
                                     </div>
 
                                     <div >
@@ -270,26 +278,27 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
                                             defaultValue={categorys[0]}
                                             isMulti
                                             options={categorys}
-                                            onChange={(choice) => setValue('categorys',choice.map(item=>item.value) )}
+                                            onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
                                         />
                                     </div >
                                     <div className="">
-                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">הנחה</label>
+                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">הנחה - %</label>
                                         <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.reduction_p && 'border-red-500'} `} placeholder="%60"
                                             {...register('reduction_p', {
 
                                                 max: {
                                                     value: 100,
-                                                    message: "הנחה באוחוזים"
+                                                    message: " הנחה באוחוזים בלבד (0-100)"
                                                 },
                                                 valueAsNumber: true,
 
                                             })}
                                         />
+                                        {errors.reduction_p && <p className='text-red-500'>{errors.reduction_p?.message}</p>}
                                     </div>
                                     <div className="">
                                         <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">כמות</label>
-                                        <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.supply && 'border-red-500'} `}  placeholder="54"
+                                        <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.supply && 'border-red-500'} `} placeholder="54"
                                             {...register('supply', {
                                                 required: {
                                                     value: true,
@@ -303,6 +312,7 @@ const AddProductsModal = ({closeAddProduct}:{closeAddProduct:()=>void}) => {
 
                                             })}
                                         />
+                                        {errors.supply && <p className='text-red-500'>{errors.supply?.message}</p>}
                                     </div>
 
                                 </div>
