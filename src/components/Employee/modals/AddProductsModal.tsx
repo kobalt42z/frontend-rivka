@@ -10,6 +10,7 @@ import { Product } from '../../../interfaces';
 
 import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { ClassicInput } from '../../inputs/ClassicInput';
 
 
 const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) => {
@@ -86,27 +87,24 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
                                     {/* he section */}
                                     <IF condition={currentStep >= 0} >
                                         <section className={currentStep == 0 ? 'block' : "hidden"}>
-                                            <div>
-                                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">שם מוצר
-                                                    <span className='text-blue-500 px-1'>
-                                                        עברית
-                                                    </span>
-                                                </label>
-                                                <input type="text" id="name" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.name && 'border-red-500'} `}
-                                                    placeholder="שם מוצר בעברית"
-                                                    {...register('name', {
-                                                        required: {
-                                                            value: true,
-                                                            message: 'נדרש שם מוצר אחד לפחות'
-                                                        },
-                                                        maxLength: {
-                                                            value: 30,
-                                                            message: ' נדרש שם מוצר עד 30 תווים '
-                                                        }
-                                                    })}
-                                                />
-                                                {errors.name && <p className='text-red-500'>{errors.name?.message}</p>}
-                                            </div>
+                                      
+                                        <ClassicInput 
+                                        labelTitle='שם  מוצר'
+                                         language='עברית ' 
+                                         type='text' 
+                                         placeholder='שם מוצר בעברית'
+                                         useFromsParams={register('name', {
+                                            required: {
+                                                value: true,
+                                                message: 'נדרש שם מוצר אחד לפחות'
+                                            },
+                                            maxLength: {
+                                                value: 30,
+                                                message: ' נדרש שם מוצר עד 30 תווים '
+                                            }
+                                        })}
+                                        errorMessage={errors.name?.message}
+                                         />
 
                                             <div className="sm:col-span-2">
                                                 <label htmlFor="ItemDescription" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">תאור מוצר
