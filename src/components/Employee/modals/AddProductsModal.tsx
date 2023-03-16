@@ -11,29 +11,18 @@ import { Product } from '../../../interfaces';
 import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { ClassicInput } from '../../inputs/ClassicInput';
+import { TextArea } from '../../inputs/TextArea';
+import { Xsvg } from '../../../assets/X';
 
 
 const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) => {
 
 
-    type descriptionInput = {
-        name: string,
-        description: string,
-
-    }
-    type Inputs = {
-        brand: string,
-        price_ils: number,
-        reduction_p: number,
-        supply: number,
-        categoryIds: string,
-    };
-
 
     const language = ["עברית", "צרפתית", "אנגלית", ""]
     const categorys = [{ value: 'nails', label: "Nails" }, { value: 'body', label: "Body" }, { value: 'foot', label: "Feet" }]
     const [currentStep, setCurrentStep] = useState(0);
-    let stepData: descriptionInput[] = [];
+
 
     //? react hook form : 
     const { setValue, register, handleSubmit, watch, formState: { errors, isValid } } = useForm<Product>();
@@ -67,7 +56,7 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
 
                                 <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                     onClick={closeAddProduct} >
-                                    <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                                    <Xsvg/>
                                     <span className="sr-only">Close modal</span>
                                 </button>
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -87,140 +76,122 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
                                     {/* he section */}
                                     <IF condition={currentStep >= 0} >
                                         <section className={currentStep == 0 ? 'block' : "hidden"}>
-                                      
-                                        <ClassicInput 
-                                        labelTitle='שם  מוצר'
-                                         language='עברית ' 
-                                         type='text' 
-                                         placeholder='שם מוצר בעברית'
-                                         useFromsParams={register('name', {
-                                            required: {
-                                                value: true,
-                                                message: 'נדרש שם מוצר אחד לפחות'
-                                            },
-                                            maxLength: {
-                                                value: 30,
-                                                message: ' נדרש שם מוצר עד 30 תווים '
-                                            }
-                                        })}
-                                        errorMessage={errors.name?.message}
-                                         />
 
-                                            <div className="sm:col-span-2">
-                                                <label htmlFor="ItemDescription" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">תאור מוצר
-                                                    <span className='text-blue-500 px-1'>
-                                                        בעברית
-                                                    </span>
-                                                </label>
-                                                <textarea id="ItemDescription" rows={4} className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.description && 'border-red-500'} `} placeholder="תאור מוצר בעברית עד 100 תווים"
-                                                    {...register('description', {
-                                                        required: {
-                                                            value: true,
-                                                            message: 'נדרש תאור מוצר בעברית לפחות '
-                                                        },
-                                                        maxLength: {
-                                                            value: 100,
-                                                            message: 'תיאור מוצר עד 100 תווים'
-                                                        }
+                                            <ClassicInput
+                                                labelTitle='שם  מוצר'
+                                                language='עברית '
+                                                type='text'
+                                                placeholder='שם מוצר בעברית'
+                                                useFromsParams={register('name', {
+                                                    required: {
+                                                        value: true,
+                                                        message: 'נדרש שם מוצר אחד לפחות'
+                                                    },
+                                                    maxLength: {
+                                                        value: 30,
+                                                        message: ' נדרש שם מוצר עד 30 תווים '
+                                                    }
+                                                })}
+                                                errorMessage={errors.name?.message}
+                                            />
+                                            <TextArea
+                                                placeholder="תאור מוצר בעברית עד 100 תווים"
+                                                labelTitle='תאור מוצר'
+                                                language='בעברית'
+                                                useFromsParams={register('description', {
+                                                    required: {
+                                                        value: true,
+                                                        message: 'נדרש תאור מוצר בעברית לפחות '
+                                                    },
+                                                    maxLength: {
+                                                        value: 100,
+                                                        message: 'תיאור מוצר עד 100 תווים'
+                                                    }
 
-                                                    })}
-                                                ></textarea>
-                                                {errors.description && <p className='text-red-500'>{errors.description?.message}</p>}
-                                            </div>
+                                                })}
+                                                errorMessage={errors.description?.message}
+                                            />
                                         </section>
                                     </IF>
-
 
                                     {/* fr section */}
                                     <IF condition={currentStep >= 1} >
                                         <section className={currentStep == 1 ? 'block' : "hidden"}>
-                                            <div>
-                                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">שם מוצר
-                                                    <span className='text-blue-500 px-1'>
-                                                        צרפתית
-                                                    </span>
-                                                </label>
-                                                <input type="text" id="name" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.translated?.fr?.name && 'border-red-500'} `}
-                                                    {...register('translated.fr.name', {
+
+
+                                            <ClassicInput
+                                                labelTitle='שם מוצר'
+                                                language='צרפתית'
+                                                type='text'
+                                                placeholder='הכנס תאור מוצר בצרפתית '
+                                                useFromsParams={
+                                                    register('translated.fr.name', {
                                                         maxLength: {
                                                             value: 30,
                                                             message: 'שם המוצר עד 30 תווים'
                                                         }
                                                     })}
-                                                />
-                                                {errors.translated?.fr?.name && <p className='text-red-500'>{errors.translated?.fr?.name?.message}</p>}
-                                            </div>
-
-                                            <div className="sm:col-span-2">
-                                                <label htmlFor="ItemDescription" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">תאור מוצר
-                                                    <span className='text-blue-500 px-1'>
-                                                        צרפתית
-                                                    </span>
-                                                </label>
-                                                <textarea id="ItemDescription" rows={4} className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.translated?.fr?.description && 'border-red-500'} `} placeholder="Write product ItemDescription here"
-                                                    {...register('translated.fr.description', {
-                                                        maxLength: {
-                                                            value: 100,
-                                                            message: 'תיאור מוצר עד 100 תווים'
-                                                        }
-                                                    })}
-                                                ></textarea>
-                                                {errors.translated?.fr?.description && <p className='text-red-500'>{errors.translated?.fr?.description?.message}</p>}
-                                            </div>
+                                                errorMessage={errors.translated?.fr?.name?.message}
+                                            />
+                                            <TextArea
+                                                labelTitle='תאור מוצר '
+                                                language='צרפתית'
+                                                placeholder='description en francais '
+                                                useFromsParams=
+                                                {register('translated.fr.description', {
+                                                    maxLength: {
+                                                        value: 100,
+                                                        message: 'תיאור מוצר עד 100 תווים'
+                                                    }
+                                                })}
+                                                errorMessage={errors.translated?.fr?.description?.message}
+                                            />
                                         </section>
                                     </IF>
 
                                     {/* en section !need to add on */}
                                     <IF condition={currentStep >= 2} >
                                         <section className={currentStep == 2 ? 'block' : "hidden"}>
-                                            <div>
-                                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">שם מוצר
-                                                    <span className='text-blue-500 px-1'>
-                                                        אנגלית
-                                                    </span>
-                                                </label>
-                                                <input type="text" id="name" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.translated?.en?.name && 'border-red-500'} `}
-                                                    placeholder={"product name in english"}
-                                                    {...register('translated.en.name', {
-                                                        maxLength: {
-                                                            value: 30,
-                                                            message: 'שם המוצר עד 30 תווים'
-                                                        }
-                                                    })}
-                                                />
-                                                {errors.translated?.en?.name && <p className='text-red-500'>{errors.translated?.en?.name?.message}</p>}
-                                            </div>
 
-                                            <div className="sm:col-span-2">
-                                                <label htmlFor="ItemDescription" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">תאור מוצר
-                                                    <span className='text-blue-500 px-1'>
-                                                        אנגלית
-                                                    </span>
-                                                </label>
-                                                <textarea id="ItemDescription" rows={4} className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.translated?.en?.description && 'border-red-500'} `}
-                                                    placeholder="Write product ItemDescription here"
-                                                    {...register('translated.en.description', {
-                                                        maxLength: {
-                                                            value: 100,
-                                                            message: 'תיאור מוצר עד 100 תווים'
-                                                        }
-                                                    })}
-                                                ></textarea>
-                                                {errors.translated?.en?.description && <p className='text-red-500'>{errors.translated?.en?.description?.message}</p>}
-                                            </div>
+                                            <ClassicInput
+                                                labelTitle='שם מוצר באנגלית '
+                                                language='אנגלית'
+                                                type='text'
+                                                placeholder='enter a product name in english'
+                                                useFromsParams={register('translated.en.name', {
+                                                    maxLength: {
+                                                        value: 30,
+                                                        message: 'שם המוצר עד 30 תווים'
+                                                    }
+                                                })}
+                                                errorMessage={errors.translated?.en?.name?.message}
+
+                                            />
+                                            <TextArea
+                                                labelTitle='תאור מוצר '
+                                                language='אנגלית'
+                                                placeholder='product description in english '
+                                                useFromsParams={register('translated.en.description', {
+                                                    maxLength: {
+                                                        value: 100,
+                                                        message: 'תיאור מוצר עד 100 תווים'
+                                                    }
+                                                })}
+                                                errorMessage={errors.translated?.en?.description?.message}
+                                            />
                                         </section>
                                     </IF>
 
                                     <div className='pb-5 flex justify-between'>
 
-                                        <button type="button" className="w-[90px] flex items-center justify-between text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                        <button type="button" className="w-[90px] flex items-center justify-between text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                             onClick={() => {
                                                 if (currentStep > 0)
                                                     setCurrentStep(currentStep - 1)
                                             }}
                                         ><ArrowRightIcon className='w-5' />prev</button>
 
-                                        <button type="button" className={`${currentStep == 2 && "hidden"} w-[90px] flex items-center justify-between text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2`}
+                                        <button type="button" className={`${currentStep == 2 && "hidden"} w-[90px] flex items-center justify-between focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800`}
                                             onClick={() => {
                                                 if (currentStep < 2)
                                                     setCurrentStep(currentStep + 1)
@@ -230,44 +201,44 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
                                 </div>
                                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
 
+                                    <ClassicInput
+                                        labelTitle='חברה'
+                                        type='text'
+                                        placeholder='RivkaNakach'
+                                        useFromsParams={register('brand', {
+                                            required: {
+                                                value: true,
+                                                message: 'נא לספק שם-חברה תקינה'
+                                            },
+                                            maxLength: {
+                                                value: 20,
+                                                message: 'שם-חברה אינו עולה על 20 תווים '
+                                            }
 
-                                    <div >
-                                        <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">חברה</label>
-                                        <input type="text" id="brand" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.brand && 'border-red-500'} `} placeholder="RivkaNakach"
-                                            {...register('brand', {
-                                                required: {
-                                                    value: true,
-                                                    message: 'נא לספק שם-חברה תקינה'
-                                                },
-                                                maxLength: {
-                                                    value: 20,
-                                                    message: 'שם-חברה אינו עולה על 20 תווים '
-                                                }
+                                        })}
+                                        errorMessage={errors.brand?.message}
+                                    />
 
-                                            })}
-                                        />
-                                        {errors.brand && <p className='text-red-500'>{errors.brand?.message}</p>}
-                                    </div>
 
-                                    <div>
-                                        <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מחיר - ₪</label>
-                                        <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.price_ils && 'border-red-500'} `} placeholder="₪500"
-                                            {...register('price_ils', {
-                                                required: {
-                                                    value: true,
-                                                    message: 'נא לספק מחיר תקין '
-                                                },
-                                                max: {
-                                                    value: 1000000,
-                                                    message: "מחיר לא תקין"
-                                                },
-                                                valueAsNumber: true,
+                                    <ClassicInput
+                                        labelTitle='מחיר - ₪'
+                                        type='number'
+                                        placeholder='₪500'
+                                        useFromsParams={register('price_ils', {
+                                            required: {
+                                                value: true,
+                                                message: 'נא לספק מחיר תקין '
+                                            },
+                                            max: {
+                                                value: 1000000,
+                                                message: "מחיר לא תקין"
+                                            },
+                                            valueAsNumber: true,
 
-                                            })}
-                                        />
-                                        {errors.price_ils && <p className='text-red-500'>{errors.price_ils?.message}</p>}
-                                    </div>
+                                        })}
+                                        errorMessage={errors.price_ils?.message}
 
+                                    />
                                     <div >
                                         <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">קטגוריה</label>
                                         <Select
@@ -279,39 +250,42 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
                                             onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
                                         />
                                     </div >
-                                    <div className="">
-                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">הנחה - %</label>
-                                        <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.reduction_p && 'border-red-500'} `} placeholder="%60"
-                                            {...register('reduction_p', {
 
-                                                max: {
-                                                    value: 100,
-                                                    message: " הנחה באוחוזים בלבד (0-100)"
-                                                },
-                                                valueAsNumber: true,
+                                    <ClassicInput
+                                        labelTitle='הנחה - %'
+                                        type='number'
+                                        placeholder='%60'
+                                        useFromsParams={register('reduction_p', {
 
-                                            })}
-                                        />
-                                        {errors.reduction_p && <p className='text-red-500'>{errors.reduction_p?.message}</p>}
-                                    </div>
-                                    <div className="">
-                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">כמות</label>
-                                        <input type="number" id="price" className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${errors.supply && 'border-red-500'} `} placeholder="54"
-                                            {...register('supply', {
-                                                required: {
-                                                    value: true,
-                                                    message: 'יש להזין כמות מוצרים תקינה'
-                                                },
-                                                max: {
-                                                    value: 100000,
-                                                    message: "הכמות שהוכנסה אינה תקינה"
-                                                },
-                                                valueAsNumber: true,
+                                            max: {
+                                                value: 100,
+                                                message: " הנחה באוחוזים בלבד (0-100)"
+                                            },
+                                            valueAsNumber: true,
 
-                                            })}
-                                        />
-                                        {errors.supply && <p className='text-red-500'>{errors.supply?.message}</p>}
-                                    </div>
+                                        })}
+                                        errorMessage={errors.reduction_p?.message}
+
+                                    />
+
+                                    <ClassicInput
+                                    labelTitle='כמות'
+                                    type='number'
+                                    placeholder='54'
+                                    useFromsParams={register('supply', {
+                                        required: {
+                                            value: true,
+                                            message: 'יש להזין כמות מוצרים תקינה'
+                                        },
+                                        max: {
+                                            value: 100000,
+                                            message: "הכמות שהוכנסה אינה תקינה"
+                                        },
+                                        valueAsNumber: true,
+
+                                    })}
+                                    errorMessage={errors.supply?.message}
+                                    />
 
                                 </div>
                                 <div className="flex justify-end">

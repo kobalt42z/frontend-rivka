@@ -5,14 +5,14 @@ import { IF } from '../special/if'
 interface props {
     useFromsParams: UseFormRegisterReturn
     labelTitle: string
-    language: string
+    language?: string
     placeholder?: string
     type: string
     className?: string
     errorMessage?: string
 }
 
-export const ClassicInput = ({ labelTitle, type, useFromsParams, className, placeholder, language, errorMessage, }: props) => {
+export const ClassicInput = ({ labelTitle, type, placeholder, className, useFromsParams, language, errorMessage, }: props) => {
     return (
         <div>
             <label className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white`}>{labelTitle}
