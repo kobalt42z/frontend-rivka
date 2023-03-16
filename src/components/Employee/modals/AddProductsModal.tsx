@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import DarkVail from '../../special/DarkVail'
+
 import { IF } from '../../special/if'
 import Stepper3 from '../../Stepper/Stepper3'
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,6 +13,7 @@ import makeAnimated from 'react-select/animated';
 import { ClassicInput } from '../../inputs/ClassicInput';
 import { TextArea } from '../../inputs/TextArea';
 import { Xsvg } from '../../../assets/X';
+import { DarkVail } from '../../special/DarkVail';
 
 
 const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) => {
