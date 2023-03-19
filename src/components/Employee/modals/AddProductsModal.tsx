@@ -14,7 +14,9 @@ import { ClassicInput } from '../../inputs/ClassicInput';
 import { TextArea } from '../../inputs/TextArea';
 import { Xsvg } from '../../../assets/X';
 import { DarkVail } from '../../special/DarkVail';
-SketchPicker 
+import { ColorResult, SketchPicker } from 'react-color';
+import ColorPiker from '../../ColorPicker/ColorPiker';
+import { Tooltip } from 'flowbite-react';
 
 interface props {
     closeAddProduct: () => void
@@ -24,39 +26,68 @@ interface props {
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
-
-
-
-    const language = ["עברית", "צרפתית", "אנגלית", ""]
-    const categorys = [{ value: 'nails', label: "Nails" }, { value: 'body', label: "Body" }, { value: 'foot', label: "Feet" }]
-    const [currentStep, setCurrentStep] = useState(0);
-
-
     //? react hook form : 
     const { setValue, register, handleSubmit, watch, formState: { errors, isValid } } = useForm<Product>();
 
-    const animatedComponents = makeAnimated();
-
-
-
+    //?react hook form submition : 
     const onSubmit: SubmitHandler<Product> = data => {
         console.log(data);
         closeAddProduct();
     };
 
+
+    // ? for react-select library:
+    const animatedComponents = makeAnimated();
+
+
+    const language = ["עברית", "צרפתית", "אנגלית", ""]
+    const categorys = [
+        { value: 'nails', label: "Nails" },
+        { value: 'body', label: "Body" },
+        { value: 'foot', label: "Feet" }
+    ]
+
+    // ? stepper 0he 1fr 2en 
+    const [currentStep, setCurrentStep] = useState(0);
+
+    // ? user chioce category :
     const [userChoice, setUserChoice] = useState<MultiValue<{
         value: string;
         label: string;
     }> | null>(null);
 
+    //? color chosen in color picker 
+    const [colors, setColors] = useState<string[]>([])
+    const [showPicker, setShowPicker] = useState(false);
+
+    const addColor = (color: ColorResult) => {
+        setColors([...colors, color.hex])
+
+    }
+    const removeColor = (index: number) => {
+        const updatedColors = colors.filter(((item, i) => i !== index))
+        setColors(updatedColors)
+    }
+    const openPiker = () => {
+        setShowPicker(true);
+    }
+    const closePiker = () => {
+        setShowPicker(false);
+    }
 
 
+
+    // ? edit mode  !not finished yet!
     editMode && useEffect(() => {
         setValue('brand', editValues.brand);
 
 
     }, [])
 
+    useEffect(() => {
+        console.log(colors);
+
+    }, [colors]);
 
 
     return (
@@ -337,11 +368,37 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         errorMessage={errors.supply?.message}
                                     />
 
-                                    <button></button>
+                                    {showPicker && <ColorPiker closePiker={closePiker} addColor={addColor} />}
+
+                                    <div className='flex flex-col items-center justify-center s'>
+                                        <Tooltip content="לחץ על צבע על מנת להסירו מהרשימה">
+                                            <label className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white`}>צבעים :
+                                            </label>
+                                        </Tooltip>
+                                        <div className='flex  '>
+
+                                            {colors.length > 0 &&
+                                                colors.map((item, id) => {
+                                                    return (
+                                                        <Tooltip content={`${item}`}>
+                                                            <div key={id} className={`w-7 h-7 px-2 `} style={{ background: `${item}` }}
+                                                                onClick={() => removeColor(id)}
+                                                            ></div>
+                                                        </Tooltip>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+
 
                                 </div>
-                                <div className="flex justify-end">
-                                    <button type="submit" className="flex items-center justify-center px-4 py-2 text-sm font-medium text-black rounded-lg bg-[var(--main-btn-color)] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
+                                <div className="flex flex-row-reverse justify-between">
+                                    <button
+                                        onClick={openPiker}
+                                        type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">הוסף צבע</button>
+
+                                    <button type="submit" className="flex h-11 items-center justify-center px-2  text-sm font-medium text-white rounded-lg bg-green-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
 
                                         הוספת מוצר
                                         <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
