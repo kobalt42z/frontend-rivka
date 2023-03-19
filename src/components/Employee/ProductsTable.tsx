@@ -64,7 +64,7 @@ const ProductsTable = ({ children, toggleAddProducts }: ProductsTableTypes) => {
                                 <th scope="col" className="px-4 py-3">עריכה</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             {children}
                         </tbody>
                     </table>

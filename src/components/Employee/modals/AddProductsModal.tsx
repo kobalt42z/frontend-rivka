@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { ArrowLeftIcon, ArrowRightIcon, ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
-import { Product } from '../../../interfaces';
+import { EditValues, Product } from '../../../interfaces';
 
 import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -14,9 +14,16 @@ import { ClassicInput } from '../../inputs/ClassicInput';
 import { TextArea } from '../../inputs/TextArea';
 import { Xsvg } from '../../../assets/X';
 import { DarkVail } from '../../special/DarkVail';
+SketchPicker 
 
+interface props {
+    closeAddProduct: () => void
+    editMode: boolean
+    editValues: Product
 
-const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) => {
+}
+
+const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
 
 
@@ -43,6 +50,15 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
     }> | null>(null);
 
 
+
+    editMode && useEffect(() => {
+        setValue('brand', editValues.brand);
+
+
+    }, [])
+
+
+
     return (
         <>
             { }
@@ -57,7 +73,7 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
 
                                 <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                     onClick={closeAddProduct} >
-                                    <Xsvg/>
+                                    <Xsvg />
                                     <span className="sr-only">Close modal</span>
                                 </button>
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -201,6 +217,44 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
                                     </div>
                                 </div>
                                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                                    <ClassicInput
+                                        labelTitle=' מחיר קנייה - ₪'
+                                        type='number'
+                                        placeholder='₪500'
+                                        useFromsParams={register('selling_price', {
+                                            required: {
+                                                value: true,
+                                                message: 'נא לספק מחיר תקין '
+                                            },
+                                            max: {
+                                                value: 1000000,
+                                                message: "מחיר לא תקין"
+                                            },
+                                            valueAsNumber: true,
+
+                                        })}
+                                        errorMessage={errors.selling_price?.message}
+
+                                    />
+                                    <ClassicInput
+                                        labelTitle='מחיר בחנות - ₪'
+                                        type='number'
+                                        placeholder='₪500'
+                                        useFromsParams={register('selling_price', {
+                                            required: {
+                                                value: true,
+                                                message: 'נא לספק מחיר תקין '
+                                            },
+                                            max: {
+                                                value: 1000000,
+                                                message: "מחיר לא תקין"
+                                            },
+                                            valueAsNumber: true,
+
+                                        })}
+                                        errorMessage={errors.selling_price?.message}
+
+                                    />
 
                                     <ClassicInput
                                         labelTitle='חברה'
@@ -218,40 +272,8 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
 
                                         })}
                                         errorMessage={errors.brand?.message}
-                                    />
-
-
-                                    <ClassicInput
-                                        labelTitle='מחיר - ₪'
-                                        type='number'
-                                        placeholder='₪500'
-                                        useFromsParams={register('price_ils', {
-                                            required: {
-                                                value: true,
-                                                message: 'נא לספק מחיר תקין '
-                                            },
-                                            max: {
-                                                value: 1000000,
-                                                message: "מחיר לא תקין"
-                                            },
-                                            valueAsNumber: true,
-
-                                        })}
-                                        errorMessage={errors.price_ils?.message}
 
                                     />
-                                    <div >
-                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">קטגוריה</label>
-                                        <Select
-                                            closeMenuOnSelect={false}
-                                            components={animatedComponents}
-                                            defaultValue={categorys[0]}
-                                            isMulti
-                                            options={categorys}
-                                            onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
-                                        />
-                                    </div >
-
                                     <ClassicInput
                                         labelTitle='הנחה - %'
                                         type='number'
@@ -268,25 +290,54 @@ const AddProductsModal = ({ closeAddProduct }: { closeAddProduct: () => void }) 
                                         errorMessage={errors.reduction_p?.message}
 
                                     />
+                                    <div>
+                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">קטגוריה</label>
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={categorys[0]}
+                                            isMulti
+                                            options={categorys}
+                                            onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
+                                        />
+                                    </div >
+
+
+                                    <div>
+                                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מידות</label>
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={categorys[0]}
+                                            isMulti
+                                            options={categorys}
+                                            onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
+                                        />
+                                    </div >
+
+
+
 
                                     <ClassicInput
-                                    labelTitle='כמות'
-                                    type='number'
-                                    placeholder='54'
-                                    useFromsParams={register('supply', {
-                                        required: {
-                                            value: true,
-                                            message: 'יש להזין כמות מוצרים תקינה'
-                                        },
-                                        max: {
-                                            value: 100000,
-                                            message: "הכמות שהוכנסה אינה תקינה"
-                                        },
-                                        valueAsNumber: true,
+                                        labelTitle='כמות'
+                                        type='number'
+                                        placeholder='54'
+                                        useFromsParams={register('supply', {
+                                            required: {
+                                                value: true,
+                                                message: 'יש להזין כמות מוצרים תקינה'
+                                            },
+                                            max: {
+                                                value: 100000,
+                                                message: "הכמות שהוכנסה אינה תקינה"
+                                            },
+                                            valueAsNumber: true,
 
-                                    })}
-                                    errorMessage={errors.supply?.message}
+                                        })}
+                                        errorMessage={errors.supply?.message}
                                     />
+
+                                    <button></button>
 
                                 </div>
                                 <div className="flex justify-end">

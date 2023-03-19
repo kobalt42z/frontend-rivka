@@ -1,9 +1,14 @@
-export interface Product {
+
+export interface Product  {
     name: string;
     description : string;
+    sizes: string[];
+    colores: string[];
     brand: string;
-    price_ils :number ;
     reduction_p? :number ; 
+    selling_price :number ;
+    base_price :number ;
+    active:boolean ;
     supply:number;
     categorys:Array<string>;
     translated:{
@@ -12,7 +17,11 @@ export interface Product {
     }
 }
 
-interface ProductTranslation {
+interface ProductTranslation  {
     name : string ;
     description : string;
+}
+export interface EditValues {
+  [key:string ]: keyof Product;
+ 
 }
