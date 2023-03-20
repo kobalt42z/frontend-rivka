@@ -1,9 +1,15 @@
 import React from 'react'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import MainButtons from '../../components/buttons/MainButtons'
 import LoginInput from '../../components/misc/LoginInput'
 import SelectLanguage from '../../components/misc/SelectLanguage'
+import { RegisterInpute, user } from '../../interfaces'
 const Register = () => {
+
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterInpute>();
+
     return (
         <div className='  container flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
             {/* registerbtn  */}
@@ -13,13 +19,47 @@ const Register = () => {
             </div>
             <h2 className="capitalize   text-xs w-[65%] text-center">מידע זה ישמש להזמנות עתידיות ומעקב אחר הזמנות ושרותים </h2>
             <form className="  w-[70%] flex flex-col  justify-center-center pt-10 space-y-10">
-                <input type={"text"} placeholder={"שם פרטי *"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
-                <input type={"text"} placeholder={"שם משפחה *"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
+
+
+                <input type={"text"} placeholder={"שם פרטי *"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `}
+                    {...register('firstName', {
+                        required: {
+                            value: true,
+                            message: 'נדרש שם משתמש תקין'
+                        },
+                        maxLength: {
+                            value: 10,
+                            message: 'יותר מדי תווים בשדה זה'
+                        },
+                        pattern: {
+                            value: /[a-zA-Z]/,
+                            message: "שם מכיל אותיות בלבד"
+                        }
+                    })}
+                />
+
+                <input type={"text"} placeholder={"שם משפחה *"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `}
+                    {...register('lastName', {
+                        required: {
+                            value: true,
+                            message: 'נדרש שם משתמש תקין'
+                        },
+                        maxLength: {
+                            value: 10,
+                            message: 'יותר מדי תווים בשדה זה'
+                        },
+                        pattern: {
+                            value: /[a-zA-Z]/,
+                            message: "שם מכיל אותיות בלבד"
+                        }
+                    })}
+                />
 
 
                 <div className='w-full'>
                     <p className='pl-2 text-sm '>תאריך לידה:</p>
-                    <input type={"Date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full `} />
+                    <input type={"Date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full `} 
+                    />
                 </div>
                 <input type={"text"} placeholder={" כתובת מייל * "} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
                 <input type={"text"} placeholder={"ססמה * "} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 `} />
@@ -32,7 +72,7 @@ const Register = () => {
 
 
                 <div className="pt-5 space-y-5 flex flex-col">
-                   
+
 
                     <Link to={'/policy'} className='capitalize text-sm '>עייני ב- <span className="underline"> תנאי השירות</span> למידע נוסף</Link>
 

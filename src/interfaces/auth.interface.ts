@@ -3,6 +3,14 @@ export default interface LoginCredentials {
     password: string;
 }
 
+export  interface RegisterInpute {
+    firstName: string;
+    lastName: string;
+    dateOfBirth: Date;
+    email: string;
+    phone: string;
+}
+
 export interface subsetUser{
     email: string;
     firstName: string;
