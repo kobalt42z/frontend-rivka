@@ -6,9 +6,10 @@ import ReactDOM from 'react-dom/client'
 import { initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
+import { store } from './features/Store/store';
 import './index.css'
 import { router } from './router/router'
-import { store } from './store/store'
+
 
 i18next
     .use(LanguageDetector)
@@ -31,6 +32,7 @@ i18next
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
     <Provider store={store}>
+        
         <RouterProvider router={router} />
     </Provider>
 )

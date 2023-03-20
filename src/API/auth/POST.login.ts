@@ -1,11 +1,12 @@
-import axios,{AxiosError} from "axios";
+import axios, { AxiosError } from "axios";
 import LoginCredentials from "../../interfaces/auth.interface";
+import { AUTH } from "../UrlPath";
 
-export const POSTlogin = async (cred:LoginCredentials)=>{
+export const POSTlogin = async (cred: LoginCredentials) => {
    try {
-    const response = await axios.post('http://localhost:3333/auth/login',{email:cred.email,password:cred.password});
-    return response ;
+      const response = await axios.post(AUTH.LOGIN, { email: cred.email, password: cred.password });
+      return response;
    } catch (error) {
-    throw error ;
+      throw error;
    }
 }

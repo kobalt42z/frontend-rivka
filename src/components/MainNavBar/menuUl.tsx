@@ -16,7 +16,7 @@ const MenuUl = ({closeMenuOnclick}:MenuUIProps) => {
             <MenuItem >עמוד הקורסים</MenuItem>
             <MenuItem >אודותנו</MenuItem>
             <MenuItem >יצירת קשר</MenuItem>
-            <MenuItem >כניסת עובדים</MenuItem>
+            <MenuItem to={'/products'} >כניסת עובדים</MenuItem>
 
         </ul>
     )

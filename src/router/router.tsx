@@ -5,10 +5,11 @@ import Home from "../layouts/Home";
 import Register from "../layouts/auth/Register";
 import Shop from "../layouts/Shop";
 import Products from "../layouts/employs/products";
+import { mainLoader } from "./MainLoader";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route>
+        <Route >
             <Route path="/" element={<SharedLayouts />} >
                 <Route index element={<Home />} />
                 <Route path="/shop" element={<Shop />} />

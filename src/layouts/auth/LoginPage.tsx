@@ -6,11 +6,11 @@ import { POSTlogin } from '../../API'
 import MainButtons from '../../components/buttons/MainButtons'
 import LoginInput from '../../components/misc/LoginInput'
 import LoginCredentials from '../../interfaces/auth.interface'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { loginFailure, loginStart, loginSuccess } from '../../store/loginSlice'
-import axios, { AxiosError } from 'axios'
 import { Alert } from 'flowbite-react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { useLoginMutation } from '../../features/API/Auth.Api'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/src/query'
+import { TOKEN_KEYWORD, USER_KEYWORD } from '../../constant'
 
 // provide type about fiealds
 type Inputs = {
@@ -21,33 +21,31 @@ type Inputs = {
 };
 
 export const LoginPage = () => {
-  const authState = useAppSelector((state) => state.login)
-  const dispatch = useAppDispatch()
+  const [login, { isLoading, isError, isSuccess, error, data: userData }] = useLoginMutation()
   const [showError, setShowError] = useState(false)
   const [networkERROR, setNetworkError] = useState(false)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data: LoginCredentials) => {
-    console.log(data);
     try {
-      dispatch(loginStart())
-      const response = await POSTlogin(data);
-      if (response) dispatch(loginSuccess(response.data));
-      navigate('/')
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        dispatch(loginFailure(error.response?.data))
-        if (error.response?.status === 403) setShowError(true);
-        if (error.code === "ERR_NETWORK") setNetworkError(true);
-
-      }
-      throw error;
+      const resp = await login(data).unwrap()
+      console.log(resp);
+      
+      localStorage.setItem(TOKEN_KEYWORD,JSON.stringify(resp.token))
+      localStorage.setItem(USER_KEYWORD,JSON.stringify(resp.subsetUser))
+    
+      
+      
+      
+      
+      navigate('/',{state:{refresh:true}})
+    } catch (err: FetchBaseQueryError | any) {
+      if (err.status === 403) setShowError(true);
+      throw err;
     }
   }
 
-  useEffect(() => {
-  }, [])
 
 
 
@@ -58,7 +56,7 @@ export const LoginPage = () => {
           color="failure"
           icon={InformationCircleIcon}
         >
-          <span>
+          <span >
             <span className="font-medium ">
               {" "} שגיאה !{" "}
             </span>

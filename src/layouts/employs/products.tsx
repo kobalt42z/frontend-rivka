@@ -1,5 +1,5 @@
-
 import React, { useEffect, useState } from 'react'
+import { GETproducts } from '../../API/Products/GET.products'
 import AccordionItem from '../../components/Accordeon/Accordion'
 import AccordionBody from '../../components/Accordeon/AccordionBody'
 import { AccordionTitle } from '../../components/Accordeon/AccordionTitle'
@@ -11,6 +11,7 @@ import ProductsTable from '../../components/Employee/ProductsTable'
 import SuppThead from '../../components/Employee/SuppThead'
 import { IF } from '../../components/special/if'
 
+
 const Products = () => {
     const [showConfirmDel, setShowConfirmDel] = useState(false)
     const [idToDel, setIdToDel] = useState<string | null>(null)
@@ -19,7 +20,9 @@ const Products = () => {
     const [showEditProduct, setShowEditProduct] = useState(false)
     const [ToEditProduct, setToEditProduct] = useState<string | null>(null)
 
-    
+  
+
+
 
     const cancel = () => {
         setShowConfirmDel(false)
@@ -46,7 +49,7 @@ const Products = () => {
         setShowConfirmDel(false)
     }
 
-    
+
 
     const addProduct = () => {
         setShowAddProduct(true);
@@ -62,14 +65,14 @@ const Products = () => {
             <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} /></IF>
             <ProductsTable toggleAddProducts={addProduct}>
 
-                
-                    
-            <DropDownRow deleteClick={deletClick}/>
-            <DropDownRow deleteClick={deletClick}/>
-            <DropDownRow deleteClick={deletClick}/>
-            <DropDownRow deleteClick={deletClick}/>
-               
-                
+
+
+                <DropDownRow deleteClick={deletClick} />
+                <DropDownRow deleteClick={deletClick} />
+                <DropDownRow deleteClick={deletClick} />
+                <DropDownRow deleteClick={deletClick} />
+
+
 
             </ProductsTable>
         </div>

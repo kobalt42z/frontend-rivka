@@ -5,7 +5,10 @@ import CnavBar from '../components/MainNavBar/CnavBar'
 
 import OverLayBtn from '../components/OverLayBtn/OverLayBtn'
 
+
 export const SharedLayouts = () => {
+ 
+  
   return (
     <>
     <OverLayBtn/>

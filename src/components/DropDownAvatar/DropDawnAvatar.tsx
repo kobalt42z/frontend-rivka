@@ -1,27 +1,41 @@
 import { Dropdown } from 'flowbite-react'
-import React from 'react'
+import React, { FC, useEffect } from 'react'
 import { ArrowRightOnRectangleIcon, Cog6ToothIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import loginSlice, { logout } from '../../store/loginSlice';
+
 import { useNavigate } from 'react-router-dom';
+import { subsetUser } from '../../interfaces';
 
 
-const DropDawnAvatar = ({ label }: { label: React.ReactNode }) => {
-    const user = useAppSelector((state) => state.login.user)
-    const dispatch = useAppDispatch()
-    const navigate =  useNavigate();
+interface props {
+    label: React.ReactNode;
+    user: subsetUser;
+    logout: ()=>void;
+}
+
+const DropDawnAvatar: FC<props> = ({ label, user ,logout}) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+    
+    }, [user])
+    
     return (
         <Dropdown label={label}
             inline={true}
             arrowIcon={false}>
 
             <Dropdown.Header>
-                <span className="block text-sm capitalize">
-                    {user && user.firstName + ' ' + user.lastName}
-                </span>
-                <span className="block truncate text-sm font-medium">
-                    {user && user.email}
-                </span>
+                <div className=''>
+                    <span className="text-center block font-semibold text-sm capitalize">
+                        {user && user.firstName + " " + user.lastName}
+
+                    </span>
+                    <span className="block truncate text-sm font-medium">
+                        {user && user.email}
+                    </span>
+                    <span className=" text-center block truncate text-xs font-medium  lowercase ">
+                        {user && user.role}
+                    </span>
+                </div>
             </Dropdown.Header>
             <Dropdown.Item icon={ComputerDesktopIcon}>
                 Dashboard
@@ -34,9 +48,9 @@ const DropDawnAvatar = ({ label }: { label: React.ReactNode }) => {
             </Dropdown.Item> */}
             <Dropdown.Divider />
             <Dropdown.Item onClick={() => {
-                dispatch(logout()) 
+                logout();
                 navigate("/")
-                
+
             }} icon={ArrowRightOnRectangleIcon}>
                 Sign out
             </Dropdown.Item>

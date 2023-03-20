@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from '../../assets/logo.png'
 import { Bars3Icon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -8,18 +8,24 @@ import BasketDrawer from '../basketDrawer/BasketDrawer';
 import MenuDrawer from './MenuDrawer';
 import MenuItem from './MenuItem';
 import { ClickOutside } from '../special/ClickOutside';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MenuUl from './menuUl';
-import { useAppSelector } from '../../store/hooks';
+
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import DropDawnAvatar from '../DropDownAvatar/DropDawnAvatar';
+import { useLoginMutation } from '../../features/API/Auth.Api';
+import { USER_KEYWORD } from '../../constant';
+import { subsetUser } from '../../interfaces';
 
 
 const CnavBar = () => {
     const [showSearch, setShowSearch] = React.useState(false)
     const [showDrawer, setShowDrawer] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
-    const login = useAppSelector((state) => state.login)
+    const [user, setUser] = useState<subsetUser | undefined>()
+    const location = useLocation()
+
+
     const openIt = () => {
         setShowSearch(true)
         console.log("clicked");
@@ -35,6 +41,19 @@ const CnavBar = () => {
         setShowMenu(!showMenu)
     }
 
+    const logout = () => {
+        localStorage.clear();
+        setUser(undefined);
+    }
+    useEffect(() => {
+
+        {
+            localStorage[USER_KEYWORD] &&
+            setUser(JSON.parse(localStorage[USER_KEYWORD]));
+        }
+
+
+    }, [location.state?.refresh])
 
     return (
         <nav className='container flex rtl:flex-row-reverse justify-around items-center w-[100%]'>
@@ -50,8 +69,8 @@ const CnavBar = () => {
             </ClickOutside>
             <button onClick={toggleDrawer} ><ShoppingBagIcon color='black' className='h-7  ' /></button>
 
-            {login.user ?
-                <DropDawnAvatar label={<UserCircleIcon color='black' className='h-7' />} /> :
+            {user ?
+                <DropDawnAvatar user={user} logout={logout} label={<UserCircleIcon color='black' className='h-7' />} /> :
                 <Link to={"/login"}> <ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
             }
 
