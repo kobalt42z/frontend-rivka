@@ -60,7 +60,7 @@ export const LoginPage = () => {
             <span className="font-medium ">
               {" "} שגיאה !{" "}
             </span>
-            {'  '}שם המשתמש או הססמה אינם נכונים.{" "}
+            {'  '}שם המשתמש או הסיסמא אינם נכונים.{" "}
           </span>
         </Alert>}
       {networkERROR &&
@@ -104,7 +104,7 @@ export const LoginPage = () => {
           {errors.email && <p role={"alert"} className="text-red-600 capitalize">{errors.email?.message}</p>}
         </div>
         <div className="w-full">
-          <input type={"password"} placeholder={'ססמה *'} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 ${errors.email && "border-red-600"} `} {...register("password",
+          <input type={"password"} placeholder={'סיסמא *'} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 ${errors.email && "border-red-600"} `} {...register("password",
             {
               required: {
                 value: true,
@@ -112,17 +112,17 @@ export const LoginPage = () => {
               },
               minLength: {
                 value: 8,
-                message: "ססמה באורך 8 תווים לפחות "
+                message: "סיסמא באורך 8 תווים לפחות "
               },
               maxLength: {
                 value: 16,
-                message: "ססמה עד אורך 16 תווים בלבד! "
+                message: "סיסמא עד אורך 16 תווים בלבד! "
               }
             })} />
           {errors.password && <p role={"alert"} className="text-red-600 capitalize">{errors.password?.message}</p>}
         </div>
         <div className="pt-5">
-          <Link to={'/forgot'} className='capitalize text-base font-bold underline '  >שחכתי ססמה...</Link>
+          <Link to={'/forgot'} className='capitalize text-base font-bold underline '  >שחכתי סיסמא...</Link>
           <br />
           <Link to={'/policy'} className='capitalize text-base '>עייני ב-<span className="underline">תנאי השימוש </span></Link>
         </div>

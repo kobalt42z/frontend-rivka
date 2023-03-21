@@ -41,7 +41,7 @@ export const Forgot = () => {
                         <Link to={'/policy'} className='capitalize text-xs '>קראי עוד <span className="underline"> Privacy Policy </span> for further information</Link>
                     </div>
 
-                    <MainButtons custom={'h-12 rounded-[50px] w-[70%] self-center text-black'} >שחזר ססמה </MainButtons>
+                    <MainButtons custom={'h-12 rounded-[50px] w-[70%] self-center text-black'} >שחזר סיסמא </MainButtons>
                 </form>
 
             </div>

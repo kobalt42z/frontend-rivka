@@ -3,18 +3,30 @@ export default interface LoginCredentials {
     password: string;
 }
 
-export  interface RegisterInpute {
+export interface RegisterInpute {
     firstName: string;
     lastName: string;
     dateOfBirth: Date;
     email: string;
     phone: string;
+    password: string;
+    Cpassword: string
+    selectedLanguage: string;
+    acceptEmail: boolean;
+    acceptTerms: boolean;
 }
 
-export interface subsetUser{
+export interface subsetUser {
     email: string;
     firstName: string;
     lastName: string;
-    id:string;
+    id: string;
     role: string;
+}
+
+// try to use it in langage selection at register form 
+export enum languages {
+    he = 'he',
+    fr = 'fr',
+    en = 'en',
 }
