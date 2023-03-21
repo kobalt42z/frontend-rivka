@@ -138,6 +138,10 @@ const Register = () => {
                      ${errors.Cpassword&&'border-red-500'}
                     `}
                         {...register('Cpassword', {
+                            required: {
+                                value:true,
+                                message:'שדה זה נדרש'
+                            },
                             validate: {
                                 pwdMatch: (value, formValue) =>
                                     value === formValue.password || "ססמה אינה תואמת "
