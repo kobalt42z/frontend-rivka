@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import LoginCredentials from "../../interfaces/auth.interface";
+import LoginCredentials ,{ RegisterInpute }from "../../interfaces/auth.interface";
 
 export const authApiSlice = createApi({
     reducerPath: 'api',
@@ -13,8 +13,15 @@ export const authApiSlice = createApi({
                 body: cred
             })
             
+        }),
+        signUp:builder.mutation({
+            query:(registerCred : RegisterInpute)=>({
+                url:'auth/register',
+                method:'POST',
+                body:registerCred
+            })
         })
     })
 
 })
- export const {useLoginMutation} = authApiSlice
+ export const {useLoginMutation,useSignUpMutation} = authApiSlice

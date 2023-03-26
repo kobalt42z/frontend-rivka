@@ -10,10 +10,10 @@ export interface RegisterInpute {
     email: string;
     phone: string;
     password: string;
-    Cpassword: string
+    Cpassword?: string
     selectedLanguage: string;
     acceptEmail: boolean;
-    acceptTerms: boolean;
+    acceptTerms?: boolean;
 }
 
 export interface subsetUser {

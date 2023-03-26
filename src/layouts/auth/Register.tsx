@@ -1,19 +1,43 @@
-import React from 'react'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
+import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import MainButtons from '../../components/buttons/MainButtons'
 import FormError from '../../components/misc/formError'
 import LoginInput from '../../components/misc/LoginInput'
 import SelectLanguage from '../../components/misc/SelectLanguage'
+import { useSignUpMutation } from '../../features/API/Auth.Api'
 import { languages, RegisterInpute, user } from '../../interfaces'
 const Register = () => {
 
 
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<RegisterInpute>();
-    const onSubmit: SubmitHandler<RegisterInpute> = data => {
+    const [signUp,{isError}] = useSignUpMutation()
+    const onSubmit: SubmitHandler<RegisterInpute> = async data => {
         console.log(data);
+        console.log(typeof data.dateOfBirth);
+        try {
+            
+           delete data.Cpassword
+           delete data.acceptTerms
+            const response = await signUp(data).unwrap()
+            console.log(response);  
+
+        } catch (error:FetchBaseQueryError|any ) {
+            if(error.status === 400) console.log("trigger bad request here ! " );
+            if(error.status === 500) console.log("trigger internal error here ! " );
+            
+            console.log(error);
+            throw error
+        
+        }
 
     };
+    useEffect(() => {
+     console.log(watch('dateOfBirth'));
+     
+    }, [])
+    
 
     return (
         <div className='  container flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
@@ -40,7 +64,7 @@ const Register = () => {
                                 message: 'יותר מדי תווים בשדה זה'
                             },
                             pattern: {
-                                value: /[a-zA-Z]/,
+                                value: /[a-zA-Zא-ת]/,
                                 message: "שם מכיל אותיות בלבד"
                             }
                         })}
@@ -62,7 +86,7 @@ const Register = () => {
                                 message: 'יותר מדי תווים בשדה זה'
                             },
                             pattern: {
-                                value: /[a-zA-Z]/,
+                                value: /[a-zA-Zא-ת]/,
                                 message: "שם מכיל אותיות בלבד"
                             }
                         })}
@@ -72,18 +96,14 @@ const Register = () => {
 
                 <div className='w-full'>
                     <p className='pl-2 text-sm '>תאריך לידה:</p>
-                    <input type={"Date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full ${errors.dateOfBirth && 'border-red-500'} `
+                    <input required pattern="\d{4}-\d{2}-\d{2}" type={"date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full ${errors.dateOfBirth && 'border-red-500'} `
                     }
                         {...register('dateOfBirth', {
+                            valueAsDate:true,
                             required: {
                                 value: true,
                                 message: "נדרש תאריך לידה "
                             },
-                            pattern: {
-                                value: /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/gm,
-                                message: "נא להכניס תאריך תקין"
-                            }
-
                         })}
 
                     />
@@ -91,7 +111,7 @@ const Register = () => {
                 </div>
                 <div>
                     <input type={"text"} placeholder={" כתובת מייל * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.email&&'border-red-500'}
+                    ${errors.email && 'border-red-500'}
                     `}
                         {...register('email', {
                             required: {
@@ -112,8 +132,8 @@ const Register = () => {
                 </div>
 
                 <div>
-                    <input type={"text"} placeholder={"סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.password&&'border-red-500'}
+                    <input type={"password"} placeholder={"סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.password && 'border-red-500'}
                     `}
                         {...register('password', {
                             required: {
@@ -134,13 +154,13 @@ const Register = () => {
                 </div>
 
                 <div>
-                    <input type={"text"} placeholder={"ווידוא סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                     ${errors.Cpassword&&'border-red-500'}
+                    <input type={"password"} placeholder={"ווידוא סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                     ${errors.Cpassword && 'border-red-500'}
                     `}
                         {...register('Cpassword', {
                             required: {
-                                value:true,
-                                message:'שדה זה נדרש'
+                                value: true,
+                                message: 'שדה זה נדרש'
                             },
                             validate: {
                                 pwdMatch: (value, formValue) =>
@@ -168,17 +188,17 @@ const Register = () => {
                     </div>
                     <div className=" flex  space-x-3">
                         <input type="checkbox" className='ml-2'
-                        {...register('acceptTerms',{
-                            required: {
-                                value:true,
-                                message: "יש לאשר את תנאי השימוש"
-                            }
-                        })}
+                            {...register('acceptTerms', {
+                                required: {
+                                    value: true,
+                                    message: "יש לאשר את תנאי השימוש"
+                                }
+                            })}
                         />
                         <p className='text-sm'>אני מסכים/ה ל- <Link to={'/terms'}><span className='underline'>תנאי השירות</span></Link></p>
-                        
+
                     </div>
-                    <FormError error={errors.acceptTerms}/>
+                    <FormError error={errors.acceptTerms} />
                 </div>
 
                 <MainButtons custom={'h-10 rounded-[50px] w-[70%] self-center text-black font-semibold'} >צור חשבון</MainButtons>
