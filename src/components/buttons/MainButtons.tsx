@@ -1,16 +1,18 @@
+import { Spinner } from 'flowbite-react';
 import React, { MouseEventHandler, ReactNode } from 'react'
 
 
 interface MainButtonsProps {
-  ClickAction ?:MouseEventHandler<HTMLButtonElement>;
-  children: ReactNode ;
-  custom :string;
+  ClickAction?: MouseEventHandler<HTMLButtonElement>;
+  children: ReactNode;
+  custom: string;
+  isLoading?: boolean;
 
 }
-const MainButtons = ({ ClickAction, children, custom }: MainButtonsProps) => {
+const MainButtons = ({ ClickAction, children, custom, isLoading }: MainButtonsProps) => {
   return (
     <button onClick={ClickAction} className={`capitalize bg-[var(--main-btn-color)] rounded-2xl py-1  ${custom}`}>
-      {children}
+      {isLoading ? <Spinner color="info" /> : children}
     </button>
   )
 }

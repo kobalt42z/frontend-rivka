@@ -16,15 +16,15 @@ import DropDawnAvatar from '../DropDownAvatar/DropDawnAvatar';
 import { useLoginMutation } from '../../features/API/Auth.Api';
 import { USER_KEYWORD } from '../../constant';
 import { subsetUser } from '../../interfaces';
+import { useAppSelector } from '../../features/hooks';
 
 
 const CnavBar = () => {
     const [showSearch, setShowSearch] = React.useState(false)
     const [showDrawer, setShowDrawer] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
-    const [user, setUser] = useState<subsetUser | undefined>()
     const location = useLocation()
-
+    const TokenPayload = useAppSelector((state) => state.tokenReducer.tokenPayload )
 
     const openIt = () => {
         setShowSearch(true)
@@ -41,19 +41,9 @@ const CnavBar = () => {
         setShowMenu(!showMenu)
     }
 
-    const logout = () => {
-        localStorage.clear();
-        setUser(undefined);
-    }
-    useEffect(() => {
-
-        {
-            localStorage[USER_KEYWORD] &&
-            setUser(JSON.parse(localStorage[USER_KEYWORD]));
-        }
-
-
-    }, [location.state?.refresh])
+   
+    
+   
 
     return (
         <nav className='container flex rtl:flex-row-reverse justify-around items-center w-[100%]'>
@@ -69,9 +59,9 @@ const CnavBar = () => {
             </ClickOutside>
             <button onClick={toggleDrawer} ><ShoppingBagIcon color='black' className='h-7  ' /></button>
 
-            {user ?
-                <DropDawnAvatar user={user} logout={logout} label={<UserCircleIcon color='black' className='h-7' />} /> :
-                <Link to={"/login"}> <ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
+            {TokenPayload ?
+                <DropDawnAvatar   label={<UserCircleIcon color='black' className='h-7' />} /> :
+                <Link to={"/login"}><ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
             }
 
             <Link to={"/"}>

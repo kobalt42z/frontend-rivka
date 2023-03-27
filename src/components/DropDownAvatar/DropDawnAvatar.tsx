@@ -4,19 +4,20 @@ import { ArrowRightOnRectangleIcon, Cog6ToothIcon, ComputerDesktopIcon } from '@
 
 import { useNavigate } from 'react-router-dom';
 import { subsetUser } from '../../interfaces';
+import { useAppDispatch, useAppSelector } from '../../features/hooks';
+import { TOKEN_KEYWORD } from '../../constant';
+import {  clearToken } from '../../features/Slices/Payload.slice';
 
 
 interface props {
     label: React.ReactNode;
-    user: subsetUser;
-    logout: ()=>void;
 }
 
-const DropDawnAvatar: FC<props> = ({ label, user ,logout}) => {
+const DropDawnAvatar: FC<props> = ({ label }) => {
     const navigate = useNavigate();
-    useEffect(() => {
-    
-    }, [user])
+    const user = useAppSelector((state)=>state.tokenReducer.tokenPayload)
+    const dispatch = useAppDispatch()
+ 
     
     return (
         <Dropdown label={label}
@@ -28,9 +29,6 @@ const DropDawnAvatar: FC<props> = ({ label, user ,logout}) => {
                     <span className="text-center block font-semibold text-sm capitalize">
                         {user && user.firstName + " " + user.lastName}
 
-                    </span>
-                    <span className="block truncate text-sm font-medium">
-                        {user && user.email}
                     </span>
                     <span className=" text-center block truncate text-xs font-medium  lowercase ">
                         {user && user.role}
@@ -48,9 +46,9 @@ const DropDawnAvatar: FC<props> = ({ label, user ,logout}) => {
             </Dropdown.Item> */}
             <Dropdown.Divider />
             <Dropdown.Item onClick={() => {
-                logout();
+                localStorage.removeItem(TOKEN_KEYWORD)
+                dispatch(clearToken())
                 navigate("/")
-
             }} icon={ArrowRightOnRectangleIcon}>
                 Sign out
             </Dropdown.Item>

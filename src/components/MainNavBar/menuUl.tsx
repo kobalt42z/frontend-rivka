@@ -1,22 +1,32 @@
 import React, { useEffect } from 'react'
+import { TOKEN_KEYWORD } from '../../constant'
+import { useAppSelector } from '../../features/hooks'
+import { role } from '../../interfaces'
+import { IF } from '../special/if'
 import MenuItem from './MenuItem'
 
-interface MenuUIProps{
-    closeMenuOnclick:Function
+interface MenuUIProps {
+    closeMenuOnclick: Function
 }
 
-const MenuUl = ({closeMenuOnclick}:MenuUIProps) => {
+const MenuUl = ({ closeMenuOnclick }: MenuUIProps) => {
+    const user = useAppSelector((state) => state.tokenReducer.tokenPayload)
+
+  
 
 
     return (
-        <ul id='menuUl_id' className='text-end rtl:text-start' onClick={()=>closeMenuOnclick()}>
+        <ul id='menuUl_id' className='text-end rtl:text-start' onClick={() => closeMenuOnclick()}>
             <MenuItem to={"/"}>עמוד הבית</MenuItem>
             <MenuItem to={"/shop"} >חנות אונליין</MenuItem>
             <MenuItem >קביעת תורים</MenuItem>
             <MenuItem >עמוד הקורסים</MenuItem>
             <MenuItem >אודותנו</MenuItem>
             <MenuItem >יצירת קשר</MenuItem>
-            <MenuItem to={'/products'} >כניסת עובדים</MenuItem>
+            <IF condition={user?.role === role.ADMIN || !user}
+            >
+                <MenuItem to={'/admin/products'} >כניסת עובדים</MenuItem>
+            </IF>
 
         </ul>
     )

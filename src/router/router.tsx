@@ -6,19 +6,26 @@ import Register from "../layouts/auth/Register";
 import Shop from "../layouts/Shop";
 import Products from "../layouts/employs/products";
 import { mainLoader } from "./MainLoader";
+import Admin from "../Guards/Admin";
+import AdminSharedLayout from "../layouts/Admin/AdminSharedLayout";
+import Loader from "../components/misc/Loader";
+
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route >
-            <Route path="/" element={<SharedLayouts />} >
+            <Route path="/" element={<Loader><SharedLayouts /></Loader>} >
                 <Route index element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<Register />} />
-                <Route path='/forgot' element={<Forgot />} />
+                <Route path='/forgot' element={<Forgot />} />  
+
+            </Route>
+            <Route path='/admin' element={<AdminSharedLayout/>} >
+                <Route path="/admin/products" element={<Products />} />
             </Route>
             <Route path="/employes" element={<NotFound />} />
-            <Route path="/products" element={<Products/>} />
 
 
             <Route path="*" element={<NotFound />} />

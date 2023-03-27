@@ -8,10 +8,12 @@ import LoginInput from '../../components/misc/LoginInput'
 import LoginCredentials from '../../interfaces/auth.interface'
 import { Alert } from 'flowbite-react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
-import { useLoginMutation } from '../../features/API/Auth.Api'
+import { useJwtAuthMutation, useLoginMutation } from '../../features/API/Auth.Api'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/src/query'
 import { TOKEN_KEYWORD, USER_KEYWORD } from '../../constant'
-
+import { useDispatch } from 'react-redux'
+import { setPayload, setToken, sign } from '../../features/Slices/Payload.slice'
+import jwt_decode from 'jwt-decode'
 // provide type about fiealds
 type Inputs = {
   example: string,
@@ -26,25 +28,26 @@ export const LoginPage = () => {
   const [networkERROR, setNetworkError] = useState(false)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [authMe, { isLoading: jwtLoading }] = useJwtAuthMutation()
 
   const onSubmit: SubmitHandler<Inputs> = async (data: LoginCredentials) => {
     try {
       const resp = await login(data).unwrap()
-      console.log(resp);
-      
-      localStorage.setItem(TOKEN_KEYWORD,JSON.stringify(resp.token))
-      localStorage.setItem(USER_KEYWORD,JSON.stringify(resp.subsetUser))
-    
-      
-      
-      
-      
-      navigate('/',{state:{refresh:true}})
+      localStorage.setItem(TOKEN_KEYWORD, resp.token)
+      dispatch(setToken(resp.token));
+      dispatch(setPayload(jwt_decode(resp.token)))
+      dispatch(sign())
+
+
+      navigate(-1)
     } catch (err: FetchBaseQueryError | any) {
       if (err.status === 403) setShowError(true);
       throw err;
     }
   }
+
+
 
 
 

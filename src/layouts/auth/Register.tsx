@@ -1,8 +1,11 @@
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
-import React, { useEffect } from 'react'
+import { Alert } from 'flowbite-react'
+import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import MainButtons from '../../components/buttons/MainButtons'
+import ErrorsAlerter from '../../components/errors/ErrorsAlerter'
 import FormError from '../../components/misc/formError'
 import LoginInput from '../../components/misc/LoginInput'
 import SelectLanguage from '../../components/misc/SelectLanguage'
@@ -11,36 +14,39 @@ import { languages, RegisterInpute, user } from '../../interfaces'
 const Register = () => {
 
 
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<RegisterInpute>();
-    const [signUp,{isError}] = useSignUpMutation()
+    const { register, setError, handleSubmit,clearErrors, watch, setValue, formState: { errors } } = useForm<RegisterInpute>();
+    const [signUp, { isError, isLoading }] = useSignUpMutation()
+    const [status, setStatus] = useState(0)
+    const navigate = useNavigate()
     const onSubmit: SubmitHandler<RegisterInpute> = async data => {
         console.log(data);
-        console.log(typeof data.dateOfBirth);
+       
         try {
-            
-           delete data.Cpassword
-           delete data.acceptTerms
-            const response = await signUp(data).unwrap()
-            console.log(response);  
 
-        } catch (error:FetchBaseQueryError|any ) {
-            if(error.status === 400) console.log("trigger bad request here ! " );
-            if(error.status === 500) console.log("trigger internal error here ! " );
-            
+            delete data.Cpassword
+            delete data.acceptTerms
+            data.phone = "+972" + data.phone;
+            if (!data.selectedLanguage) data.selectedLanguage = "he";
+            const response = await signUp(data).unwrap()
+            navigate('/login')
+
+        } catch (error: FetchBaseQueryError | any) {
+            setStatus(error.status)
             console.log(error);
             throw error
-        
+
         }
 
     };
-    useEffect(() => {
-     console.log(watch('dateOfBirth'));
-     
-    }, [])
+
     
+
 
     return (
         <div className='  container flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
+            <ErrorsAlerter status={status} />
+
+            {/* registerbtn  */}
             {/* registerbtn  */}
             <div className="flex uppercase text-xs justify-around w-[80%] py-10 text-black">
                 <h2 className='font-bold text-base'>כבר יש לך חשבון?</h2>
@@ -93,17 +99,59 @@ const Register = () => {
                     />
                     <FormError error={errors.lastName} />
                 </div>
+                <div>
+                    <div className='flex flex-row-reverse items-center'>
+                        <span className='border-b-2 border-gray-500 py-2 font-bold'>-972+</span>
+                        <input type={"tel"} placeholder={" טלפון *"} className={`text-end w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0  px-0
+                    ${errors.phone && 'border-red-500'}
+                    `}
+
+                            {...register('phone', {
+                                required: {
+                                    value: true,
+                                    message: 'נדרש מספר טלפון תקין'
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: 'יותר מדי תווים בשדה זה'
+                                },
+                                pattern: {
+                                    value: /^([0-9]{10})$/gm,
+                                    message: "מספר הטלפון אינו תקין"
+                                },
+                            })}
+                        />
+                    </div>
+                    <FormError error={errors.phone} />
+                </div>
+
 
                 <div className='w-full'>
                     <p className='pl-2 text-sm '>תאריך לידה:</p>
-                    <input required pattern="\d{4}-\d{2}-\d{2}" type={"date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full ${errors.dateOfBirth && 'border-red-500'} `
+                    <input pattern="\d{4}-\d{2}-\d{2}" type={"date"} className={`bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 w-full ${errors.dateOfBirth && 'border-red-500'} `
                     }
                         {...register('dateOfBirth', {
-                            valueAsDate:true,
+                            valueAsDate: true,
                             required: {
                                 value: true,
                                 message: "נדרש תאריך לידה "
                             },
+                            // pattern: {
+                            //     value: /^([1-2]{1})([0|9]{1})([0-9]{1})([0-9]{1})-([0-9]{2})-([0-9]{2})$/gm,
+                            //     message: "התאריך שהוזן אינו תקין"
+                            // },
+                            onBlur:(e)=>{
+                                let matchToRegex = e.target.value.match(/^([1-2]{1})([0|9]{1})([0-9]{1})([0-9]{1})-([0-9]{2})-([0-9]{2})$/gm)
+                                if(!matchToRegex) setError('dateOfBirth',{
+                                    type:"custom",message:"תאריךך לידה אינו תקין"
+                                })
+                                else{ 
+                                    clearErrors('dateOfBirth')
+                                    return matchToRegex[0]
+                                }
+                                
+                            }
+
                         })}
 
                     />
@@ -201,7 +249,7 @@ const Register = () => {
                     <FormError error={errors.acceptTerms} />
                 </div>
 
-                <MainButtons custom={'h-10 rounded-[50px] w-[70%] self-center text-black font-semibold'} >צור חשבון</MainButtons>
+                <MainButtons isLoading={isLoading} custom={'h-10 rounded-[50px] w-[70%] self-center text-black font-semibold'} >צור חשבון</MainButtons>
             </form>
 
         </div>

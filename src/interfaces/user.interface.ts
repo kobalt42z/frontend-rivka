@@ -8,10 +8,18 @@ export interface user {
     email: string;
     phone: string;
     role: role;
-
+    acceptEmail: boolean;
 }
 export enum role {
-    ADMIN,
-    USER,
-    EMPLOYEE,
+    ADMIN = 'ADMIN',
+    USER = 'USER',
+    EMPLOYEE = 'EMPLOYEE',
+}
+export interface userTokenPayload {
+    firstName: string;
+    lastName: string;
+    sub: string,
+    role: role,
+    iat: number,
+    exp: number
 }

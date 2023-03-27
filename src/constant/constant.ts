@@ -1,2 +1,2 @@
-export const TOKEN_KEYWORD = 'BERAER_TOKEN';
+export const TOKEN_KEYWORD = 'BEARER_TOKEN';
 export const USER_KEYWORD = 'USER';

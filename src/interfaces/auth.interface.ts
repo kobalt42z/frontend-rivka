@@ -1,3 +1,5 @@
+import { userTokenPayload } from "./user.interface";
+
 export default interface LoginCredentials {
     email: string;
     password: string;
@@ -29,4 +31,9 @@ export enum languages {
     he = 'he',
     fr = 'fr',
     en = 'en',
+}
+
+export interface authMeRes {
+    valid: boolean;
+    payload: userTokenPayload
 }
