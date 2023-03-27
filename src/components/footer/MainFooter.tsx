@@ -2,7 +2,7 @@ import React from 'react'
 
 export const MainFooter = () => {
     return (
-        <div className='container min-h-[25vh] '>
+        <div className=' min-h-[25vh] '>
             <div className="SocialIcons flex rtl:flex-row-reverse justify-center  space-x-3  my-5">
                 <i className={`bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png')] w-[40px] h-[40px] bg-contain`}></i>
               <div className='bg-white w-[40px] h-[40px] rounded-xl'>

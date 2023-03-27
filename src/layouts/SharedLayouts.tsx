@@ -12,12 +12,12 @@ import { setPayload, setToken } from '../features/Slices/Payload.slice'
 
 
 export const SharedLayouts = () => {
- 
+
 
   return (
     <>
       <OverLayBtn />
-      <CnavBar />
+      <div className='flex justify-center'> <CnavBar /></div>
       <Outlet />
       <MainFooter />
     </>

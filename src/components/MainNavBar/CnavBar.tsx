@@ -24,15 +24,14 @@ const CnavBar = () => {
     const [showDrawer, setShowDrawer] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
     const location = useLocation()
-    const TokenPayload = useAppSelector((state) => state.tokenReducer.tokenPayload )
+    const TokenPayload = useAppSelector((state) => state.tokenReducer.tokenPayload)
 
     const openIt = () => {
         setShowSearch(true)
         console.log("clicked");
     }
-    const closeIt = () => {
-        setShowSearch(false)
-        console.log("clicked false");
+    const toggleSearch = () => {
+        setShowSearch(showSearch)
     }
     const toggleDrawer = () => {
         setShowDrawer(!showDrawer)
@@ -41,37 +40,49 @@ const CnavBar = () => {
         setShowMenu(!showMenu)
     }
 
-   
-    
-   
+
+
+
 
     return (
-        <nav className='container flex rtl:flex-row-reverse justify-around items-center w-[100%]'>
+        <nav className='container flex  justify-around items-center w-[100%]
+        min-h-[10vh]
+        lg:
+        
+        '>
 
-            <SearchBar show={showSearch} closeIt={closeIt} />
-            <ClickOutside open={showDrawer} closeIt={() => setShowDrawer(false)} >
+            <SearchBar show={showSearch} closeIt={toggleSearch} />
+
+            <ClickOutside open={showDrawer} closeIt={toggleDrawer} >
                 <BasketDrawer open={showDrawer} toggle={toggleDrawer} ></BasketDrawer>
             </ClickOutside>
-            <ClickOutside open={showMenu} closeIt={() => setShowMenu(false)}>
+
+            <ClickOutside open={showMenu} closeIt={toggleMenu}>
                 <MenuDrawer open={showMenu} toggle={toggleMenu} title={"תפריט"}>
-                    <MenuUl closeMenuOnclick={() => setShowMenu(false)} />
+                    <MenuUl closeMenuOnclick={toggleMenu} />
                 </MenuDrawer>
             </ClickOutside>
             <button onClick={toggleDrawer} ><ShoppingBagIcon color='black' className='h-7  ' /></button>
 
             {TokenPayload ?
-                <DropDawnAvatar   label={<UserCircleIcon color='black' className='h-7' />} /> :
+                <DropDawnAvatar label={<UserCircleIcon color='black' className='h-7' />} /> :
                 <Link to={"/login"}><ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
             }
 
-            <Link to={"/"}>
-                <img
-                    src={Logo}
-                    className=" h-16 sm:h-9"
-                    alt="Rivka's logo"
-                />
-            </Link>
-            <button onClick={openIt}><MagnifyingGlassIcon color='black' className='h-7 justify-self-end' /></button>
+            {/* LOGO */}
+            <div className='lg:order-first lg:basis-10/12 flex justify-center '>
+                <div className='lg:basis-3/12'></div>
+                <Link to={"/"} className='' >
+                    <img
+                        src={Logo}
+                        className="   lg:h-[10vh] h-16 sm:h-9"
+                        alt="Rivka's logo"
+                    />
+                </Link>
+            </div>
+
+
+            <button onClick={openIt}><MagnifyingGlassIcon color='black' className='h-7 ' /></button>
 
             <button onClick={toggleMenu}><Bars3Icon className="h-7  text-black " /></button>
 

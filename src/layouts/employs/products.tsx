@@ -60,7 +60,7 @@ const Products = () => {
 
 
     return (
-        <div>
+        <div className='min-h-[85vh]'>
             <IF condition={showAddProduct}><AddProductsModal closeAddProduct={closeAddProduct} /></IF>
             <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} /></IF>
             <ProductsTable toggleAddProducts={addProduct}>

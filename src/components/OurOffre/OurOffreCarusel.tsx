@@ -1,33 +1,52 @@
 import { Carousel } from 'flowbite-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import './OurOffreCarusel.css'
 
 const OurOffreCarusel = () => {
+    const imges = [
+        "https://images.unsplash.com/photo-1659482633347-e56ce63d147b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60",
+        "https://images.unsplash.com/photo-1679850134579-472a06699a15?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60",
+        "https://images.unsplash.com/photo-1679858511194-8ab47c0449be?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
+    ]
+    const texts=['this is a new product',"new shiny boolshit! " ," awsome collection of things"]
+
+    useEffect(() => {
+
+    }, [])
+
     return (
-        <div className="img-carusel h-[40vh] sm:h-64 xl:h-80 2xl:h-96 w-[100%]">
-            <Carousel slideInterval={1500}>
-                <img
-                    src="https://absoluspa.com/wp-content/uploads/2022/05/promotion-avril-absolu-spa.jpg"
-                    alt="..."
-                    
-                />
-                <img
-                    src="https://images.squarespace-cdn.com/content/v1/57bfa2d69f7456b465a42c64/1603762348314-TF44SFXWKECPV1XF47T1/Screen+Shot+2020-10-20+at+9.30.56+PM.png?format=1000w"
-                    alt="..."
-                />
-                <img
-                    src="https://img.freepik.com/premium-vector/cosmetic-fashion-sale-promotion-social-media-facebook-cover-banner-template_225928-53.jpg?w=2000g"
-                    alt="..."
-                />
-                <img
-                    src="https://previews.123rf.com/images/onyxprj/onyxprj1711/onyxprj171100089/89321746-hand-drawn-makeup-products-sale-promotion-illustration-.jpg"
-                    alt="..."
-                />
-                <img
-                    src="https://img.pikbest.com/backgrounds/20210529/brown-watercolor-beauty-beauty-makeup-cosmetics-promotion-template_5989271.jpg!bw700"
-                    alt="..."
-                />
+        <div className=" container  h-[50vh] w-full
+        "
+        >
+
+            <Carousel
+
+                slide={true}
+                slideInterval={2000}
+
+                leftControl=""
+                rightControl=""
+            >
+                {imges.map((item, i) => {
+                    return (
+                        <div className={`flex ${i%2===0 && 'flex-row-reverse'}`}>
+                            <img key={i} src={item} alt="carousel item"
+                               className='h-[40vh] lg:h-[50vh] lg:w-1/2'  />
+                            <div className='max-lg:hidden  w-1/2 h-[50Vh] flex justify-center items-center 
+                            bg-black bg-opacity-10
+                            '>
+                                <p className='text-black  text-3xl capitalize'>
+                                    {texts[i]}</p>
+                            </div>
+                        </div>
+                    )
+                })}
+
+
             </Carousel>
+
+
+
         </div>
     )
 }

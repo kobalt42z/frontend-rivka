@@ -53,7 +53,7 @@ export const LoginPage = () => {
 
 
   return (
-    <div className='container flex  flex-col items-center min-h-[75vh] pt-10 red '>
+    <div className=' flex  flex-col items-center  min-h-[75vh] pt-10 red '>
       {showError &&
         <Alert
           color="failure"
@@ -79,15 +79,15 @@ export const LoginPage = () => {
           </span>
         </Alert>}
       {/* registerbtn  */}
-      <div className="flex uppercase text-base justify-around w-[80%] py-10 text-black">
-        <h2 className='font-bold text-base '>איו לך חשבון ?</h2>
-        <Link to={'/register'}><h2 className='font-semibold underline text-[14px]'>הירשמי עכשיו !</h2></Link>
+      <h2 className='font-bold text-lg'>: התחברות</h2>
+      <div className="flex uppercase text-base justify-around  w-[80%] py-10 text-black">
+        <Link to={'/register'}><h2 className='font-semibold underline text-[14px]'>! הירשמי עכשיו </h2></Link>
+        <h2 className='font-bold text-base '>? איו לך חשבון </h2>
       </div>
-      <h2 className='font-bold text-lg'>התחברות :</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className=" pt-10 w-[70%] flex flex-col  justify-center-center  space-y-10">
+      <form onSubmit={handleSubmit(onSubmit)} className=" pt-10 w-[70%] lg:w-1/2 flex flex-col  justify-center-center  space-y-10">
 
 
-        <div className='w-full'>
+        <div className='w-full '>
           <input placeholder={'כתובת מייל *'} type="text" className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 ${errors.email && "border-red-600"}`} {...register('email',
             {
               required: {
@@ -124,13 +124,13 @@ export const LoginPage = () => {
             })} />
           {errors.password && <p role={"alert"} className="text-red-600 capitalize">{errors.password?.message}</p>}
         </div>
-        <div className="pt-5">
-          <Link to={'/forgot'} className='capitalize text-base font-bold underline '  >שחכתי סיסמא...</Link>
+        <div className="pt-5 text-right">
+          <Link to={'/forgot'} className='capitalize text-base font-bold underline '  >...שחכתי סיסמא</Link>
           <br />
           <Link to={'/policy'} className='capitalize text-base '>עייני ב-<span className="underline">תנאי השימוש </span></Link>
         </div>
 
-        <MainButtons custom={'h-12 rounded-[50px] w-[70%] self-center text-black text-lg'}  >התחברי</MainButtons>
+        <MainButtons custom={'h-12 rounded-[50px] w-[70%] lg:w-1/2 self-center text-black text-lg'}  >התחברי</MainButtons>
       </form>
 
     </div>

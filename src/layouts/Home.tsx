@@ -12,7 +12,7 @@ import NewDrawer from '../components/basketDrawer/NewDrawer'
 const Home = () => {
   
   return (
-    <div className='container flex flex-col items-center '>
+    <div className=' flex flex-col items-center '>
       {/* <BasketDrawer open /> */}
       
       

@@ -16,7 +16,7 @@ const ProductsTable = ({ children, toggleAddProducts }: ProductsTableTypes) => {
 
     return (<>
 
-        <div className=" px-4 mx-auto max-w-screen-2xl lg:px-12 ">
+        <div dir='rtl' className=" px-4 mx-auto max-w-screen-2xl lg:px-12 ">
             <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
 
                 <SuppThead />
