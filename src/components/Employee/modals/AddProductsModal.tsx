@@ -20,8 +20,8 @@ import { Tooltip } from 'flowbite-react';
 
 interface props {
     closeAddProduct: () => void
-    editMode: boolean
-    editValues: Product
+    editMode?: boolean
+    editValues?: Product
 
 }
 
@@ -77,12 +77,12 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
 
 
-    // ? edit mode  !not finished yet!
-    editMode && useEffect(() => {
-        setValue('brand', editValues.brand);
+    // // ? edit mode  !not finished yet!
+    // editMode && useEffect(() => {
+    //     setValue('brand', editValues?.brand);
 
 
-    }, [])
+    // }, [])
 
     useEffect(() => {
         console.log(colors);
@@ -94,7 +94,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         <>
             { }
             <DarkVail>
-                <div id="defaultModal" tabIndex={-1} aria-hidden="true" className=" flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                <div dir='rtl' id="defaultModal" tabIndex={-1} aria-hidden="true" className=" flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                     <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
                         {/* Modal content */}
                         <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">

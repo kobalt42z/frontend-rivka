@@ -14,6 +14,7 @@ import { TOKEN_KEYWORD, USER_KEYWORD } from '../../constant'
 import { useDispatch } from 'react-redux'
 import { setPayload, setToken, sign } from '../../features/Slices/Payload.slice'
 import jwt_decode from 'jwt-decode'
+import ErrorsAlerter from '../../components/errors/ErrorsAlerter'
 // provide type about fiealds
 type Inputs = {
   example: string,
@@ -24,8 +25,7 @@ type Inputs = {
 
 export const LoginPage = () => {
   const [login, { isLoading, isError, isSuccess, error, data: userData }] = useLoginMutation()
-  const [showError, setShowError] = useState(false)
-  const [networkERROR, setNetworkError] = useState(false)
+  const [status, setStatus] = useState(0)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ export const LoginPage = () => {
 
       navigate(-1)
     } catch (err: FetchBaseQueryError | any) {
-      if (err.status === 403) setShowError(true);
+      setStatus(err.status);
       throw err;
     }
   }
@@ -54,31 +54,7 @@ export const LoginPage = () => {
 
   return (
     <div className=' flex  flex-col items-center  min-h-[75vh] pt-10 red '>
-      {showError &&
-        <Alert
-          color="failure"
-          icon={InformationCircleIcon}
-        >
-          <span >
-            <span className="font-medium ">
-              {" "} שגיאה !{" "}
-            </span>
-            {'  '}שם המשתמש או הסיסמא אינם נכונים.{" "}
-          </span>
-        </Alert>}
-      {networkERROR &&
-        <Alert
-          color="failure"
-          icon={InformationCircleIcon}
-        >
-          <span>
-            <span className="font-medium">
-              שגיאה!
-            </span>
-            {' '}השרת אינו זמין כעת אנא נסו מאוחר יותר{" "}
-          </span>
-        </Alert>}
-      {/* registerbtn  */}
+      <ErrorsAlerter status={status } />
       <h2 className='font-bold text-lg'>: התחברות</h2>
       <div className="flex uppercase text-base justify-around  w-[80%] py-10 text-black">
         <Link to={'/register'}><h2 className='font-semibold underline text-[14px]'>! הירשמי עכשיו </h2></Link>

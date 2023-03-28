@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import LoginCredentials, { authMeRes, RegisterInpute } from "../../interfaces/auth.interface";
 
 export const authApiSlice = createApi({
-    reducerPath: 'api',
+    reducerPath: 'auth',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3333' }),
     endpoints: (builder) => ({
 
