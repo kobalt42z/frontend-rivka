@@ -3,8 +3,7 @@ export interface Product {
   imgUrl?: string;
   name: string;
   description: string;
-  sizes: string[];
-  colores: string[];
+  colors: string[];
   brand: string;
   reduction_p?: number;
   selling_price: number;
@@ -12,6 +11,9 @@ export interface Product {
   active: boolean;
   supply: number;
   categorys: Array<string>;
+  sizes: string[];
+  curves: string[]
+  thikness: string[]
   translated: {
     fr?: ProductTranslation
     en?: ProductTranslation

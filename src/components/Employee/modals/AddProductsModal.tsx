@@ -16,7 +16,7 @@ import { Xsvg } from '../../../assets/X';
 import { DarkVail } from '../../special/DarkVail';
 import { ColorResult, SketchPicker } from 'react-color';
 import ColorPiker from '../../ColorPicker/ColorPiker';
-import { Tooltip } from 'flowbite-react';
+import { FileInput, Label, Tooltip } from 'flowbite-react';
 
 interface props {
     closeAddProduct: () => void
@@ -46,6 +46,12 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         { value: 'body', label: "Body" },
         { value: 'foot', label: "Feet" }
     ]
+    const sizes=[
+        { value: 'S', label: "Nails" },
+        { value: 'L', label: "Body" },
+        { value: 'm', label: "Feet" }
+    ]
+    
 
     // ? stepper 0he 1fr 2en 
     const [currentStep, setCurrentStep] = useState(0);
@@ -392,6 +398,19 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                     </div>
 
 
+                                </div>
+                                <div dir='ltr' id="fileUpload" className='text-right py-2'>
+                                    <div className="mb-2 block text-right">
+                                        <Label
+                                            htmlFor="file"
+                                            value="העלאת תמונה"
+                                        />
+                                    </div>
+                                    <FileInput
+                                        id="file"
+                                        helperText="תמונה זו תשמש לתאור המוצר בחנות "
+                                        
+                                    />
                                 </div>
                                 <div className="flex flex-row-reverse justify-between">
                                     <button
