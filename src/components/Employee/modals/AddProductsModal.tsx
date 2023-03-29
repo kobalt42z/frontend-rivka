@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-
 import { IF } from '../../special/if'
 import Stepper3 from '../../Stepper/Stepper3'
 import { SubmitHandler, useForm } from 'react-hook-form';
-
 import { ArrowLeftIcon, ArrowRightIcon, ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
-import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { EditValues, Product } from '../../../interfaces';
 
 import Select, { MultiValue } from 'react-select';

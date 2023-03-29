@@ -1,33 +1,59 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { Badge, Tooltip } from 'flowbite-react'
 import React, { FC, useState } from 'react'
 import { productFromDB } from '../../interfaces'
+import StatusBadge from '../Badges/StatusBadge'
 
 
 interface props {
     data: productFromDB
 }
 const ProductRowBody: FC<props> = ({ data }) => {
-    const { categorys, name, description, translations } = data
+    const {
+        categorys,
+        name,
+        description,
+        translations,
+        sizes,
+        colors,
+        brand,
+        reduction_p,
+        selling_price,
+        base_price,
+        active,
+        id
+    } = data
     const lang = ["עברית ", "Francais", "English"]
+    
     const title = [
         name,
-        translations[0].name || " ",
-        translations[1].name || " "
+        translations[0]&&translations[0].name,
+        translations[1]&&translations[1].name 
+
     ]
     const descriptions = [
         description,
-        translations[0].description,
-        translations[1].description
+        translations[0]?.description,
+        translations[1]?.description
     ]
+    const colorBoxes = colors.map((item, i) => {
+        return (
+            <Tooltip dir='ltr' content={item}>
+                <div className='w-5 h-5 '
+                    style={{ backgroundColor: `${item}` }} >
+                </div>
+            </Tooltip>
+        )
+    })
     const gridTitles = [
-        { title: "מידות", value: "xs/sm/md/lg/xl" },
-        { title: "צבעים", value: "red / blue /yellow" },
-        { title: "חברה", value: "nike" },
-        { title: "הנחה", value: "60%" },
-        { title: "מחיר קנייה", value: "150₪" },
-        { title: "מחיר בחנות", value: "200₪" },
-        { title: "סטטוס", value: "200₪" },
-        { title: "מקט", value: "200₪" },
+        { title: "מידות", value: sizes.toString() },
+        { title: "צבעים", value: colorBoxes },
+        { title: "חברה", value: brand },
+        { title: "הנחה", value: reduction_p + "%" },
+        { title: "מחיר קנייה", value: base_price + "₪" },
+        { title: "מחיר בחנות", value: selling_price + "₪" },
+        { title: "סטטוס", value: <StatusBadge active={active} /> },
+        { title: "מזהה מוצר", value: id },
     ]
     const [current, setCurrent] = useState(0)
 
@@ -43,8 +69,8 @@ const ProductRowBody: FC<props> = ({ data }) => {
         <>
             <tr className='col-span-full border-b-2 '  >
                 <td colSpan={9} className='p-10 space-y-5'>
-                    <div className='flex justify-center '>
-                        <div className='w-1/2'>
+                    <div dir={current != 0 ? 'ltr' : 'rtl'} className='flex justify-center flex-row-reverse'>
+                        <div className='w-5/12'>
                             <div className='text-start'>
                                 <h2 className='text-lg font-bold'>
                                     <span className=' capitalize text-lg font-semibold'>{title[current]}</span>
@@ -57,24 +83,25 @@ const ProductRowBody: FC<props> = ({ data }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className='pt-5 w-[80%] flex flex-row-reverse justify-center space-x-10'>
-                                <button className='' onClick={increment}><ChevronLeftIcon className="h-6 w-6 text-gray-500" />
-                                </button>
-                                <p>{lang[current]}</p>
-                                <button className='' onClick={decrement}><ChevronRightIcon className="h-6 w-6 text-gray-500" /></button>
 
-                            </div>
                         </div>
 
-                        <div className='w-1/4'>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIdyPe5ZbVc9PTRJJiFgHZ9LN0znfiPJhBAg&usqp=CAU" alt="" className='w-[300px] h-[200px]' />
+                        <div className='w-6/12 flex justify-end px-5'>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIdyPe5ZbVc9PTRJJiFgHZ9LN0znfiPJhBAg&usqp=CAU" alt="" className='w-[300px] h-auto rounded-md' />
                         </div>
+                    </div>
+                    <div dir='rtl' className='pt-5 w-full flex flex-row-reverse justify-center space-x-10'>
+                        <button className='' onClick={increment}><ChevronLeftIcon className="h-6 w-6 text-gray-500" />
+                        </button>
+                        <p>{lang[current]}</p>
+                        <button className='' onClick={decrement}><ChevronRightIcon className="h-6 w-6 text-gray-500" /></button>
+
                     </div>
                     <div className="grid grid-cols-4 grid-rows-2 gap-5 ">
                         {gridTitles.map((item, i) => {
                             return (<div key={i + 158} className="rounded-md bg-gray-100 h-16 px-3 ">
                                 <h3 className='text-lg font-bold'>{item.title}</h3>
-                                <h4 className='text-lg semi-bold'>{item.value}</h4>
+                                <div className='text-lg semi-bold flex capitalize '>{item.value}</div>
                             </div>)
                         })}
                     </div>

@@ -47,6 +47,18 @@ const ErrorsAlerter: FC<props> = ({ status }) => {
                         {' '}מספר טלפון או מייל קיימים במערכת {" "}
                     </span>
                 </Alert>}
+            {status == 403 &&
+                <Alert
+                    color="failure"
+                    icon={InformationCircleIcon}
+                >
+                    <span>
+                        <span className="font-medium">
+                            שגיאה!
+                        </span>
+                        {' '}מייל או ססמה שגויים{" "}
+                    </span>
+                </Alert>}
 
 
 

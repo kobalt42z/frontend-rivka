@@ -8,6 +8,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 import { productFromDB } from '../../interfaces';
 import { Tooltip } from 'flowbite-react';
 import { dateFormatter } from '../../functions';
+import StatusBadge from '../Badges/StatusBadge';
 ;
 
 
@@ -71,12 +72,7 @@ const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }
             </td>
             <td className="px-4 py-2">
                 <div className="flex items-center">
-                    {active ?
-
-                        <span className="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">פעיל</span>
-                        :
-                        <span className="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">מושבת</span>
-                    }
+                <StatusBadge active={active}/>
 
                 </div>
             </td>

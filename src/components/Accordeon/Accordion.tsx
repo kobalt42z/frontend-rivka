@@ -18,7 +18,7 @@ const AccordionItem: FC<props> = ({ deleteClick }) => {
 
     return (
         <>
-            <ProductRow
+            {/* <ProductRow
                 onClick={() => setToggle(!toggle)}
                 key={'iiiii'}
                 handleDeletClick={deleteClick}
@@ -28,7 +28,7 @@ const AccordionItem: FC<props> = ({ deleteClick }) => {
                 <AccordionBody>
                     
                 </AccordionBody>
-            }
+            } */}
         </>
     )
 }
