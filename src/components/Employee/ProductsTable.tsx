@@ -55,11 +55,11 @@ const ProductsTable = ({ children, toggleAddProducts }: ProductsTableTypes) => {
                             <tr>
                                 <th scope="col" className="px-4 py-3">מוצר</th>
                                 <th scope="col" className="px-4 py-3">קטגוריה</th>
+                                <th scope="col" className="px-4 py-3">חברה</th>
+                                <th scope="col" className="px-4 py-3">מחיר בחנות</th>
                                 <th scope="col" className="px-4 py-3">מלאי</th>
-                                <th scope="col" className="px-4 py-3">נמכר ביום</th>
-                                <th scope="col" className="px-4 py-3">נמכר בחודש</th>
                                 <th scope="col" className="px-4 py-3">סהכ נמכרו</th>
-                                <th scope="col" className="px-4 py-3">הכנסה</th>
+                                <th scope="col" className="px-4 py-3">סטטוס</th>
                                 <th scope="col" className="px-4 py-3">עדכון אחרון</th>
                                 <th scope="col" className="px-4 py-3">עריכה</th>
                             </tr>

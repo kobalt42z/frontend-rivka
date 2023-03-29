@@ -5,43 +5,32 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { completeProduct } from '../../interfaces';
+import { productFromDB } from '../../interfaces';
+import { Tooltip } from 'flowbite-react';
+import { dateFormatter } from '../../functions';
+;
+
 
 interface ProductRowType {
     id: string;
     handleDeletClick: (id: string) => void;
     handleEditClick?: (id: string) => void;
     onClick: () => void;
-    data: completeProduct
-
-    // row info :
-    // ImgUrl:string;
-    // productName: string;
-    // category: string;
-    // brand: string;
-    // price: number;
-    // supply: number;
-    // sellsInMonth: string;
-    // sellsInTotal: string;
-    // lastUpdate:string;
-
-
+    data: productFromDB
 }
 
 const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }: ProductRowType) => {
     const [editMode, setEditMode] = useState(false);
-    const getLocalDateString = (serializedDate: string) => {
-        const date = new Date(serializedDate)
-        return date.toLocaleDateString()
-    }
+
     const {
         imgUrl,
         name,
-        categoryIds,
+        categorys,
         brand,
         base_price,
         supply,
-        updatedAt
+        updatedAt,
+        active
     } = data
 
 
@@ -53,12 +42,26 @@ const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }
                 <span className='pr-1'>{name}</span>
             </th>
             <td className="px-4 py-2">
-                <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">a/b/c/d</span>
+                <div className=''>
+
+                    {
+                        categorys.map((item, i) => {
+                            console.log(item);
+                            if (i >= 1) return ' ... '
+                            return (
+                                <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{item.name}</span>
+                            )
+                        })
+                    }
+
+
+                </div>
+
             </td>
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {brand}
             </td>
-            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">{base_price}</td>
+            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">{base_price} ₪ </td>
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">{supply}
                 <div className={`inline-block w-4 h-4 mr-2 ${supply <= 15 ? "bg-red-700" : "bg-green-700"} rounded-full`}></div>
             </td>
@@ -68,15 +71,16 @@ const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }
             </td>
             <td className="px-4 py-2">
                 <div className="flex items-center">
-                    n/a
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 
-                    mr-2 text-gray-400" aria-hidden="true">
-                        <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
-                    </svg>
+                    {active ?
+
+                        <span className="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">פעיל</span>
+                        :
+                        <span className="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">מושבת</span>
+                    }
 
                 </div>
             </td>
-            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{getLocalDateString(updatedAt) }</td>
+            <td dir='ltr' className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dateFormatter(updatedAt)}</td>
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
 
                 {editMode ?
@@ -96,7 +100,7 @@ const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }
 
 
             </td>
-        </tr>
+        </tr >
     )
 }
 

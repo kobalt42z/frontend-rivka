@@ -13,7 +13,7 @@ import SuppThead from '../../components/Employee/SuppThead'
 import LoadingScreen from '../../components/Loading/LoadingScreen'
 import { IF } from '../../components/special/if'
 import { useFindALlQuery } from '../../features/API/Products.Api'
-import { completeProduct, productResponse } from '../../interfaces'
+import {  productFromDB, productResponse } from '../../interfaces'
 
 
 const Products = () => {
@@ -68,7 +68,7 @@ const Products = () => {
                 <ProductsTable toggleAddProducts={addProduct}>
 
 
-                    {isSuccess && data && data.products.map((product: completeProduct, i: number) => {
+                    {isSuccess && data && data.products.map((product: productFromDB, i: number) => {
                         return (
                             <DropDownRow key={i} deleteClick={deletClick} data={product} />
                         )

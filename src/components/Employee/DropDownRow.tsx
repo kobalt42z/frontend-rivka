@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react'
-import { completeProduct } from '../../interfaces';
+import { productFromDB } from '../../interfaces';
 import ProductRowBody from './ProductRowBody';
 
 import ProductRowHead from './ProductRowHead'
 
 interface props {
     deleteClick: (id: string) => void;
-    data:completeProduct
+    data:productFromDB
 }
 
 const DropDownRow: FC<props> = ({ deleteClick,data }) => {
@@ -22,7 +22,7 @@ const DropDownRow: FC<props> = ({ deleteClick,data }) => {
                 data={data}
             />
 
-            {toggle && <ProductRowBody />}
+            {toggle && <ProductRowBody data={data}/>}
         </>
     )
 }

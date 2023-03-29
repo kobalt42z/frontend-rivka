@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { completeProduct, productResponse } from "../../interfaces";
+import { productResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 
 export const productApi = createApi({
@@ -21,7 +21,7 @@ export const productApi = createApi({
                 method: 'GET',
 
             }),
-           
+
 
         })
     })

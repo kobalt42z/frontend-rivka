@@ -20,16 +20,10 @@ export interface Product {
   }
 }
 
-export interface completeProduct extends Omit<Product, 'categorys'> {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  orderId?: string[];
-  categoryIds: string[]
-}
+
 
 export interface productResponse {
-  products: completeProduct[];
+  products: productFromDB[];
   count: number;
 }
 
@@ -42,4 +36,35 @@ export interface EditValues {
 
 }
 
-// cat 
+
+//  ? from the db 
+export interface productFromDB {
+  id: string,
+  createdAt: string,
+  updatedAt: string,
+  name: string,
+  brand: string,
+  description: string,
+  base_price: string,
+  selling_price: number,
+  reduction_p: number,
+  supply: number,
+  imgUrl: string,
+  colors: string[],
+  sizes: string[],
+  curves: string[],
+  thickness: string[],
+  orderId: string | null,
+  categoryIds: string[],
+  active: boolean,
+  translations: transletionFromDb[]
+  categorys: { name: string }[]
+}
+
+export interface transletionFromDb {
+  id: string,
+  languages: string,
+  name: string,
+  description: string,
+  productId: string
+}
