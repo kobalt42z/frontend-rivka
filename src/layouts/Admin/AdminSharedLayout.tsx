@@ -8,7 +8,9 @@ const AdminSharedLayout = () => {
     return (<>
         <CnavBar />
         <Admin>
-            <Outlet />
+            <div className='min-h-[80vh]'>
+                <Outlet />
+            </div>
         </Admin>
         <MainFooter />
     </>)

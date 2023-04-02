@@ -14,12 +14,13 @@ import { DarkVail } from '../../special/DarkVail';
 import { ColorResult, SketchPicker } from 'react-color';
 import ColorPiker from '../../ColorPicker/ColorPiker';
 import { FileInput, Label, Tooltip } from 'flowbite-react';
+import LashesDetails from './LashesDetails';
+import { UseToggle } from 'sk-use-toggle/src';
 
 interface props {
     closeAddProduct: () => void
     editMode?: boolean
     editValues?: Product
-
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
@@ -39,16 +40,25 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
     const language = ["עברית", "צרפתית", "אנגלית", ""]
     const categorys = [
+        { value: 'שונות', label: "שונות" },
         { value: 'nails', label: "Nails" },
-        { value: 'body', label: "Body" },
+        { value: 'lashes', label: "Lashes" },
         { value: 'foot', label: "Feet" }
     ]
-    const sizes=[
-        { value: 'S', label: "Nails" },
-        { value: 'L', label: "Body" },
-        { value: 'm', label: "Feet" }
-    ]
-    
+    const sizes = [
+        { value: ' ', label: 'ללא' },
+        { value: 'S', label: 'S' },
+        { value: 'M', label: 'M' },
+        { value: 'L', label: 'L' },
+        { value: 'XL', label: 'XL' },
+        { value: '1', label: '1' },
+        
+    ].concat(
+        Array.from({ length: 14 }, (_, i) => ({
+          value: (i + 2).toString(),
+          label: (i + 2).toString(),
+        })))
+
 
     // ? stepper 0he 1fr 2en 
     const [currentStep, setCurrentStep] = useState(0);
@@ -62,6 +72,10 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     //? color chosen in color picker 
     const [colors, setColors] = useState<string[]>([])
     const [showPicker, setShowPicker] = useState(false);
+
+    //? lashes modal toggle :
+    // const {show:showLashes, toggle:toggleLashes} = UseToggle()
+    const [showLashes,toggleLashes] = UseToggle()
 
     const addColor = (color: ColorResult) => {
         setColors([...colors, color.hex])
@@ -87,20 +101,19 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
     // }, [])
 
-    useEffect(() => {
-        console.log(colors);
-
-    }, [colors]);
+    
 
 
     return (
         <>
             { }
             <DarkVail>
-                <div dir='rtl' id="defaultModal" tabIndex={-1} aria-hidden="true" className=" flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
-                    <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                <div dir='rtl' id="defaultModal" tabIndex={-1} aria-hidden="true" className=" flex mt-10  z-50 justify-center items-center w-full md:inset-0  md:h-full">
+
+                     {showLashes && <LashesDetails  setValue={setValue} toggle={toggleLashes} />}
+                    <div className=" p-4 w-full max-w-2xl h-full md:h-auto">
                         {/* Modal content */}
-                        <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                        <div className=" p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                             {/*  Modal header */}
 
                             <div className="flex  justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
@@ -240,14 +253,14 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                                 if (currentStep > 0)
                                                     setCurrentStep(currentStep - 1)
                                             }}
-                                        ><ArrowRightIcon className='w-5' />prev</button>
+                                        ><ArrowRightIcon className='w-5' />הקדם</button>
 
                                         <button type="button" className={`${currentStep == 2 && "hidden"} w-[90px] flex items-center justify-between focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800`}
                                             onClick={() => {
                                                 if (currentStep < 2)
                                                     setCurrentStep(currentStep + 1)
                                             }}
-                                        >next<ArrowLeftIcon className='w-5' /> </button>
+                                        >הבא<ArrowLeftIcon className='w-5' /> </button>
                                     </div>
                                 </div>
                                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
@@ -342,9 +355,9 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         <Select
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
-                                            defaultValue={categorys[0]}
+                                            defaultValue={sizes[0]}
                                             isMulti
-                                            options={categorys}
+                                            options={sizes}
                                             onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
                                         />
                                     </div >
@@ -406,13 +419,22 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                     <FileInput
                                         id="file"
                                         helperText="תמונה זו תשמש לתאור המוצר בחנות "
-                                        
+
                                     />
                                 </div>
+
                                 <div className="flex flex-row-reverse justify-between">
                                     <button
                                         onClick={openPiker}
-                                        type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">הוסף צבע</button>
+                                        type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">הוסף צבע
+                                    </button>
+
+                                    <button 
+                                    onClick={toggleLashes}
+                                    type='button'
+                                    className="flex h-11 items-center justify-center px-2  text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
+                                        מידות ריסים ...
+                                    </button>
 
                                     <button type="submit" className="flex h-11 items-center justify-center px-2  text-sm font-medium text-white rounded-lg bg-green-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
 

@@ -55,7 +55,7 @@ const Products = () => {
 
     return (
         <>
-            {!isLoading && <div className='min-h-[85vh]'>
+            {!isLoading && <div>
                 <IF condition={showAddProduct}>
                     <AddProductsModal closeAddProduct={closeAddProduct} /></IF>
                 <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} /></IF>
