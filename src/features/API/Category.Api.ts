@@ -19,7 +19,14 @@ export const CategoryApi = createApi({
 
     }),
     endpoints:(builder)=>({
-        
+        createCategory:builder.mutation({
+            
+            query:()=>({
+                url:'categories',
+                method: 'POST',
+                
+            })
+        })
     })
 
 })

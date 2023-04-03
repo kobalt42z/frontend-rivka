@@ -10,14 +10,14 @@ export interface Product {
   base_price: number;
   active: boolean;
   supply: number;
-  categorys: Array<string>;
+  categoryIds: Array<string>;
   sizes: string[];
   curves: string[]
   thikness: string[]
-  translated: {
-    fr?: ProductTranslation
-    en?: ProductTranslation
-  }
+  translations: {
+    fr: ProductTranslation
+    en: ProductTranslation
+  } 
 }
 
 

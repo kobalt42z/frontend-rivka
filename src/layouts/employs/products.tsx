@@ -6,7 +6,7 @@ import DelModal from '../../components/Employee/modals/DelModal'
 import ProductsTable from '../../components/Employee/ProductsTable'
 import LoadingScreen from '../../components/Loading/LoadingScreen'
 import { IF } from '../../components/special/if'
-import { useFindALlQuery } from '../../features/API/Products.Api'
+import { useFindALlProductQuery } from '../../features/API/Products.Api'
 import {  productFromDB, productResponse } from '../../interfaces'
 
 
@@ -18,7 +18,7 @@ const Products = () => {
     const [showEditProduct, setShowEditProduct] = useState(false)
     const [ToEditProduct, setToEditProduct] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState(0)
-    const { isLoading, isFetching, isError, isSuccess, error, data } = useFindALlQuery(currentPage);
+    const { isLoading, isFetching, isError, isSuccess, error, data } = useFindALlProductQuery(currentPage);
 
     const cancel = () => {
         setShowConfirmDel(false)

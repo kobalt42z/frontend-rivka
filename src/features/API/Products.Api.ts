@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { BASE_URL_REST_API } from "../../constant";
-import { productResponse } from "../../interfaces";
+import { Product, productResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 
 export const productApi = createApi({
@@ -16,7 +16,7 @@ export const productApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        findALl: builder.query({
+        findALlProduct: builder.query({
             query: (page: number) => ({
                 url: `products/?page=${page}`,
                 method: 'GET',
@@ -24,8 +24,19 @@ export const productApi = createApi({
             }),
 
 
+        }),
+        createProduct:builder.mutation({
+            query:(_body:Product)=>({
+                url:'products',
+                method: 'POST',
+                body:_body,
+                
+            })
+            
         })
     })
+
 })
 
-export const { useLazyFindALlQuery, useFindALlQuery } = productApi
+export const { useLazyFindALlProductQuery, useFindALlProductQuery } = productApi
+export const {useCreateProductMutation} = productApi

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IF } from '../../special/if'
 import Stepper3 from '../../Stepper/Stepper3'
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValue, SubmitHandler, UseFormProps, UseFormUnregister, ValidationMode, useForm } from 'react-hook-form';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
 import { EditValues, Product } from '../../../interfaces';
 
@@ -13,9 +13,12 @@ import { Xsvg } from '../../../assets/X';
 import { DarkVail } from '../../special/DarkVail';
 import { ColorResult, SketchPicker } from 'react-color';
 import ColorPiker from '../../ColorPicker/ColorPiker';
-import { FileInput, Label, Tooltip } from 'flowbite-react';
+import { FileInput, Label, ToggleSwitch, Tooltip } from 'flowbite-react';
 import LashesDetails from './LashesDetails';
 import { UseToggle } from 'sk-use-toggle/src';
+import { useCreateProductMutation } from '../../../features/API/Products.Api';
+import { Translation } from 'react-i18next';
+
 
 interface props {
     closeAddProduct: () => void
@@ -25,21 +28,25 @@ interface props {
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     //? react hook form : 
-    const { setValue, register, handleSubmit, watch, formState: { errors, isValid } } = useForm<Product>();
+    const { setValue, register, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
+        defaultValues: {
+            colors: [],
+            categoryIds: ['id of misc'],
+            active: true,
 
-    //?react hook form submition : 
-    const onSubmit: SubmitHandler<Product> = data => {
-        console.log(data);
-        closeAddProduct();
-    };
+        }
+    });
+
+
 
 
     // ? for react-select library:
     const animatedComponents = makeAnimated();
 
 
+
     const language = ["עברית", "צרפתית", "אנגלית", ""]
-    const categorys = [
+    const categoryIds = [
         { value: 'שונות', label: "שונות" },
         { value: 'nails', label: "Nails" },
         { value: 'lashes', label: "Lashes" },
@@ -52,56 +59,56 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         { value: 'L', label: 'L' },
         { value: 'XL', label: 'XL' },
         { value: '1', label: '1' },
-        
+
     ].concat(
         Array.from({ length: 14 }, (_, i) => ({
-          value: (i + 2).toString(),
-          label: (i + 2).toString(),
+            value: (i + 2).toString(),
+            label: (i + 2).toString(),
         })))
 
 
     // ? stepper 0he 1fr 2en 
     const [currentStep, setCurrentStep] = useState(0);
-
-    // ? user chioce category :
-    const [userChoice, setUserChoice] = useState<MultiValue<{
-        value: string;
-        label: string;
-    }> | null>(null);
+    const [showTranslation, toggleTranslation] = UseToggle()
 
     //? color chosen in color picker 
     const [colors, setColors] = useState<string[]>([])
-    const [showPicker, setShowPicker] = useState(false);
+    const [showPicker, togglePiker] = UseToggle()
 
     //? lashes modal toggle :
-    // const {show:showLashes, toggle:toggleLashes} = UseToggle()
-    const [showLashes,toggleLashes] = UseToggle()
+    const [showLashes, toggleLashes] = UseToggle()
 
     const addColor = (color: ColorResult) => {
-        setColors([...colors, color.hex])
-
+        setColors([...getValues('colors'), color.hex])
+        setValue('colors', [...getValues('colors'), color.hex])
     }
     const removeColor = (index: number) => {
         const updatedColors = colors.filter(((item, i) => i !== index))
         setColors(updatedColors)
-    }
-    const openPiker = () => {
-        setShowPicker(true);
-    }
-    const closePiker = () => {
-        setShowPicker(false);
+        setValue('colors', updatedColors)
     }
 
 
 
-    // // ? edit mode  !not finished yet!
-    // editMode && useEffect(() => {
-    //     setValue('brand', editValues?.brand);
+    const [creatProduct,
+        { isError, isLoading, isSuccess, error }
+    ] = useCreateProductMutation()
 
 
-    // }, [])
 
-    
+    //?react hook form submition : 
+    const onSubmit: SubmitHandler<Product> = async data => {
+        try {
+            
+            console.log(data);
+            const resp = await creatProduct(data).unwrap()
+            closeAddProduct();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
 
 
     return (
@@ -110,7 +117,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             <DarkVail>
                 <div dir='rtl' id="defaultModal" tabIndex={-1} aria-hidden="true" className=" flex mt-10  z-50 justify-center items-center w-full md:inset-0  md:h-full">
 
-                     {showLashes && <LashesDetails  setValue={setValue} toggle={toggleLashes} />}
+                    {showLashes && <LashesDetails setValue={setValue} toggle={toggleLashes} />}
                     <div className=" p-4 w-full max-w-2xl h-full md:h-auto">
                         {/* Modal content */}
                         <div className=" p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -138,6 +145,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
                                 <div className="space-y-5">
                                     {/* he section */}
+
                                     <IF condition={currentStep >= 0} >
                                         <section className={currentStep == 0 ? 'block' : "hidden"}>
 
@@ -189,26 +197,26 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                                 type='text'
                                                 placeholder='הכנס תאור מוצר בצרפתית '
                                                 useFromsParams={
-                                                    register('translated.fr.name', {
+                                                    register('translations.fr.name', {
                                                         maxLength: {
                                                             value: 30,
                                                             message: 'שם המוצר עד 30 תווים'
-                                                        }
+                                                        },
                                                     })}
-                                                errorMessage={errors.translated?.fr?.name?.message}
+                                                errorMessage={errors.translations?.fr?.name?.message}
                                             />
                                             <TextArea
                                                 labelTitle='תאור מוצר '
                                                 language='צרפתית'
                                                 placeholder='description en francais '
                                                 useFromsParams=
-                                                {register('translated.fr.description', {
+                                                {register('translations.fr.description', {
                                                     maxLength: {
                                                         value: 100,
                                                         message: 'תיאור מוצר עד 100 תווים'
                                                     }
                                                 })}
-                                                errorMessage={errors.translated?.fr?.description?.message}
+                                                errorMessage={errors.translations?.fr?.description?.message}
                                             />
                                         </section>
                                     </IF>
@@ -222,29 +230,30 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                                 language='אנגלית'
                                                 type='text'
                                                 placeholder='enter a product name in english'
-                                                useFromsParams={register('translated.en.name', {
+                                                useFromsParams={register('translations.en.name', {
                                                     maxLength: {
                                                         value: 30,
                                                         message: 'שם המוצר עד 30 תווים'
                                                     }
                                                 })}
-                                                errorMessage={errors.translated?.en?.name?.message}
+                                                errorMessage={errors.translations?.en?.name?.message}
 
                                             />
                                             <TextArea
                                                 labelTitle='תאור מוצר '
                                                 language='אנגלית'
                                                 placeholder='product description in english '
-                                                useFromsParams={register('translated.en.description', {
+                                                useFromsParams={register('translations.en.description', {
                                                     maxLength: {
                                                         value: 100,
                                                         message: 'תיאור מוצר עד 100 תווים'
                                                     }
                                                 })}
-                                                errorMessage={errors.translated?.en?.description?.message}
+                                                errorMessage={errors.translations?.en?.description?.message}
                                             />
                                         </section>
                                     </IF>
+
 
                                     <div className='pb-5 flex justify-between'>
 
@@ -254,6 +263,8 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                                     setCurrentStep(currentStep - 1)
                                             }}
                                         ><ArrowRightIcon className='w-5' />הקדם</button>
+
+
 
                                         <button type="button" className={`${currentStep == 2 && "hidden"} w-[90px] flex items-center justify-between focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800`}
                                             onClick={() => {
@@ -268,7 +279,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle=' מחיר קנייה - ₪'
                                         type='number'
                                         placeholder='₪500'
-                                        useFromsParams={register('selling_price', {
+                                        useFromsParams={register('base_price', {
                                             required: {
                                                 value: true,
                                                 message: 'נא לספק מחיר תקין '
@@ -280,7 +291,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                             valueAsNumber: true,
 
                                         })}
-                                        errorMessage={errors.selling_price?.message}
+                                        errorMessage={errors.base_price?.message}
 
                                     />
                                     <ClassicInput
@@ -342,10 +353,10 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         <Select
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
-                                            defaultValue={categorys[0]}
+                                            defaultValue={categoryIds[0]}
                                             isMulti
-                                            options={categorys}
-                                            onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
+                                            options={categoryIds}
+                                            onChange={(choice) => setValue('categoryIds', choice.map(item => item.value))}
                                         />
                                     </div >
 
@@ -358,7 +369,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                             defaultValue={sizes[0]}
                                             isMulti
                                             options={sizes}
-                                            onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
+                                            onChange={(choice) => setValue('sizes', choice.map(item => item.value))}
                                         />
                                     </div >
 
@@ -384,7 +395,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         errorMessage={errors.supply?.message}
                                     />
 
-                                    {showPicker && <ColorPiker closePiker={closePiker} addColor={addColor} />}
+                                    {showPicker && <ColorPiker closePiker={togglePiker} addColor={addColor} />}
 
                                     <div className='flex flex-col items-center justify-center s'>
                                         <Tooltip content="לחץ על צבע על מנת להסירו מהרשימה">
@@ -425,14 +436,14 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
                                 <div className="flex flex-row-reverse justify-between">
                                     <button
-                                        onClick={openPiker}
+                                        onClick={togglePiker}
                                         type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">הוסף צבע
                                     </button>
 
-                                    <button 
-                                    onClick={toggleLashes}
-                                    type='button'
-                                    className="flex h-11 items-center justify-center px-2  text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
+                                    <button
+                                        onClick={toggleLashes}
+                                        type='button'
+                                        className="flex h-11 items-center justify-center px-2  text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
                                         מידות ריסים ...
                                     </button>
 
@@ -447,8 +458,8 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                             </form>
                         </div>
                     </div>
-                </div>
-            </DarkVail>
+                </div >
+            </DarkVail >
         </>
     )
 }
