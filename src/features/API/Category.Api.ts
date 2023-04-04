@@ -49,3 +49,6 @@ export const CategoryApi = createApi({
     })
 
 })
+
+export const {useCreateCategoryMutation} = CategoryApi
+export const {useGetCategoriesQuery} = CategoryApi

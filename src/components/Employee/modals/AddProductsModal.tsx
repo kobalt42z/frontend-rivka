@@ -3,7 +3,7 @@ import { IF } from '../../special/if'
 import Stepper3 from '../../Stepper/Stepper3'
 import { FieldValue, SubmitHandler, UseFormProps, UseFormUnregister, ValidationMode, useForm } from 'react-hook-form';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
-import { EditValues, Product } from '../../../interfaces';
+import { EditValues, Product, categorysOptions } from '../../../interfaces';
 
 import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -18,6 +18,7 @@ import LashesDetails from './LashesDetails';
 import { UseToggle } from 'sk-use-toggle/src';
 import { useCreateProductMutation } from '../../../features/API/Products.Api';
 import { Translation } from 'react-i18next';
+import { useGetCategoriesQuery } from '../../../features/API/Category.Api';
 
 
 interface props {
@@ -27,13 +28,23 @@ interface props {
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
+    const { isSuccess: categorySuccess, isLoading: isLoadingCategory, isError: isErrorCategory, data: categoryData, error: categoryError } = useGetCategoriesQuery();
     const language = ["עברית", "צרפתית", "אנגלית", ""]
-    const categoryIds = [
-        { value: '63fd0b62e6bdd95ebe881033', label: "שונות" },
-        { value: 'nails', label: "Nails" },
-        { value: 'lashes', label: "Lashes" },
-        { value: 'foot', label: "Feet" }
-    ]
+
+
+
+
+    const categorysOptions: categorysOptions[] =
+
+        categorySuccess && categoryData ? categoryData.categories.map(
+            (item) => { return { value: item.id, label: item.name } })
+            : [{ value: '63fd0b62e6bdd95ebe881033', label: "שונות" }
+            ]
+
+
+    if (isErrorCategory) console.error(categoryError);
+    
+
     const sizes = [
         { value: null, label: 'ללא' },
         { value: 'S', label: 'S' },
@@ -55,7 +66,6 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     const { setValue, register, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
         defaultValues: {
             colors: [],
-            categoryIds: [categoryIds[0].value],
             active: true,
             translations: {
                 fr: {
@@ -103,7 +113,11 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
 
     const [creatProduct,
-        { isError, isLoading, isSuccess, error }
+        {
+            isError: IsProductError,
+            isLoading: IsCreatingProduct,
+            isSuccess: ProductCreated,
+        }
     ] = useCreateProductMutation()
 
 
@@ -119,6 +133,16 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             console.error(error);
         }
     };
+    const { ref:categoryRef,}=register("categoryIds",{required:{
+        value:true,
+        message: "נדרשת קטגוריה אחת לפחות"
+    }})
+
+
+    useEffect(() => {
+        console.log(categoryData);
+
+    }, [])
 
 
 
@@ -365,11 +389,18 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         <Select
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
-                                            defaultValue={categoryIds[0]}
+                                            styles={errors.categoryIds&&{
+                                                control:baseStyles => ({
+                                                  ...baseStyles,
+                                                  borderColor:'red'
+                                                })}}
+                                            
                                             isMulti
-                                            options={categoryIds}
-                                            onChange={(choice) => setValue('categoryIds', choice.map(item => item.value))}
+                                            options={categorysOptions}
+                                            onChange={(choice) => setValue('categoryIds', choice.map((item:any) => item.value))}
+                                            ref={categoryRef}
                                         />
+                                        {errors.categoryIds&&<p className='text-red-500'>{errors.categoryIds.message}</p>}
                                     </div >
 
 
