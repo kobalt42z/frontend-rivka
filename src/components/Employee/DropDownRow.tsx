@@ -5,7 +5,7 @@ import ProductRowBody from './ProductRowBody';
 import ProductRowHead from './ProductRowHead'
 
 interface props {
-    deleteClick: (id: string) => void;
+    deleteClick: (arg:{id:string,name:string}) => void;
     data:productFromDB
 }
 
@@ -18,7 +18,6 @@ const DropDownRow: FC<props> = ({ deleteClick,data }) => {
                 onClick={() => setToggle(!toggle)}
                 key={'iiiii'}
                 handleDeletClick={deleteClick}
-                id={'13542'}
                 data={data}
             />
 

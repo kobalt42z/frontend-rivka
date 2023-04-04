@@ -13,17 +13,18 @@ import StatusBadge from '../Badges/StatusBadge';
 
 
 interface ProductRowType {
-    id: string;
-    handleDeletClick: (id: string) => void;
+   
+    handleDeletClick: (arg:{id:string,name:string}) => void;
     handleEditClick?: (id: string) => void;
     onClick: () => void;
     data: productFromDB
 }
 
-const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }: ProductRowType) => {
+const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: ProductRowType) => {
     const [editMode, setEditMode] = useState(false);
 
     const {
+        id,
         imgUrl,
         name,
         categorys,
@@ -87,8 +88,8 @@ const ProductRowHead = ({ handleDeletClick, id, handleEditClick, onClick, data }
                     </div>
                     :
                     <div className='flex flex-row-reverse justify-evenly'>
-                        <CrudBtn color='red' onClick={() => handleDeletClick(id)}><TrashIcon className='h-[3vh] ' /></CrudBtn>
-                        <CrudBtn color='gray' onClick={() => handleDeletClick(id)}><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>
+                        <CrudBtn color='red' onClick={() => handleDeletClick({id,name})}><TrashIcon className='h-[3vh] ' /></CrudBtn>
+                        <CrudBtn color='gray' onClick={() => handleDeletClick({id,name})}><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>
                     </div>
                 }
 
