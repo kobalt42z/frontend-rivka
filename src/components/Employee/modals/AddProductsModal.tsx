@@ -27,12 +27,44 @@ interface props {
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
+    const language = ["עברית", "צרפתית", "אנגלית", ""]
+    const categoryIds = [
+        { value: '63fd0b62e6bdd95ebe881033', label: "שונות" },
+        { value: 'nails', label: "Nails" },
+        { value: 'lashes', label: "Lashes" },
+        { value: 'foot', label: "Feet" }
+    ]
+    const sizes = [
+        { value: null, label: 'ללא' },
+        { value: 'S', label: 'S' },
+        { value: 'M', label: 'M' },
+        { value: 'L', label: 'L' },
+        { value: 'XL', label: 'XL' },
+        { value: '1', label: '1' },
+
+    ].concat(
+        Array.from({ length: 14 }, (_, i) => ({
+            value: (i + 2).toString(),
+            label: (i + 2).toString(),
+        })))
+
+
+
+
     //? react hook form : 
     const { setValue, register, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
         defaultValues: {
             colors: [],
-            categoryIds: ['id of misc'],
+            categoryIds: [categoryIds[0].value],
             active: true,
+            translations: {
+                fr: {
+                    language: 'fr'
+                },
+                en: {
+                    language: 'en'
+                },
+            }
 
         }
     });
@@ -45,26 +77,6 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
 
 
-    const language = ["עברית", "צרפתית", "אנגלית", ""]
-    const categoryIds = [
-        { value: 'שונות', label: "שונות" },
-        { value: 'nails', label: "Nails" },
-        { value: 'lashes', label: "Lashes" },
-        { value: 'foot', label: "Feet" }
-    ]
-    const sizes = [
-        { value: ' ', label: 'ללא' },
-        { value: 'S', label: 'S' },
-        { value: 'M', label: 'M' },
-        { value: 'L', label: 'L' },
-        { value: 'XL', label: 'XL' },
-        { value: '1', label: '1' },
-
-    ].concat(
-        Array.from({ length: 14 }, (_, i) => ({
-            value: (i + 2).toString(),
-            label: (i + 2).toString(),
-        })))
 
 
     // ? stepper 0he 1fr 2en 
@@ -99,7 +111,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     //?react hook form submition : 
     const onSubmit: SubmitHandler<Product> = async data => {
         try {
-            
+
             console.log(data);
             const resp = await creatProduct(data).unwrap()
             closeAddProduct();

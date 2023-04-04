@@ -11,7 +11,7 @@ export interface Product {
   active: boolean;
   supply: number;
   categoryIds: Array<string>;
-  sizes: string[];
+  sizes: (string|null)[];
   curves: string[]
   thikness: string[]
   translations: {
@@ -28,6 +28,7 @@ export interface productResponse {
 }
 
 interface ProductTranslation {
+  language: string;
   name: string;
   description: string;
 }
@@ -67,4 +68,9 @@ export interface transletionFromDb {
   name: string,
   description: string,
   productId: string
+}
+
+export type ProductResponse ={
+  products: productFromDB[],
+  count: number
 }

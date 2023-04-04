@@ -1,7 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_REST_API } from "../../constant";
-import { Product, productResponse } from "../../interfaces";
+import { Product, ProductResponse, productFromDB, productResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
+import { types } from "util";
+
 
 export const productApi = createApi({
     reducerPath: "products",
@@ -15,28 +17,41 @@ export const productApi = createApi({
             return headers
         }
     }),
+    tagTypes: ['Product'],
     endpoints: (builder) => ({
-        findALlProduct: builder.query({
-            query: (page: number) => ({
+        findALlProduct: builder.query<ProductResponse,number>({
+            query: (page) => ({
+
                 url: `products/?page=${page}`,
                 method: 'GET',
 
             }),
+            providesTags: (result) => 
+            result
+            ?[
+                
+                
+                ...result.products.map(({id})=>({type:'Product' as const,id})),
+                {type:'Product',id:"LIST"}
+            ]
+                :[{type:'Product',id:"LIST"}]
+            
+            
+            
 
 
         }),
-        createProduct:builder.mutation({
-            query:(_body:Product)=>({
-                url:'products',
+        createProduct: builder.mutation({
+            query: (_body: Product) => ({
+                url: 'products',
                 method: 'POST',
-                body:_body,
-                
-            })
-            
+                body: _body,
+            }),
+            invalidatesTags:[{type:"Product",id:"LIST"}]
         })
     })
 
 })
 
 export const { useLazyFindALlProductQuery, useFindALlProductQuery } = productApi
-export const {useCreateProductMutation} = productApi
+export const { useCreateProductMutation } = productApi

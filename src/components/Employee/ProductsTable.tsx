@@ -1,10 +1,6 @@
 import { ArrowPathIcon, ArrowsUpDownIcon, ArrowUpTrayIcon, FunnelIcon, PlusSmallIcon } from '@heroicons/react/24/outline';
 import React, { Key } from 'react'
-
-import { Xsvg } from '../../assets/X';
 import { ActionsButton } from './btns/ActionsButton';
-import AddProductsModal from './modals/AddProductsModal';
-import DelModal from './modals/DelModal';
 import SuppThead from './SuppThead';
 
 interface ProductsTableTypes {
