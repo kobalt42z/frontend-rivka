@@ -10,6 +10,7 @@ interface props {
 }
 const ProductRowBody: FC<props> = ({ data }) => {
     const {
+        imgUrl,
         categorys,
         name,
         description,
@@ -87,7 +88,7 @@ const ProductRowBody: FC<props> = ({ data }) => {
                         </div>
 
                         <div className='w-6/12 flex justify-end px-5'>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIdyPe5ZbVc9PTRJJiFgHZ9LN0znfiPJhBAg&usqp=CAU" alt="" className='w-[300px] h-auto rounded-md' />
+                            <img src={imgUrl} alt="" className='w-[300px] h-auto rounded-md' />
                         </div>
                     </div>
                     <div dir='rtl' className='pt-5 w-full flex flex-row-reverse justify-center space-x-10'>

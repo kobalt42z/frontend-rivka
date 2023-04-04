@@ -77,7 +77,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     }
 
     //? react hook form : 
-    const { setValue, register, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
+    const { setValue, register, clearErrors,handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
         defaultValues: defaultVal
     });
 
@@ -496,17 +496,20 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                     <FileInput
                                         id="file"
                                         helperText="תמונה זו תשמש לתאור המוצר בחנות "
+                                        accept=".jpg,.png,.jpeg"
+                                        style={errors.img &&{borderColor:'red'}}
                                         // ref={uploadImageRef}
                                         onChange={(e) => {
                                             if (e.target.files) setValue('img', e.target.files[0])
                                             console.log(getValues('img'));
-
+                                            clearErrors('img')
                                         }
 
                                         }
 
 
                                     />
+                                    {errors.img && <p className='text-red-500'>{errors.img.message}</p>}
                                 </div>
 
                                 <div className="flex flex-row-reverse justify-between">
