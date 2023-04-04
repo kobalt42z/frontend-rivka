@@ -4,6 +4,7 @@ import { productApi } from "../API/Products.Api";
 import TokenPayloadReducer from '../Slices/Payload.slice'
 import userSlice from "../Slices/user.slice";
 import { CategoryApi } from "../API/Category.Api";
+import { imgApi } from "../API/Image.api";
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         [authApiSlice.reducerPath]: authApiSlice.reducer,
         [productApi.reducerPath]: productApi.reducer,
         [CategoryApi.reducerPath]: CategoryApi.reducer,
+        [imgApi.reducerPath]: imgApi.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
 
@@ -20,7 +22,8 @@ export const store = configureStore({
         getDefaultMiddleware()
         .concat(authApiSlice.middleware)
         .concat(productApi.middleware)
-        .concat(CategoryApi.middleware),
+        .concat(CategoryApi.middleware)
+        .concat(imgApi.middleware)
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

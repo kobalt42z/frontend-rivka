@@ -19,6 +19,8 @@ import { UseToggle } from 'sk-use-toggle/src';
 import { useCreateProductMutation } from '../../../features/API/Products.Api';
 import { Translation } from 'react-i18next';
 import { useGetCategoriesQuery } from '../../../features/API/Category.Api';
+import { useUploadImgMutation } from '../../../features/API/Image.api';
+import { buildUploadReq } from '../../../functions/buildUploadReq';
 
 
 interface props {
@@ -43,7 +45,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
 
     if (isErrorCategory) console.error(categoryError);
-    
+
 
     const sizes = [
         { value: null, label: 'ללא' },
@@ -60,23 +62,23 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         })))
 
 
+    const defaultVal = {
+        colors: [],
+        active: true,
+        translations: {
+            fr: {
+                language: 'fr'
+            },
+            en: {
+                language: 'en'
+            },
+        }
 
+    }
 
     //? react hook form : 
     const { setValue, register, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
-        defaultValues: {
-            colors: [],
-            active: true,
-            translations: {
-                fr: {
-                    language: 'fr'
-                },
-                en: {
-                    language: 'en'
-                },
-            }
-
-        }
+        defaultValues: defaultVal
     });
 
 
@@ -119,24 +121,44 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             isSuccess: ProductCreated,
         }
     ] = useCreateProductMutation()
+    const [uploadImage, { isLoading: imgLoading }] = useUploadImgMutation()
+    const { ref: uploadImageRef } = register('img', {
+        required: {
+            value: true,
+            message: 'נדרשת תמונה לתאור המוצר'
+        },
 
-
+    })
+    const [imgUploaded, setImgUploaded] = useState(false)
 
     //?react hook form submition : 
     const onSubmit: SubmitHandler<Product> = async data => {
         try {
 
             console.log(data);
-            const resp = await creatProduct(data).unwrap()
+            console.log(data.img);
+
+            if (!imgUploaded&&data.img) {
+                 const imgup = await uploadImage(buildUploadReq(data.img)).unwrap() 
+                 data.imgUrl = imgup.url
+                }
+            setImgUploaded(true);
+            delete data.img;
+            
+            const resp = await creatProduct({...data,}).unwrap()
+
             closeAddProduct();
+            setImgUploaded(false)
         } catch (error) {
             console.error(error);
         }
     };
-    const { ref:categoryRef,}=register("categoryIds",{required:{
-        value:true,
-        message: "נדרשת קטגוריה אחת לפחות"
-    }})
+    const { ref: categoryRef, } = register("categoryIds", {
+        required: {
+            value: true,
+            message: "נדרשת קטגוריה אחת לפחות"
+        }
+    })
 
 
     useEffect(() => {
@@ -389,18 +411,19 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         <Select
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
-                                            styles={errors.categoryIds&&{
-                                                control:baseStyles => ({
-                                                  ...baseStyles,
-                                                  borderColor:'red'
-                                                })}}
-                                            
+                                            styles={errors.categoryIds && {
+                                                control: baseStyles => ({
+                                                    ...baseStyles,
+                                                    borderColor: 'red'
+                                                })
+                                            }}
+
                                             isMulti
                                             options={categorysOptions}
-                                            onChange={(choice) => setValue('categoryIds', choice.map((item:any) => item.value))}
+                                            onChange={(choice) => setValue('categoryIds', choice.map((item: any) => item.value))}
                                             ref={categoryRef}
                                         />
-                                        {errors.categoryIds&&<p className='text-red-500'>{errors.categoryIds.message}</p>}
+                                        {errors.categoryIds && <p className='text-red-500'>{errors.categoryIds.message}</p>}
                                     </div >
 
 
@@ -473,6 +496,15 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                     <FileInput
                                         id="file"
                                         helperText="תמונה זו תשמש לתאור המוצר בחנות "
+                                        // ref={uploadImageRef}
+                                        onChange={(e) => {
+                                            if (e.target.files) setValue('img', e.target.files[0])
+                                            console.log(getValues('img'));
+
+                                        }
+
+                                        }
+
 
                                     />
                                 </div>

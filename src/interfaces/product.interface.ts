@@ -1,5 +1,6 @@
 
 export interface Product {
+  img?: File;
   imgUrl?: string;
   name: string;
   description: string;
