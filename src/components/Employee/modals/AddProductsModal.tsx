@@ -3,7 +3,7 @@ import { IF } from '../../special/if'
 import Stepper3 from '../../Stepper/Stepper3'
 import { FieldValue, SubmitHandler, UseFormProps, UseFormUnregister, ValidationMode, useForm } from 'react-hook-form';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
-import { EditValues, Product, categorysOptions } from '../../../interfaces';
+import { EditValues, Product, categorysOptions, productFromDB } from '../../../interfaces';
 
 import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -26,7 +26,7 @@ import { buildUploadReq } from '../../../functions/buildUploadReq';
 interface props {
     closeAddProduct: () => void
     editMode?: boolean
-    editValues?: Product
+    editValues?: productFromDB
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
@@ -62,16 +62,30 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         })))
 
 
-    const defaultVal = {
+    const defaultVal = 
+    editMode?
+    {
+        ...editValues,
+        translations:{
+            fr:{
+                language: editValues?.translations[0].language,
+                name: editValues?.translations[0].name,
+                description:editValues?.translations[0].description,
+            },
+            en:{
+                language: editValues?.translations[1].language,
+                name: editValues?.translations[1].name,
+                description:editValues?.translations[1].description,
+            }
+        }
+    }
+    :
+    {
         colors: [],
         active: true,
-        translations: {
-            fr: {
-                language: 'fr'
-            },
-            en: {
-                language: 'en'
-            },
+        translation : {
+            fr:{language:'fr'},
+            en:{language:'em'}
         }
 
     }

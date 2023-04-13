@@ -45,25 +45,25 @@ const LashesDetails: FC<props> = ({ setValue, show, toggle }) => {
                     </div>
                     <div className="flex flex-col justify-around items-center h-40 w-full ">
                         <div className='w-full' >
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">רמת עיקול</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">רמת עיקול</label>
                             <Select
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 defaultValue={curves[0]}
                                 isMulti
                                 options={curves}
-                                onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
+                                onChange={(choice) => setValue('curves', choice.map(item => item.value))}
                             />
                         </div >
                         <div className='w-full'>
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">עובי</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">עובי</label>
                             <Select
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 defaultValue={thickness[0]}
                                 isMulti
                                 options={thickness}
-                                onChange={(choice) => setValue('categorys', choice.map(item => item.value))}
+                                onChange={(choice) => setValue('thickness', choice.map(item => item.value))}
                             />
                         </div >
                     </div>

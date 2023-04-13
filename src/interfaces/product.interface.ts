@@ -14,7 +14,7 @@ export interface Product {
   categoryIds: Array<string>;
   sizes: (string|null)[];
   curves: string[]
-  thikness: string[]
+  thickness: string[]
   translations: {
     fr: ProductTranslation
     en: ProductTranslation
@@ -47,7 +47,7 @@ export interface productFromDB {
   name: string,
   brand: string,
   description: string,
-  base_price: string,
+  base_price: number,
   selling_price: number,
   reduction_p: number,
   supply: number,
@@ -65,7 +65,7 @@ export interface productFromDB {
 
 export interface transletionFromDb {
   id: string,
-  languages: string,
+  language: string,
   name: string,
   description: string,
   productId: string
