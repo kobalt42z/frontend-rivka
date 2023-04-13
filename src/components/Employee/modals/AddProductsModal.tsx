@@ -21,6 +21,8 @@ import { Translation } from 'react-i18next';
 import { useGetCategoriesQuery } from '../../../features/API/Category.Api';
 import { useUploadImgMutation } from '../../../features/API/Image.api';
 import { buildUploadReq } from '../../../functions/buildUploadReq';
+import { descriptionValidator, productNameValidator } from '../../../validators';
+import TranslationForm from './translationForm';
 
 
 interface props {
@@ -30,11 +32,8 @@ interface props {
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
+
     const { isSuccess: categorySuccess, isLoading: isLoadingCategory, isError: isErrorCategory, data: categoryData, error: categoryError } = useGetCategoriesQuery();
-    const language = ["עברית", "צרפתית", "אנגלית", ""]
-
-
-
 
     const categorysOptions: categorysOptions[] =
 
@@ -42,10 +41,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             (item) => { return { value: item.id, label: item.name } })
             : [{ value: '63fd0b62e6bdd95ebe881033', label: "שונות" }
             ]
-
-
     if (isErrorCategory) console.error(categoryError);
-
 
     const sizes = [
         { value: null, label: 'ללא' },
@@ -62,53 +58,45 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         })))
 
 
-    const defaultVal = 
-    editMode?
-    {
-        ...editValues,
-        translations:{
-            fr:{
-                language: editValues?.translations[0].language,
-                name: editValues?.translations[0].name,
-                description:editValues?.translations[0].description,
-            },
-            en:{
-                language: editValues?.translations[1].language,
-                name: editValues?.translations[1].name,
-                description:editValues?.translations[1].description,
+    const defaultVal =
+        editMode ?
+            {
+                ...editValues,
+                translations: {
+                    fr: {
+                        language: editValues?.translations[0].language,
+                        name: editValues?.translations[0].name,
+                        description: editValues?.translations[0].description,
+                    },
+                    en: {
+                        language: editValues?.translations[1].language,
+                        name: editValues?.translations[1].name,
+                        description: editValues?.translations[1].description,
+                    }
+                }
             }
-        }
-    }
-    :
-    {
-        colors: [],
-        active: true,
-        translation : {
-            fr:{language:'fr'},
-            en:{language:'em'}
-        }
+            :
+            {
+                colors: [],
+                active: true,
+                translation: {
+                    fr: { language: 'fr' },
+                    en: { language: 'em' }
+                }
 
-    }
+            }
 
     //? react hook form : 
-    const { setValue, register, clearErrors,handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
+    const { setValue, register, clearErrors, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
         defaultValues: defaultVal
     });
-
-
-
 
     // ? for react-select library:
     const animatedComponents = makeAnimated();
 
-
-
-
-
     // ? stepper 0he 1fr 2en 
-    const [currentStep, setCurrentStep] = useState(0);
-    const [showTranslation, toggleTranslation] = UseToggle()
 
+    
     //? color chosen in color picker 
     const [colors, setColors] = useState<string[]>([])
     const [showPicker, togglePiker] = UseToggle()
@@ -152,14 +140,14 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             console.log(data);
             console.log(data.img);
 
-            if (!imgUploaded&&data.img) {
-                 const imgup = await uploadImage(buildUploadReq(data.img)).unwrap() 
-                 data.imgUrl = imgup.url
-                }
+            if (!imgUploaded && data.img) {
+                const imgup = await uploadImage(buildUploadReq(data.img)).unwrap()
+                data.imgUrl = imgup.url
+            }
             setImgUploaded(true);
             delete data.img;
-            
-            const resp = await creatProduct({...data,}).unwrap()
+
+            const resp = await creatProduct({ ...data, }).unwrap()
 
             closeAddProduct();
             setImgUploaded(false)
@@ -206,163 +194,21 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                     הוספת מוצר לחנות
                                 </h3>
                             </div>
-
-                            <div className="pb-5 ">
-                                <Stepper3 currentStep={currentStep} finish={isValid} />
-                            </div>
-
-
                             {/* Modal body */}
                             <form onSubmit={handleSubmit(onSubmit)}>
 
-                                <div className="space-y-5">
-                                    {/* he section */}
+                                <TranslationForm
+                                    errors={errors}
+                                    isValid={isValid}
+                                    register={register}
+                                />
 
-                                    <IF condition={currentStep >= 0} >
-                                        <section className={currentStep == 0 ? 'block' : "hidden"}>
-
-                                            <ClassicInput
-                                                labelTitle='שם  מוצר'
-                                                language='עברית '
-                                                type='text'
-                                                placeholder='שם מוצר בעברית'
-                                                useFromsParams={register('name', {
-                                                    required: {
-                                                        value: true,
-                                                        message: 'נדרש שם מוצר אחד לפחות'
-                                                    },
-                                                    maxLength: {
-                                                        value: 30,
-                                                        message: ' נדרש שם מוצר עד 30 תווים '
-                                                    }
-                                                })}
-                                                errorMessage={errors.name?.message}
-                                            />
-                                            <TextArea
-                                                placeholder="תאור מוצר בעברית עד 100 תווים"
-                                                labelTitle='תאור מוצר'
-                                                language='בעברית'
-                                                useFromsParams={register('description', {
-                                                    required: {
-                                                        value: true,
-                                                        message: 'נדרש תאור מוצר בעברית לפחות '
-                                                    },
-                                                    maxLength: {
-                                                        value: 100,
-                                                        message: 'תיאור מוצר עד 100 תווים'
-                                                    }
-
-                                                })}
-                                                errorMessage={errors.description?.message}
-                                            />
-                                        </section>
-                                    </IF>
-
-                                    {/* fr section */}
-                                    <IF condition={currentStep >= 1} >
-                                        <section className={currentStep == 1 ? 'block' : "hidden"}>
-
-
-                                            <ClassicInput
-                                                labelTitle='שם מוצר'
-                                                language='צרפתית'
-                                                type='text'
-                                                placeholder='הכנס תאור מוצר בצרפתית '
-                                                useFromsParams={
-                                                    register('translations.fr.name', {
-                                                        maxLength: {
-                                                            value: 30,
-                                                            message: 'שם המוצר עד 30 תווים'
-                                                        },
-                                                    })}
-                                                errorMessage={errors.translations?.fr?.name?.message}
-                                            />
-                                            <TextArea
-                                                labelTitle='תאור מוצר '
-                                                language='צרפתית'
-                                                placeholder='description en francais '
-                                                useFromsParams=
-                                                {register('translations.fr.description', {
-                                                    maxLength: {
-                                                        value: 100,
-                                                        message: 'תיאור מוצר עד 100 תווים'
-                                                    }
-                                                })}
-                                                errorMessage={errors.translations?.fr?.description?.message}
-                                            />
-                                        </section>
-                                    </IF>
-
-                                    {/* en section !need to add on */}
-                                    <IF condition={currentStep >= 2} >
-                                        <section className={currentStep == 2 ? 'block' : "hidden"}>
-
-                                            <ClassicInput
-                                                labelTitle='שם מוצר באנגלית '
-                                                language='אנגלית'
-                                                type='text'
-                                                placeholder='enter a product name in english'
-                                                useFromsParams={register('translations.en.name', {
-                                                    maxLength: {
-                                                        value: 30,
-                                                        message: 'שם המוצר עד 30 תווים'
-                                                    }
-                                                })}
-                                                errorMessage={errors.translations?.en?.name?.message}
-
-                                            />
-                                            <TextArea
-                                                labelTitle='תאור מוצר '
-                                                language='אנגלית'
-                                                placeholder='product description in english '
-                                                useFromsParams={register('translations.en.description', {
-                                                    maxLength: {
-                                                        value: 100,
-                                                        message: 'תיאור מוצר עד 100 תווים'
-                                                    }
-                                                })}
-                                                errorMessage={errors.translations?.en?.description?.message}
-                                            />
-                                        </section>
-                                    </IF>
-
-
-                                    <div className='pb-5 flex justify-between'>
-
-                                        <button type="button" className="w-[90px] flex items-center justify-between text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                            onClick={() => {
-                                                if (currentStep > 0)
-                                                    setCurrentStep(currentStep - 1)
-                                            }}
-                                        ><ArrowRightIcon className='w-5' />הקדם</button>
-
-
-
-                                        <button type="button" className={`${currentStep == 2 && "hidden"} w-[90px] flex items-center justify-between focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800`}
-                                            onClick={() => {
-                                                if (currentStep < 2)
-                                                    setCurrentStep(currentStep + 1)
-                                            }}
-                                        >הבא<ArrowLeftIcon className='w-5' /> </button>
-                                    </div>
-                                </div>
                                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
                                     <ClassicInput
                                         labelTitle=' מחיר קנייה - ₪'
                                         type='number'
                                         placeholder='₪500'
-                                        useFromsParams={register('base_price', {
-                                            required: {
-                                                value: true,
-                                                message: 'נא לספק מחיר תקין '
-                                            },
-                                            max: {
-                                                value: 1000000,
-                                                message: "מחיר לא תקין"
-                                            },
-                                            valueAsNumber: true,
-
-                                        })}
+                                        useFromsParams={register('base_price',)}
                                         errorMessage={errors.base_price?.message}
 
                                     />
@@ -370,18 +216,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='מחיר בחנות - ₪'
                                         type='number'
                                         placeholder='₪500'
-                                        useFromsParams={register('selling_price', {
-                                            required: {
-                                                value: true,
-                                                message: 'נא לספק מחיר תקין '
-                                            },
-                                            max: {
-                                                value: 1000000,
-                                                message: "מחיר לא תקין"
-                                            },
-                                            valueAsNumber: true,
-
-                                        })}
+                                        useFromsParams={register('selling_price',)}
                                         errorMessage={errors.selling_price?.message}
 
                                     />
@@ -390,17 +225,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='חברה'
                                         type='text'
                                         placeholder='RivkaNakach'
-                                        useFromsParams={register('brand', {
-                                            required: {
-                                                value: true,
-                                                message: 'נא לספק שם-חברה תקינה'
-                                            },
-                                            maxLength: {
-                                                value: 20,
-                                                message: 'שם-חברה אינו עולה על 20 תווים '
-                                            }
-
-                                        })}
+                                        useFromsParams={register('brand',)}
                                         errorMessage={errors.brand?.message}
 
                                     />
@@ -408,15 +233,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='הנחה - %'
                                         type='number'
                                         placeholder='%60'
-                                        useFromsParams={register('reduction_p', {
-
-                                            max: {
-                                                value: 100,
-                                                message: " הנחה באוחוזים בלבד (0-100)"
-                                            },
-                                            valueAsNumber: true,
-
-                                        })}
+                                        useFromsParams={register('reduction_p',)}
                                         errorMessage={errors.reduction_p?.message}
 
                                     />
@@ -431,7 +248,6 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                                     borderColor: 'red'
                                                 })
                                             }}
-
                                             isMulti
                                             options={categorysOptions}
                                             onChange={(choice) => setValue('categoryIds', choice.map((item: any) => item.value))}
@@ -460,18 +276,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='כמות'
                                         type='number'
                                         placeholder='54'
-                                        useFromsParams={register('supply', {
-                                            required: {
-                                                value: true,
-                                                message: 'יש להזין כמות מוצרים תקינה'
-                                            },
-                                            max: {
-                                                value: 100000,
-                                                message: "הכמות שהוכנסה אינה תקינה"
-                                            },
-                                            valueAsNumber: true,
-
-                                        })}
+                                        useFromsParams={register('supply',)}
                                         errorMessage={errors.supply?.message}
                                     />
 
@@ -511,17 +316,13 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         id="file"
                                         helperText="תמונה זו תשמש לתאור המוצר בחנות "
                                         accept=".jpg,.png,.jpeg"
-                                        style={errors.img &&{borderColor:'red'}}
+                                        style={errors.img && { borderColor: 'red' }}
                                         // ref={uploadImageRef}
                                         onChange={(e) => {
                                             if (e.target.files) setValue('img', e.target.files[0])
                                             console.log(getValues('img'));
                                             clearErrors('img')
-                                        }
-
-                                        }
-
-
+                                        }}
                                     />
                                     {errors.img && <p className='text-red-500'>{errors.img.message}</p>}
                                 </div>
