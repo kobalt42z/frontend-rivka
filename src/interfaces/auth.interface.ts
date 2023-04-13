@@ -37,3 +37,9 @@ export interface authMeRes {
     valid: boolean;
     payload: userTokenPayload
 }
+export type LoginInputs = {
+    example: string,
+    exampleRequired: string,
+    email: string,
+    password: string
+  }
