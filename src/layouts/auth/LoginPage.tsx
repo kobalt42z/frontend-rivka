@@ -2,7 +2,6 @@ import React, { FormEventHandler, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
 import { Link, redirect, useNavigate } from 'react-router-dom'
-import { POSTlogin } from '../../API'
 import MainButtons from '../../components/buttons/MainButtons'
 import LoginInput from '../../components/misc/LoginInput'
 import LoginCredentials from '../../interfaces/auth.interface'
@@ -15,13 +14,10 @@ import { useDispatch } from 'react-redux'
 import { setPayload, setToken, sign } from '../../features/Slices/Payload.slice'
 import jwt_decode from 'jwt-decode'
 import ErrorsAlerter from '../../components/errors/ErrorsAlerter'
-// provide type about fiealds
-type Inputs = {
-  example: string,
-  exampleRequired: string,
-  email: string,
-  password: string
-};
+  // provide type about fiealds
+  ;
+import { LoginInputs as Inputs } from '../../interfaces/'
+import { lemailValidator, lpasswordValidator } from '../../validators'
 
 export const LoginPage = () => {
   const [login, { isLoading, isError, isSuccess, error, data: userData }] = useLoginMutation()
@@ -54,7 +50,7 @@ export const LoginPage = () => {
 
   return (
     <div className=' flex  flex-col items-center  min-h-[75vh] pt-10 red '>
-      <ErrorsAlerter status={status } />
+      <ErrorsAlerter status={status} />
       <h2 className='font-bold text-lg'>: התחברות</h2>
       <div className="flex uppercase text-base justify-around  w-[80%] py-10 text-black">
         <Link to={'/register'}><h2 className='font-semibold underline text-[14px]'>! הירשמי עכשיו </h2></Link>
@@ -65,39 +61,13 @@ export const LoginPage = () => {
 
         <div className='w-full '>
           <input placeholder={'כתובת מייל *'} type="text" className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 ${errors.email && "border-red-600"}`} {...register('email',
-            {
-              required: {
-                value: true,
-                message: 'דרושה כתובת מייל תקינה '
-              },
-              maxLength: {
-                value: 50,
-                message: " יותר מדי תווים בשדה זה "
-              },
-              pattern: {
-                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-                message: "כתובת המייל אינה תקינה"
-              },
-            }
+            lemailValidator
           )} />
           {errors.email && <p role={"alert"} className="text-red-600 capitalize">{errors.email?.message}</p>}
         </div>
         <div className="w-full">
           <input type={"password"} placeholder={'סיסמא *'} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 ${errors.email && "border-red-600"} `} {...register("password",
-            {
-              required: {
-                value: true,
-                message: "דרושה ססמא תקינה"
-              },
-              minLength: {
-                value: 8,
-                message: "סיסמא באורך 8 תווים לפחות "
-              },
-              maxLength: {
-                value: 16,
-                message: "סיסמא עד אורך 16 תווים בלבד! "
-              }
-            })} />
+            lpasswordValidator)} />
           {errors.password && <p role={"alert"} className="text-red-600 capitalize">{errors.password?.message}</p>}
         </div>
         <div className="pt-5 text-right">

@@ -11,6 +11,8 @@ import LoginInput from '../../components/misc/LoginInput'
 import SelectLanguage from '../../components/misc/SelectLanguage'
 import { useSignUpMutation } from '../../features/API/Auth.Api'
 import { languages, RegisterInpute, user } from '../../interfaces'
+import {emailValidator, acceptTermsValidator, CpasswordValidator, firstNameValidator, lastNameValidator, passwordValidator, phoneValidator } from '../../validators'
+
 const Register = () => {
 
 
@@ -63,20 +65,7 @@ const Register = () => {
                     
                     ${errors.firstName && 'border-red-500'}
                     `}
-                        {...register('firstName', {
-                            required: {
-                                value: true,
-                                message: 'נדרש שם משתמש תקין'
-                            },
-                            maxLength: {
-                                value: 10,
-                                message: 'יותר מדי תווים בשדה זה'
-                            },
-                            pattern: {
-                                value: /[a-zA-Zא-ת]/,
-                                message: "שם מכיל אותיות בלבד"
-                            }
-                        })}
+                        {...register('firstName', firstNameValidator)}
                     />
                     <FormError error={errors.firstName} />
                 </div>
@@ -85,20 +74,7 @@ const Register = () => {
                     <input type={"text"} placeholder={"שם משפחה *"} className={` w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                     ${errors.lastName && 'border-red-500'}
                     `}
-                        {...register('lastName', {
-                            required: {
-                                value: true,
-                                message: 'נדרש שם משתמש תקין'
-                            },
-                            maxLength: {
-                                value: 10,
-                                message: 'יותר מדי תווים בשדה זה'
-                            },
-                            pattern: {
-                                value: /[a-zA-Zא-ת]/,
-                                message: "שם מכיל אותיות בלבד"
-                            }
-                        })}
+                        {...register('lastName', lastNameValidator)}
                     />
                     <FormError error={errors.lastName} />
                 </div>
@@ -109,20 +85,7 @@ const Register = () => {
                     ${errors.phone && 'border-red-500'}
                     `}
 
-                            {...register('phone', {
-                                required: {
-                                    value: true,
-                                    message: 'נדרש מספר טלפון תקין'
-                                },
-                                maxLength: {
-                                    value: 20,
-                                    message: 'יותר מדי תווים בשדה זה'
-                                },
-                                pattern: {
-                                    value: /^([0-9]{10})$/gm,
-                                    message: "מספר הטלפון אינו תקין"
-                                },
-                            })}
+                            {...register('phone',phoneValidator)}
                         />
                     </div>
                     <FormError error={errors.phone} />
@@ -139,10 +102,6 @@ const Register = () => {
                                 value: true,
                                 message: "נדרש תאריך לידה "
                             },
-                            // pattern: {
-                            //     value: /^([1-2]{1})([0|9]{1})([0-9]{1})([0-9]{1})-([0-9]{2})-([0-9]{2})$/gm,
-                            //     message: "התאריך שהוזן אינו תקין"
-                            // },
                             onBlur: (e) => {
                                 let matchToRegex = e.target.value.match(/^([1-2]{1})([0|9]{1})([0-9]{1})([0-9]{1})-([0-9]{2})-([0-9]{2})$/gm)
                                 if (!matchToRegex) setError('dateOfBirth', {
@@ -152,9 +111,7 @@ const Register = () => {
                                     clearErrors('dateOfBirth')
                                     return matchToRegex[0]
                                 }
-
                             }
-
                         })}
 
                     />
@@ -164,20 +121,7 @@ const Register = () => {
                     <input type={"text"} placeholder={" כתובת מייל * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                     ${errors.email && 'border-red-500'}
                     `}
-                        {...register('email', {
-                            required: {
-                                value: true,
-                                message: 'נדרשת כתובת מייל'
-                            },
-                            maxLength: {
-                                value: 50,
-                                message: "יותר מדיי תווים בשדה זה"
-                            },
-                            pattern: {
-                                value: /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/,
-                                message: "כתובת המייל אינה תקינה"
-                            }
-                        })}
+                        {...register('email',emailValidator)}
                     />
                     <FormError error={errors.email} />
                 </div>
@@ -186,20 +130,7 @@ const Register = () => {
                     <input type={"password"} placeholder={"סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                     ${errors.password && 'border-red-500'}
                     `}
-                        {...register('password', {
-                            required: {
-                                value: true,
-                                message: "נדרשת סיסמא תקינה"
-                            },
-                            maxLength: {
-                                value: 16,
-                                message: "סיסמא עד 16 תווים"
-                            },
-                            minLength: {
-                                value: 8,
-                                message: "סיסמא לפחות 8 תווים"
-                            }
-                        })}
+                        {...register('password',passwordValidator)}
                     />
                     <FormError error={errors.password} />
                 </div>
@@ -208,16 +139,7 @@ const Register = () => {
                     <input type={"password"} placeholder={"ווידוא סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                      ${errors.Cpassword && 'border-red-500'}
                     `}
-                        {...register('Cpassword', {
-                            required: {
-                                value: true,
-                                message: 'שדה זה נדרש'
-                            },
-                            validate: {
-                                pwdMatch: (value, formValue) =>
-                                    value === formValue.password || "ססמה אינה תואמת "
-                            }
-                        })}
+                        {...register('Cpassword',CpasswordValidator)}
                     />
                     <FormError error={errors.Cpassword} />
                 </div>
@@ -244,12 +166,7 @@ const Register = () => {
                             </Link>
                         </p>
                         <input type="checkbox" className='ml-2'
-                            {...register('acceptTerms', {
-                                required: {
-                                    value: true,
-                                    message: "יש לאשר את תנאי השימוש"
-                                }
-                            })}
+                            {...register('acceptTerms',acceptTermsValidator)}
                         />
                     </div>
                     <FormError error={errors.acceptTerms} />
