@@ -9,7 +9,7 @@ import { Alert } from 'flowbite-react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { useJwtAuthMutation, useLoginMutation } from '../../features/API/Auth.Api'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/src/query'
-import { TOKEN_KEYWORD, USER_KEYWORD } from '../../constant'
+import { AWS_ACCESS_KEYWORD, TOKEN_KEYWORD, USER_KEYWORD } from '../../constant'
 import { useDispatch } from 'react-redux'
 import { setPayload, setToken, sign } from '../../features/Slices/Payload.slice'
 import jwt_decode from 'jwt-decode'
@@ -18,6 +18,7 @@ import ErrorsAlerter from '../../components/errors/ErrorsAlerter'
   ;
 import { LoginInputs as Inputs } from '../../interfaces/'
 import { lemailValidator, lpasswordValidator } from '../../validators'
+
 
 export const LoginPage = () => {
   const [login, { isLoading, isError, isSuccess, error, data: userData }] = useLoginMutation()
@@ -30,10 +31,16 @@ export const LoginPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: LoginCredentials) => {
     try {
       const resp = await login(data).unwrap()
+      console.log(resp);
+      
       localStorage.setItem(TOKEN_KEYWORD, resp.token)
+      localStorage.setItem(AWS_ACCESS_KEYWORD,
+         JSON.stringify(resp.aws_access))
+
       dispatch(setToken(resp.token));
       dispatch(setPayload(jwt_decode(resp.token)))
-      dispatch(sign())
+
+
 
 
       navigate(-1)

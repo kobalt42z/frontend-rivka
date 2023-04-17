@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode'
 import React, { FC, useEffect } from 'react'
-import { TOKEN_KEYWORD } from '../../constant'
+import { AWS_ACCESS_KEYWORD, TOKEN_KEYWORD } from '../../constant'
 import { useAppDispatch } from '../../features/hooks'
 import { setPayload, setToken } from '../../features/Slices/Payload.slice'
 import { userTokenPayload } from '../../interfaces'
@@ -27,6 +27,7 @@ const Loader: FC<props> = ({ children }) => {
             if (Date.now() / 1000 >= decoded.exp) {
                 console.log("token expired");
                 localStorage.removeItem(TOKEN_KEYWORD)
+                localStorage.removeItem(AWS_ACCESS_KEYWORD)
             }
             else {
                 dispatch(setToken(token))

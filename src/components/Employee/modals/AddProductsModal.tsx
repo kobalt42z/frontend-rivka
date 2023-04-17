@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { IF } from '../../special/if'
-import Stepper3 from '../../Stepper/Stepper3'
-import { FieldValue, SubmitHandler, UseFormProps, UseFormUnregister, ValidationMode, useForm } from 'react-hook-form';
-import { ArrowLeftIcon, ArrowRightIcon, ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
-import { EditValues, Product, categorysOptions, productFromDB } from '../../../interfaces';
-
-import Select, { MultiValue } from 'react-select';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Product, categorysOptions, productFromDB } from '../../../interfaces';
+import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { ClassicInput } from '../../inputs/ClassicInput';
-import { TextArea } from '../../inputs/TextArea';
 import { Xsvg } from '../../../assets/X';
 import { DarkVail } from '../../special/DarkVail';
-import { ColorResult, SketchPicker } from 'react-color';
+import { ColorResult } from 'react-color';
 import ColorPiker from '../../ColorPicker/ColorPiker';
-import { FileInput, Label, ToggleSwitch, Tooltip } from 'flowbite-react';
+import { FileInput, Label, Tooltip } from 'flowbite-react';
 import LashesDetails from './LashesDetails';
 import { UseToggle } from 'sk-use-toggle/src';
 import { useCreateProductMutation } from '../../../features/API/Products.Api';
-import { Translation } from 'react-i18next';
 import { useGetCategoriesQuery } from '../../../features/API/Category.Api';
 import { useUploadImgMutation } from '../../../features/API/Image.api';
 import { buildUploadReq } from '../../../functions/buildUploadReq';
-import { descriptionValidator, productNameValidator } from '../../../validators';
 import TranslationForm from './translationForm';
+import { S3Client, PutObjectCommandInput, PutObjectCommand } from '@aws-sdk/client-s3';
+import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
+import ImgUploadForm from './ImgUploadForm';
 
 
 interface props {
@@ -96,7 +92,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
     // ? stepper 0he 1fr 2en 
 
-    
+
     //? color chosen in color picker 
     const [colors, setColors] = useState<string[]>([])
     const [showPicker, togglePiker] = UseToggle()
@@ -123,7 +119,13 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             isSuccess: ProductCreated,
         }
     ] = useCreateProductMutation()
-    const [uploadImage, { isLoading: imgLoading }] = useUploadImgMutation()
+    // const [uploadImage, { isLoading: imgLoading }] = useUploadImgMutation()
+
+   
+
+
+
+
     const { ref: uploadImageRef } = register('img', {
         required: {
             value: true,
@@ -140,10 +142,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             console.log(data);
             console.log(data.img);
 
-            if (!imgUploaded && data.img) {
-                const imgup = await uploadImage(buildUploadReq(data.img)).unwrap()
-                data.imgUrl = imgup.url
-            }
+            
             setImgUploaded(true);
             delete data.img;
 
@@ -312,21 +311,12 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                             value="העלאת תמונה"
                                         />
                                     </div>
-                                    <FileInput
-                                        id="file"
-                                        helperText="תמונה זו תשמש לתאור המוצר בחנות "
-                                        accept=".jpg,.png,.jpeg"
-                                        style={errors.img && { borderColor: 'red' }}
-                                        // ref={uploadImageRef}
-                                        onChange={(e) => {
-                                            if (e.target.files) setValue('img', e.target.files[0])
-                                            console.log(getValues('img'));
-                                            clearErrors('img')
-                                        }}
-                                    />
+                                    <div className='w-full'>
+                                        <ImgUploadForm />
+                                    </div>
+
                                     {errors.img && <p className='text-red-500'>{errors.img.message}</p>}
                                 </div>
-
                                 <div className="flex flex-row-reverse justify-between">
                                     <button
                                         onClick={togglePiker}
@@ -342,7 +332,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
                                     <button type="submit" className="flex h-11 items-center justify-center px-2  text-sm font-medium text-white rounded-lg bg-green-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none ">
 
-                                        הוספת מוצר
+                                        שמור מוצר
                                         <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                             <path clipRule="evenodd" fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                                         </svg>

@@ -7,6 +7,8 @@ import { CategoryApi } from "../API/Category.Api";
 import { imgApi } from "../API/Image.api";
 
 
+
+
 export const store = configureStore({
     reducer: {
         [authApiSlice.reducerPath]: authApiSlice.reducer,
@@ -15,6 +17,7 @@ export const store = configureStore({
         [imgApi.reducerPath]: imgApi.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
+       
 
 
     },
