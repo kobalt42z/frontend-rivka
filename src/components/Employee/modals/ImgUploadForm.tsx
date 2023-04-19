@@ -7,6 +7,8 @@ import { IF } from '../../special/if';
 import XMarkOnHover from '../../misc/xMarkOnHover';
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
+import { UseFormSetValue } from 'react-hook-form';
+import { ProductDto } from '../../../interfaces';
 
 
 
@@ -73,8 +75,10 @@ const img: CSSProperties = {
 interface previewFile extends File {
     previewURL: string
 }
+interface props {
+setValue:UseFormSetValue<ProductDto>
 
-
+}
 
 const ImgUploadForm = () => {
     const [file, setFile] = useState<previewFile | null>(null);
@@ -108,10 +112,12 @@ const ImgUploadForm = () => {
     });
     const cred = JSON.parse(localStorage[AWS_ACCESS_KEYWORD])
 
-    const s3 = new S3Client({ credentials: {
-        accessKeyId:"AKIASATHD7ECQ2IAG7N6 ",
-        secretAccessKey:"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",
-    } , region: "eu-west-3"});
+    const s3 = new S3Client({
+        credentials: {
+            accessKeyId: "AKIASATHD7ECQ2IAG7N6 ",
+            secretAccessKey: "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",
+        }, region: "eu-west-3"
+    });
 
     const uploadToS3 = async () => {
         if (!file || !originalFile) return;
@@ -165,7 +171,7 @@ const ImgUploadForm = () => {
                 </aside>
                 <div className='flex flex-col space-y-2'>
                     <Button onClick={uploadToS3}
-                     className='h-9 w-30'>שמירה בענן</Button>
+                        className='h-9 w-30'>שמירה בענן</Button>
                     <Button onClick={() => setFile(null)}
                         className='h-9 w-30' color={'failure'}>ביטול </Button>
                 </div>

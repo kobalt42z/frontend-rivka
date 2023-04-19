@@ -1,24 +1,34 @@
 
-export interface Product {
-  img?: File;
-  imgUrl?: string;
+//  * Req section : 
+export interface ProductDto {
   name: string;
-  description: string;
-  colors: string[];
   brand: string;
-  reduction_p?: number;
-  selling_price: number;
+  description: string;
   base_price: number;
-  active: boolean;
+  selling_price: number;
+  reduction_p: number;
   supply: number;
-  categoryIds: Array<string>;
-  sizes: (string|null)[];
+  active: boolean;
+
+  categoryIds: string[]
+  colors: string[]
+  sizes: string[]
   curves: string[]
   thickness: string[]
-  translations: {
-    fr: ProductTranslation
-    en: ProductTranslation
-  } 
+  translations?: TranslationDto
+  // imgUrl?: string;
+
+}
+interface LangueDto {
+  language?: string
+  name?: string;
+  description?: string;
+
+}
+
+interface TranslationDto {
+  fr?: LangueDto
+  en?: LangueDto
 }
 
 
@@ -33,10 +43,10 @@ interface ProductTranslation {
   name: string;
   description: string;
 }
-export interface EditValues {
-  [key: string]: keyof Product;
+// export interface EditValues {
+//   [key: string]: keyof Product;
 
-}
+// }
 
 
 //  ? from the db 
@@ -71,7 +81,7 @@ export interface transletionFromDb {
   productId: string
 }
 
-export type ProductResponse ={
+export type ProductResponse = {
   products: productFromDB[],
   count: number
 }

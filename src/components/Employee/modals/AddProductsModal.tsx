@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Product, categorysOptions, productFromDB } from '../../../interfaces';
+import { ProductDto, categorysOptions, productFromDB } from '../../../interfaces';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { ClassicInput } from '../../inputs/ClassicInput';
@@ -14,11 +14,11 @@ import { UseToggle } from 'sk-use-toggle/src';
 import { useCreateProductMutation } from '../../../features/API/Products.Api';
 import { useGetCategoriesQuery } from '../../../features/API/Category.Api';
 import { useUploadImgMutation } from '../../../features/API/Image.api';
-import { buildUploadReq } from '../../../functions/buildUploadReq';
 import TranslationForm from './translationForm';
 import { S3Client, PutObjectCommandInput, PutObjectCommand } from '@aws-sdk/client-s3';
 import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
 import ImgUploadForm from './ImgUploadForm';
+import { ProductReqBuilder } from '../../../functions/builders/reqBuilders';
 
 
 interface props {
@@ -40,7 +40,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     if (isErrorCategory) console.error(categoryError);
 
     const sizes = [
-        { value: null, label: 'ללא' },
+        { value: '', label: 'ללא' },
         { value: 'S', label: 'S' },
         { value: 'M', label: 'M' },
         { value: 'L', label: 'L' },
@@ -83,15 +83,14 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             }
 
     //? react hook form : 
-    const { setValue, register, clearErrors, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<Product>({
+    const { setValue, register, clearErrors, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<ProductDto>({
         defaultValues: defaultVal
     });
 
     // ? for react-select library:
     const animatedComponents = makeAnimated();
 
-    // ? stepper 0he 1fr 2en 
-
+    const [image, setImage] = useState<File | null>(null);
 
     //? color chosen in color picker 
     const [colors, setColors] = useState<string[]>([])
@@ -119,41 +118,22 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             isSuccess: ProductCreated,
         }
     ] = useCreateProductMutation()
-    // const [uploadImage, { isLoading: imgLoading }] = useUploadImgMutation()
-
-   
 
 
-
-
-    const { ref: uploadImageRef } = register('img', {
-        required: {
-            value: true,
-            message: 'נדרשת תמונה לתאור המוצר'
-        },
-
-    })
-    const [imgUploaded, setImgUploaded] = useState(false)
 
     //?react hook form submition : 
-    const onSubmit: SubmitHandler<Product> = async data => {
+    const onSubmit: SubmitHandler<ProductDto> = async data => {
         try {
-
-            console.log(data);
-            console.log(data.img);
-
-            
-            setImgUploaded(true);
-            delete data.img;
-
-            const resp = await creatProduct({ ...data, }).unwrap()
+            if(!image) throw new Error("image not found") ;
+            const requestShape = ProductReqBuilder(image,data)
+            const resp = await creatProduct(requestShape).unwrap()
 
             closeAddProduct();
-            setImgUploaded(false)
         } catch (error) {
             console.error(error);
         }
     };
+
     const { ref: categoryRef, } = register("categoryIds", {
         required: {
             value: true,
@@ -315,7 +295,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         <ImgUploadForm />
                                     </div>
 
-                                    {errors.img && <p className='text-red-500'>{errors.img.message}</p>}
+                                    {/* {errors.img && <p className='text-red-500'>{errors.img.message}</p>} */}
                                 </div>
                                 <div className="flex flex-row-reverse justify-between">
                                     <button
