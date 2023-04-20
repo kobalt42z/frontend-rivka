@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_REST_API } from "../../constant";
-import { Product, ProductResponse, productFromDB, productResponse } from "../../interfaces";
+import { ProductDto, ProductResponse, productFromDB, productResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 import { types } from "util";
 
@@ -42,7 +42,7 @@ export const productApi = createApi({
 
         }),
         createProduct: builder.mutation({
-            query: (_body: Product) => ({
+            query: (_body: FormData) => ({
                 url: 'products',
                 method: 'POST',
                 body: _body,
@@ -50,7 +50,7 @@ export const productApi = createApi({
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
         updateProduct: builder.mutation({
-            query: (arg: { _body: Product, id: string }) => ({
+            query: (arg: { _body: FormData, id: string }) => ({
                 url: `products/${arg.id}`,
                 method: 'PATCH',
                 body: arg._body,

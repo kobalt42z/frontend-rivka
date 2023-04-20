@@ -1,5 +1,5 @@
 import { File } from 'buffer'
-import React, { CSSProperties, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { CSSProperties, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 
 import { Button, DropdownProps } from 'flowbite-react';
@@ -7,7 +7,7 @@ import { IF } from '../../special/if';
 import XMarkOnHover from '../../misc/xMarkOnHover';
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
-import { UseFormSetValue } from 'react-hook-form';
+import { UseFormClearErrors, UseFormSetError, UseFormSetValue } from 'react-hook-form';
 import { ProductDto } from '../../../interfaces';
 
 
@@ -76,11 +76,11 @@ interface previewFile extends File {
     previewURL: string
 }
 interface props {
-setValue:UseFormSetValue<ProductDto>
-
+    clearError: UseFormClearErrors<ProductDto>
+    setImage:any // !! setState type not work 
 }
 
-const ImgUploadForm = () => {
+const ImgUploadForm:FC<props> = ({clearError,setImage}) => {
     const [file, setFile] = useState<previewFile | null>(null);
     const [originalFile, setOriginalFile] = useState<Blob | null>(null);
     const {
@@ -102,40 +102,17 @@ const ImgUploadForm = () => {
         },
         multiple: false,
         onDrop: (acceptedFiles: any) => {
-            console.log(acceptedFiles);
-
+            console.log(acceptedFiles[0]);
+            clearError('root')
             setOriginalFile(acceptedFiles);
+            setImage(acceptedFiles[0])
             setFile(Object.assign(acceptedFiles[0], {
                 previewURL: URL.createObjectURL(acceptedFiles[0])
             }))
         }
     });
-    const cred = JSON.parse(localStorage[AWS_ACCESS_KEYWORD])
 
-    const s3 = new S3Client({
-        credentials: {
-            accessKeyId: "AKIASATHD7ECQ2IAG7N6 ",
-            secretAccessKey: "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",
-        }, region: "eu-west-3"
-    });
 
-    const uploadToS3 = async () => {
-        if (!file || !originalFile) return;
-        try {
-            const params: PutObjectCommandInput = {
-                Bucket: BUCKET_NAME,
-                Key: file.name,
-                Body: originalFile,
-                ContentType: file.type
-            }
-            const uploadCommand = new PutObjectCommand(params)
-            const s3Res = await s3.send(uploadCommand)
-            console.log(s3Res);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
     const style = useMemo(() => ({
         ...baseStyle,
         ...(isFocused ? focusedStyle : {}),
@@ -155,14 +132,9 @@ const ImgUploadForm = () => {
                     // Revoke data uri after image is loaded
                     onLoad={() => { URL.revokeObjectURL(file.previewURL) }}
                 />
-
-
             </div>
         </div>
 
-    useEffect(() => {
-        console.log(cred);
-    }, [])
     return (
         <section dir='rtl' className="container">
             {file ? <div className='flex items-center space-x-reverse space-x-2' >
@@ -170,8 +142,6 @@ const ImgUploadForm = () => {
                     {thumbs}
                 </aside>
                 <div className='flex flex-col space-y-2'>
-                    <Button onClick={uploadToS3}
-                        className='h-9 w-30'>שמירה בענן</Button>
                     <Button onClick={() => setFile(null)}
                         className='h-9 w-30' color={'failure'}>ביטול </Button>
                 </div>

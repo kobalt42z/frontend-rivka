@@ -18,6 +18,7 @@ import ErrorsAlerter from '../../components/errors/ErrorsAlerter'
   ;
 import { LoginInputs as Inputs } from '../../interfaces/'
 import { lemailValidator, lpasswordValidator } from '../../validators'
+import LoadingScreen from '../../components/Loading/LoadingScreen'
 
 
 export const LoginPage = () => {
@@ -55,7 +56,7 @@ export const LoginPage = () => {
 
 
 
-  return (
+  return (isLoading || jwtLoading? <LoadingScreen/>:
     <div className=' flex  flex-col items-center  min-h-[75vh] pt-10 red '>
       <ErrorsAlerter status={status} />
       <h2 className='font-bold text-lg'>: התחברות</h2>

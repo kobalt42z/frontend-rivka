@@ -19,6 +19,7 @@ import { S3Client, PutObjectCommandInput, PutObjectCommand } from '@aws-sdk/clie
 import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
 import ImgUploadForm from './ImgUploadForm';
 import { ProductReqBuilder } from '../../../functions/builders/reqBuilders';
+import { basePriceValidator, brandValidator, reductionValidator, sellingPriceValidator, supplyValidator } from '../../../validators';
 
 
 interface props {
@@ -75,7 +76,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             {
                 colors: [],
                 active: true,
-                translation: {
+                translations: {
                     fr: { language: 'fr' },
                     en: { language: 'em' }
                 }
@@ -83,7 +84,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             }
 
     //? react hook form : 
-    const { setValue, register, clearErrors, handleSubmit, getValues, unregister, formState: { errors, isValid } } = useForm<ProductDto>({
+    const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<ProductDto>({
         defaultValues: defaultVal
     });
 
@@ -124,8 +125,15 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     //?react hook form submition : 
     const onSubmit: SubmitHandler<ProductDto> = async data => {
         try {
-            if(!image) throw new Error("image not found") ;
-            const requestShape = ProductReqBuilder(image,data)
+            if (!image) {
+                setError('root', { message: "חובה לספק תמונה למוצר זה " })
+                throw new Error("invalid image")
+            };
+            const requestShape = ProductReqBuilder(image, data)
+            for (const value of requestShape.values()) {
+                console.log(value+'\n');
+              }
+              console.log(typeof image);
             const resp = await creatProduct(requestShape).unwrap()
 
             closeAddProduct();
@@ -187,7 +195,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle=' מחיר קנייה - ₪'
                                         type='number'
                                         placeholder='₪500'
-                                        useFromsParams={register('base_price',)}
+                                        useFromsParams={register('base_price', basePriceValidator)}
                                         errorMessage={errors.base_price?.message}
 
                                     />
@@ -195,7 +203,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='מחיר בחנות - ₪'
                                         type='number'
                                         placeholder='₪500'
-                                        useFromsParams={register('selling_price',)}
+                                        useFromsParams={register('selling_price', sellingPriceValidator)}
                                         errorMessage={errors.selling_price?.message}
 
                                     />
@@ -204,7 +212,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='חברה'
                                         type='text'
                                         placeholder='RivkaNakach'
-                                        useFromsParams={register('brand',)}
+                                        useFromsParams={register('brand', brandValidator)}
                                         errorMessage={errors.brand?.message}
 
                                     />
@@ -212,7 +220,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='הנחה - %'
                                         type='number'
                                         placeholder='%60'
-                                        useFromsParams={register('reduction_p',)}
+                                        useFromsParams={register('reduction_p', reductionValidator)}
                                         errorMessage={errors.reduction_p?.message}
 
                                     />
@@ -255,7 +263,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         labelTitle='כמות'
                                         type='number'
                                         placeholder='54'
-                                        useFromsParams={register('supply',)}
+                                        useFromsParams={register('supply', supplyValidator)}
                                         errorMessage={errors.supply?.message}
                                     />
 
@@ -292,10 +300,10 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         />
                                     </div>
                                     <div className='w-full'>
-                                        <ImgUploadForm />
+                                        <ImgUploadForm clearError={clearErrors} setImage={setImage} />
                                     </div>
 
-                                    {/* {errors.img && <p className='text-red-500'>{errors.img.message}</p>} */}
+                                    {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
                                 </div>
                                 <div className="flex flex-row-reverse justify-between">
                                     <button
