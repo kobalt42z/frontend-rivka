@@ -1,14 +1,14 @@
 import React, { FC, useState } from 'react'
 import Select, { MultiValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { Product } from '../../../interfaces';
+import { ProductDto } from '../../../interfaces';
 import { UseFormSetValue } from 'react-hook-form';
 import { DarkVail } from '../../special/DarkVail';
 import { Xsvg } from '../../../assets/X';
 import { toggler } from 'sk-use-toggle/src';
 
 interface props {
-    setValue: UseFormSetValue<Product>
+    setValue: UseFormSetValue<ProductDto>
     show?: boolean;
     toggle: toggler
 }

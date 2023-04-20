@@ -6,11 +6,11 @@ import { TextArea } from '../../inputs/TextArea';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import Stepper3 from '../../Stepper/Stepper3';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Product } from '../../../interfaces';
+import { ProductDto } from '../../../interfaces';
 
 interface props {
-    register :UseFormRegister<Product>
-    errors:FieldErrors<Product>
+    register :UseFormRegister<ProductDto>
+    errors:FieldErrors<ProductDto>
     isValid:boolean
 }
 
@@ -32,14 +32,14 @@ const TranslationForm:FC<props> = ({ register, errors,isValid }) => {
                         type='text'
                         placeholder='שם מוצר בעברית'
                         useFromsParams={register('name', productNameValidator)}
-                        errorMessage={errors.name?.message}
+                        errorMessage={errors.name&&errors.name.message}
                     />
                     <TextArea
                         placeholder="תאור מוצר בעברית עד 100 תווים"
                         labelTitle='תאור מוצר'
                         language='בעברית'
                         useFromsParams={register('description', descriptionValidator)}
-                        errorMessage={errors.description?.message}
+                        errorMessage={errors.description&&errors.description?.message}
                     />
                 </section>
             </IF>
@@ -61,7 +61,7 @@ const TranslationForm:FC<props> = ({ register, errors,isValid }) => {
                                     message: 'שם המוצר עד 30 תווים'
                                 },
                             })}
-                        errorMessage={errors.translations?.fr?.name?.message}
+                        errorMessage={errors.translations&&errors.translations?.fr?.name?.message}
                     />
                     <TextArea
                         labelTitle='תאור מוצר '
@@ -74,7 +74,7 @@ const TranslationForm:FC<props> = ({ register, errors,isValid }) => {
                                 message: 'תיאור מוצר עד 100 תווים'
                             }
                         })}
-                        errorMessage={errors.translations?.fr?.description?.message}
+                        errorMessage={errors.translations?.fr?.description&&errors.translations.fr.description.message}
                     />
                 </section>
             </IF>
@@ -94,7 +94,7 @@ const TranslationForm:FC<props> = ({ register, errors,isValid }) => {
                                 message: 'שם המוצר עד 30 תווים'
                             }
                         })}
-                        errorMessage={errors.translations?.en?.name?.message}
+                        errorMessage={errors.translations?.en?.name?.message&&errors.translations?.en?.name?.message}
 
                     />
                     <TextArea
@@ -107,7 +107,7 @@ const TranslationForm:FC<props> = ({ register, errors,isValid }) => {
                                 message: 'תיאור מוצר עד 100 תווים'
                             }
                         })}
-                        errorMessage={errors.translations?.en?.description?.message}
+                        errorMessage={errors.translations?.en?.description?.message&&errors.translations?.en?.description?.message}
                     />
                 </section>
             </IF>
