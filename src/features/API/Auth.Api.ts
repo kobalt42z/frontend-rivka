@@ -11,8 +11,9 @@ export const authApiSlice = createApi({
             query: (cred: LoginCredentials) => ({
                 url: "auth/login",
                 method: "POST",
-                body: cred
+                body: cred,
             })
+            
 
         }),
         signUp: builder.mutation({

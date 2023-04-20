@@ -8,6 +8,7 @@ import Products from "../layouts/employs/products";
 import Admin from "../Guards/Admin";
 import AdminSharedLayout from "../layouts/Admin/AdminSharedLayout";
 import Loader from "../components/misc/Loader";
+import BrowseCategory from "../layouts/employs/Categories/BrowseCategory";
 
 
 export const router = createBrowserRouter(
@@ -23,6 +24,8 @@ export const router = createBrowserRouter(
             </Route>
             <Route path='/admin' element={<AdminSharedLayout/>} >
                 <Route path="/admin/products" element={<Products />} />
+                <Route path="/admin/categories" element={<BrowseCategory/>} />
+
             </Route>
             <Route path="/employes" element={<NotFound />} />
 
