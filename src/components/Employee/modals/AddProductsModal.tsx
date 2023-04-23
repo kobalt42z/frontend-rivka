@@ -18,7 +18,7 @@ import TranslationForm from './translationForm';
 import { S3Client, PutObjectCommandInput, PutObjectCommand } from '@aws-sdk/client-s3';
 import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
 import ImgUploadForm from './ImgUploadForm';
-import { ProductReqBuilder } from '../../../functions/builders/reqBuilders';
+import { FormReqBuilder } from '../../../functions/builders/reqBuilders';
 import { basePriceValidator, brandValidator, reductionValidator, sellingPriceValidator, supplyValidator } from '../../../validators';
 
 
@@ -129,7 +129,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                 setError('root', { message: "חובה לספק תמונה למוצר זה " })
                 throw new Error("invalid image")
             };
-            const requestShape = ProductReqBuilder(image, data)
+            const requestShape = FormReqBuilder(image, JSON.stringify(data))
             for (const value of requestShape.values()) {
                 console.log(value+'\n');
               }

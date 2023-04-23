@@ -8,6 +8,7 @@ export interface categoryFromDb {
     description:string
     products?:productFromDB[]
     productsIds:string[]
+    imgUrl:string
 }
 
 export type CategoryResponse = {

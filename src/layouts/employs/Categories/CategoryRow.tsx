@@ -3,6 +3,9 @@ import React, { FC } from 'react'
 import { toggler } from 'sk-use-toggle/src'
 
 interface props {
+    initEdit:()=>void;
+    
+    id: string;
     imgURl: string
 
     categoryName: string
@@ -11,10 +14,11 @@ interface props {
     createdAt: string
     lastUpdate: string
 
-    toggleDeletion: toggler
+    toggleDeletion: (id: string) => void
 }
 
-const CategoryRow: FC<props> = ({ amountOfProducts, categoryName, createdAt, description, imgURl, lastUpdate,toggleDeletion }) => {
+const CategoryRow: FC<props> = ({ amountOfProducts, categoryName, createdAt, description, imgURl, lastUpdate, toggleDeletion, id ,initEdit}) => {
+
     return (
         <tr className="border-b dark:border-gray-700">
             <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -39,15 +43,15 @@ const CategoryRow: FC<props> = ({ amountOfProducts, categoryName, createdAt, des
                     arrowIcon={false}
                     placement='left'
 
-                    
-                    >
-                    <Dropdown.Item>
-                        עריכה
+
+                >
+                    <Dropdown.Item onClick={initEdit}>
+                    <span  className="text-green-500">עריכה </span>
                     </Dropdown.Item>
-                    <Dropdown.Item >
-                        <span onClick={toggleDeletion} className="text-red-500">מחיקה </span>
+                    <Dropdown.Item onClick={() => toggleDeletion(id)}>
+                        <span  className="text-red-500">מחיקה </span>
                     </Dropdown.Item>
-                  
+
                 </Dropdown>
             </td>
         </tr>

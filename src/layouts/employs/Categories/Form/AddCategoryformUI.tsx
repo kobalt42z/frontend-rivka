@@ -1,38 +1,67 @@
-import React, { FC, useState } from 'react'
+import React, { Dispatch, FC, useEffect, useState } from 'react'
 import { ClassicInput } from '../../../../components/inputs/ClassicInput'
 import { DarkVail } from '../../../../components/special/DarkVail'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { categoryDto } from '../../../../interfaces'
+import { categoryDto, categoryFromDb } from '../../../../interfaces'
 import { TextArea } from '../../../../components/inputs/TextArea'
 import ImgUploadForm from '../../../../components/Employee/modals/ImgUploadForm'
 import { CategoryDescriptionValidator, CategoryNameValidator } from '../../../../validators/'
+import { FormReqBuilder } from '../../../../functions/builders/reqBuilders'
+import { useCreateCategoryMutation } from '../../../../features/API/Category.Api'
+import LoadingScreen from '../../../../components/Loading/LoadingScreen'
 
 interface props {
-    cancel: () => void
+    toggleModal: () => void
+    editTarget: categoryFromDb | null
+    ClearEdit: Dispatch<React.SetStateAction<categoryFromDb | null>>
 }
 
-const AddCategoryformUI: FC<props> = ({ cancel }) => {
+const AddCategoryformUI: FC<props> = ({ toggleModal, editTarget, ClearEdit }) => {
     const [image, setImage] = useState<File | null>(null)
-    const { register, clearErrors,setError, handleSubmit, formState: { errors } } = useForm<categoryDto>()
+    const { register, clearErrors, setError, handleSubmit, setValue, formState: { errors } } = useForm<categoryDto>()
+    const [createCategory, { isLoading, isError, error }] = useCreateCategoryMutation()
 
     const creatCategory: SubmitHandler<categoryDto> = async (data) => {
         try {
-            const form = new FormData()
-            if (!image){
-                setError('root',{message:"נדרשת תמונה תקינה"})
+            if (!image) {
+                setError('root', { message: "נדרשת תמונה תקינה" })
                 throw new Error("image is missing");
             }
-            form.append('categoryDescription', JSON.stringify(data))
-            form.append('image', image)
+            const reqPayload = FormReqBuilder(image, JSON.stringify(data))
             console.log(data, image)
+            const resp = await createCategory(reqPayload)
+            if (isError) throw error
+            toggleModal()
         }
         catch (error) {
             throw error
         }
     }
+
+    const editCategory: SubmitHandler<Partial<categoryDto>> = () => {
+        try {
+
+        } catch (error) {
+
+        }
+    }
+
+    const switcher: SubmitHandler<categoryDto> = (data) => {
+        if (editTarget) editCategory(data)
+        else creatCategory(data)
+    }
+    useEffect(() => {
+        if (editTarget) {
+            setValue('name', editTarget.name)
+            setValue('description', editTarget.description)
+        }
+
+
+    }, [])
     return (
         <DarkVail>
+            {isLoading && <LoadingScreen />}
             <div dir='rtl' id="defaultModal" className="overflow-y-auto overflow-x-hidden fixed flex top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                 <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
@@ -40,9 +69,13 @@ const AddCategoryformUI: FC<props> = ({ cancel }) => {
 
                         <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                             <button
-                                onClick={cancel}
+                                onClick={() => {
+                                    ClearEdit(null)
+                                    toggleModal()
+
+                                }}
                                 type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
-                                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                                 <span className="sr-only">Close modal</span>
                             </button>
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -50,7 +83,7 @@ const AddCategoryformUI: FC<props> = ({ cancel }) => {
                             </h3>
                         </div>
 
-                        <form onSubmit={handleSubmit(creatCategory)}>
+                        <form onSubmit={handleSubmit(switcher)}>
                             <div className=" space-y-5">
                                 <div>
                                     <ClassicInput
