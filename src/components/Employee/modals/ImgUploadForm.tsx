@@ -7,7 +7,7 @@ import { IF } from '../../special/if';
 import XMarkOnHover from '../../misc/xMarkOnHover';
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 import { AWS_ACCESS_KEYWORD, BUCKET_NAME } from '../../../constant';
-import { UseFormClearErrors, UseFormSetError, UseFormSetValue } from 'react-hook-form';
+import { FieldValues, UseFormClearErrors, UseFormSetError, UseFormSetValue } from 'react-hook-form';
 import { ProductDto } from '../../../interfaces';
 
 
@@ -76,7 +76,7 @@ interface previewFile extends File {
     previewURL: string
 }
 interface props {
-    clearError: UseFormClearErrors<ProductDto>
+    clearError: UseFormClearErrors<any>
     setImage:any // !! setState type not work 
 }
 

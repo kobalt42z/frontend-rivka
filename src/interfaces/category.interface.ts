@@ -16,3 +16,9 @@ export type CategoryResponse = {
 export interface categorysOptions {
     value: string, label: string
 }
+export interface categoryDto{
+    name: string
+    description:string
+    // products?:productFromDB[]
+    productsIds:string[]
+}

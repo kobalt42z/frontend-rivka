@@ -10,13 +10,10 @@ import DelModal from '../../../components/Employee/modals/DelModal'
 const BrowseCategory = () => {
     const [showAddCategory, toggleAddCategory] = UseToggle();
     
-    const  CreateCategory =()=>{
-        // create category hook here !
-        toggleAddCategory();
-    }
+ 
     
     
-    return (<> {showAddCategory && <AddCategoryformUI save={CreateCategory} cancel={toggleAddCategory} />}
+    return (<> {showAddCategory && <AddCategoryformUI  cancel={toggleAddCategory} />}
               
         <CategoryTable>
             <CategoryHeaderActions toggleAddCategory={toggleAddCategory}/>
