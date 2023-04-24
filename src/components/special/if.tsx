@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 
 interface IFprops {
-    condition : boolean ; 
+    condition : any ; 
     children :React.ReactNode;
 }
 export const IF = ({ condition ,children} :IFprops):JSX.Element | null => {

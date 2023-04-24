@@ -1,5 +1,5 @@
 import { File } from 'buffer'
-import React, { CSSProperties, FC, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { CSSProperties, Dispatch, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 
 import { Button, DropdownProps } from 'flowbite-react';
@@ -77,12 +77,15 @@ interface previewFile extends File {
 }
 interface props {
     clearError: UseFormClearErrors<any>
-    setImage:any // !! setState type not work 
+    setImage: Dispatch<React.SetStateAction<any>>
+    editImageUrl?: string
+    editImageName?: string
 }
 
-const ImgUploadForm:FC<props> = ({clearError,setImage}) => {
+const ImgUploadForm: FC<props> = ({ clearError, setImage, editImageName, editImageUrl }) => {
     const [file, setFile] = useState<previewFile | null>(null);
     const [originalFile, setOriginalFile] = useState<Blob | null>(null);
+    const [editMode, setEditMode] = useState(false)
     const {
         getRootProps,
         getInputProps,
@@ -135,23 +138,53 @@ const ImgUploadForm:FC<props> = ({clearError,setImage}) => {
             </div>
         </div>
 
+    const thumbsEdit = editImageUrl &&
+        <div style={thumb} key={editImageName}>
+            <div style={thumbInner}>
+                < img className=''
+                    src={editImageUrl}
+                    style={img}
+                />
+            </div>
+        </div>
+
+    useEffect(() => {
+        if(editImageName&&editImageUrl)setEditMode(true)
+    }, [])
+
     return (
         <section dir='rtl' className="container">
-            {file ? <div className='flex items-center space-x-reverse space-x-2' >
-                <aside style={thumbsContainer}>
-                    {thumbs}
-                </aside>
-                <div className='flex flex-col space-y-2'>
-                    <Button onClick={() => setFile(null)}
-                        className='h-9 w-30' color={'failure'}>ביטול </Button>
+            <IF condition={file}>
+
+                <div className='flex items-center space-x-reverse space-x-2' >
+                    <aside style={thumbsContainer}>
+                        {thumbs}
+                    </aside>
+                    <div className='flex flex-col space-y-2'>
+                        <Button onClick={() => setFile(null)}
+                            className='h-9 w-30' color={'failure'}>ביטול </Button>
+                    </div>
                 </div>
-            </div>
-                :
+            </IF>
+
+            <IF condition={!file && !editMode}>
                 <div {...getRootProps({ className: 'dropzone', style })}>
                     <input {...getInputProps()} />
                     <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>
-            }
+            </IF>
+
+            <IF condition={editMode}>
+                <div className='flex items-center space-x-reverse space-x-2' >
+                    <aside style={thumbsContainer}>
+                        {thumbsEdit}
+                    </aside>
+                    <div className='flex flex-col space-y-2'>
+                        <Button onClick={() => setEditMode(false)}
+                            className='h-9 w-30' color={'failure'}>ביטול </Button>
+                    </div>
+                </div>
+            </IF>
 
         </section>
     );
