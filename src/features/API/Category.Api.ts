@@ -39,26 +39,38 @@ export const CategoryApi = createApi({
         }),
         createCategory: builder.mutation({
 
-            query: (_body:FormData) => ({
+            query: (_body: FormData) => ({
                 url: 'categories',
                 method: 'POST',
-                body:_body
+                body: _body
 
             }),
-            invalidatesTags:[{ type: 'Category', id: 'LIST' }]
+            invalidatesTags: [{ type: 'Category', id: 'LIST' }]
+        }),
+        editCategory: builder.mutation({
+
+            
+            query: ({ _body, id }: { _body: FormData, id: string }) => ({
+                url: `categories/${id}`,
+                method: 'PATCH',
+                body: _body
+            }),
+
+            invalidatesTags: [{ type: 'Category', id: 'LIST' }]
         }),
         deleteCategory: builder.mutation({
 
-            query: (id:string) => ({
+            query: (id: string) => ({
                 url: `categories/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags:[{ type: 'Category', id: 'LIST' }]
+            invalidatesTags: [{ type: 'Category', id: 'LIST' }]
         })
     })
 
 })
 
-export const {useCreateCategoryMutation} = CategoryApi
-export const {useGetCategoriesQuery} = CategoryApi
-export const {useDeleteCategoryMutation} = CategoryApi
+export const { useCreateCategoryMutation } = CategoryApi
+export const { useGetCategoriesQuery } = CategoryApi
+export const { useDeleteCategoryMutation } = CategoryApi
+export const { useEditCategoryMutation} = CategoryApi

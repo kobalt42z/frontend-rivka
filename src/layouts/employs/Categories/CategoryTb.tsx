@@ -38,8 +38,8 @@ const CategoryTb:FC<props> = ({setEdit,showAddCategory}) => {
 
     return (isLoading || isDelLoading ? <LoadingScreen /> : <>
 
-        {showDelModal && <DelModal closeF={toggleDelModal} OnAccept={approveDeletion} delName='test' />}
         <tbody>
+        {showDelModal && <td><li><DelModal closeF={toggleDelModal} OnAccept={approveDeletion} delName='test' /></li></td>}
             {data && data.categories.map((category: categoryFromDb, i) => {
                 return (<CategoryRow key={i}
                     initEdit={()=>{

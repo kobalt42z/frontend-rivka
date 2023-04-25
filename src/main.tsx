@@ -32,7 +32,7 @@ i18next
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
     <Provider store={store}>
-        
-        <RouterProvider router={router} />
+
+         <RouterProvider router={router} />
     </Provider>
 )
