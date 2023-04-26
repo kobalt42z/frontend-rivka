@@ -3,25 +3,28 @@ import { productFromDB } from '../../interfaces';
 import ProductRowBody from './ProductRowBody';
 
 import ProductRowHead from './ProductRowHead'
+import { UseToggle } from 'sk-use-toggle/src';
 
 interface props {
-    deleteClick: (arg:{id:string,name:string}) => void;
-    data:productFromDB
+    deleteClick: (arg: { id: string, name: string }) => void;
+    data: productFromDB
+    editFunc:(data:productFromDB)=>void;
+    
 }
 
-const DropDownRow: FC<props> = ({ deleteClick,data }) => {
-    const [toggle, setToggle] = useState(false);
+const DropDownRow: FC<props> = ({ deleteClick, data ,editFunc}) => {
+    const [showDown, toggleDwon] = UseToggle();
     return (
         <>
 
             <ProductRowHead
-                onClick={() => setToggle(!toggle)}
-                key={'iiiii'}
+                onClick={toggleDwon}
                 handleDeletClick={deleteClick}
+                handleEditClick={editFunc}
                 data={data}
             />
 
-            {toggle && <ProductRowBody data={data}/>}
+            {showDown && <ProductRowBody data={data} />}
         </>
     )
 }

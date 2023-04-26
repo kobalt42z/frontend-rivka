@@ -12,33 +12,31 @@ import { productFromDB, productResponse } from '../../interfaces'
 
 const Products = () => {
     const [showConfirmDel, setShowConfirmDel] = useState(false)
-    const [ToDel, setToDel] = useState<{id:string,name:string}| null>(null)
-    
+    const [ToDel, setToDel] = useState<{ id: string, name: string } | null>(null)
+
     const [selectedRow, setSelectedRow] = useState<{}[] | null>(null)
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [showEditProduct, setShowEditProduct] = useState(false)
-    const [ToEditProduct, setToEditProduct] = useState<string | null>(null)
+    const [ToEditProduct, setToEditProduct] = useState<productFromDB | null>(null)
     const [currentPage, setCurrentPage] = useState(0)
     const { isLoading, isFetching, isError, isSuccess, error, data } = useFindALlProductQuery(currentPage);
 
-    const [deletProduct,{}] = useDeleteProductMutation()
+    const [deletProduct, { }] = useDeleteProductMutation()
 
     const cancel = () => {
         setShowConfirmDel(false)
     }
-    const onEditClick = (id: string) => {
-        setToEditProduct(id);
-        setShowEditProduct(true);
+
+    const editProduct = (data: productFromDB) => {
+        // console.log(data);
+        setShowAddProduct(true);
+        setToEditProduct(data);
     }
-    const editProduct = () => {
-        console.log(ToEditProduct);
-        // edit req logic here!
-    }
-    const deletClick = (arg:{id: string,name:string}) => {
+    const deletClick = (arg: { id: string, name: string }) => {
         setToDel(arg);
         setShowConfirmDel(true);
     }
-    const deletItem = async() => {
+    const deletItem = async () => {
         try {
             console.log("delet logic here !" + ToDel);
             ToDel && await deletProduct(ToDel.id).unwrap()
@@ -46,13 +44,14 @@ const Products = () => {
         } catch (error) {
             console.error(error);
         }
-       
+
     }
     const addProduct = () => {
         setShowAddProduct(true);
     }
     const closeAddProduct = () => {
         setShowAddProduct(false);
+        setToEditProduct(null);
     }
 
 
@@ -66,14 +65,14 @@ const Products = () => {
         <>
             {!isLoading && <div>
                 <IF condition={showAddProduct}>
-                    <AddProductsModal closeAddProduct={closeAddProduct} /></IF>
+                    <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /></IF>
                 <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>
                 <ProductsTable toggleAddProducts={addProduct}>
 
 
                     {isSuccess && data && data.products.map((product: productFromDB, i: number) => {
                         return (
-                            <DropDownRow key={i} deleteClick={deletClick} data={product} />
+                            <DropDownRow key={i} deleteClick={deletClick} data={product} editFunc={editProduct} />
                         )
                     })
                     }

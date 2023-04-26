@@ -50,7 +50,7 @@ export const productApi = createApi({
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
         updateProduct: builder.mutation({
-            query: (arg: { _body: FormData, id: string }) => ({
+            query: (arg: { _body?: FormData, id: string }) => ({
                 url: `products/${arg.id}`,
                 method: 'PATCH',
                 body: arg._body,

@@ -11,7 +11,7 @@ import ColorPiker from '../../ColorPicker/ColorPiker';
 import { FileInput, Label, Tooltip } from 'flowbite-react';
 import LashesDetails from './LashesDetails';
 import { UseToggle } from 'sk-use-toggle/src';
-import { useCreateProductMutation } from '../../../features/API/Products.Api';
+import { useCreateProductMutation, useUpdateProductMutation } from '../../../features/API/Products.Api';
 import { useGetCategoriesQuery } from '../../../features/API/Category.Api';
 import { useUploadImgMutation } from '../../../features/API/Image.api';
 import TranslationForm from './translationForm';
@@ -25,7 +25,7 @@ import { basePriceValidator, brandValidator, reductionValidator, sellingPriceVal
 interface props {
     closeAddProduct: () => void
     editMode?: boolean
-    editValues?: productFromDB
+    editValues?: productFromDB | null
 }
 
 const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
@@ -124,23 +124,45 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
     //?react hook form submition : 
     const onSubmit: SubmitHandler<ProductDto> = async data => {
+        if (editValues) createProduct(data);
+        else updateProduct(data);
+    };
+
+    const createProduct: SubmitHandler<ProductDto> = async (data) => {
         try {
-            if (!image) {
+            if (!image ) {
                 setError('root', { message: "חובה לספק תמונה למוצר זה " })
                 throw new Error("invalid image")
             };
-            const requestShape = FormReqBuilder(image, JSON.stringify(data))
-            for (const value of requestShape.values()) {
-                console.log(value+'\n');
-              }
-              console.log(typeof image);
+            const requestShape = FormReqBuilder( JSON.stringify(data),image)
+
+          
             const resp = await creatProduct(requestShape).unwrap()
 
             closeAddProduct();
         } catch (error) {
             console.error(error);
         }
-    };
+    }
+
+    const [sendUpdateProduct,{isError:editFaile , isSuccess:editSuccess , isLoading:editLoading}]
+     = useUpdateProductMutation();
+
+    const updateProduct: SubmitHandler<ProductDto> = async (data) => {
+        if(!editValues)throw new Error("edit faild : not editValue available")
+        try {
+            if (!image && !editValues.imgUrl) {
+                setError('root', { message: "חובה לספק תמונה למוצר זה " })
+                throw new Error("invalid image")
+            };
+            if(image){const requestShape = FormReqBuilder(JSON.stringify(data),image)}
+            const requestShape = FormReqBuilder(JSON.stringify(data))
+            const resp = await sendUpdateProduct({_body:requestShape , id:editValues.id}).unwrap()
+            closeAddProduct();
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const { ref: categoryRef, } = register("categoryIds", {
         required: {
@@ -148,10 +170,59 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
             message: "נדרשת קטגוריה אחת לפחות"
         }
     })
+    const setEdit = (
+        {
+            name,
+            active,
+            base_price,
+            selling_price,
+            brand,
+            categoryIds,
+            colors,
+            sizes,
+            supply,
+            translations,
+            thickness,
+            reduction_p,
+            imgUrl,
+            curves,
+            description,
+
+        }: productFromDB) => {
+
+        if (editValues) {
+            setValue('name', name)
+            setValue('description', description)
+            setValue('active', active)
+            setValue('base_price', base_price)
+            setValue('brand', brand)
+            setValue('categoryIds', categoryIds)
+            setValue('colors', colors)
+            setColors(colors)
+            setValue('curves', curves)
+            setValue('reduction_p', reduction_p)
+            setValue('selling_price', selling_price)
+            setValue('sizes', sizes)
+            setValue('supply', supply)
+            setValue('thickness', thickness)
+            if (translations[0]?.name) {
+                setValue('translations.fr.name', translations[0].name)
+                setValue('translations.fr.description', translations[0].description)
+            }
+            if (translations[1]?.name) {
+                setValue('translations.en.name', translations[1].name)
+                setValue('translations.en.description', translations[1].description)
+            }
+
+
+
+        }
+    }
 
 
     useEffect(() => {
-        console.log(categoryData);
+        console.log(editValues);
+        editValues && setEdit(editValues)
 
     }, [])
 
@@ -237,6 +308,12 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                             }}
                                             isMulti
                                             options={categorysOptions}
+                                            defaultValue={
+                                                editValues ?
+                                                    categorysOptions.filter(obj => editValues.categoryIds.includes(obj.value))
+                                                    :
+                                                    categorysOptions[0]
+                                            }
                                             onChange={(choice) => setValue('categoryIds', choice.map((item: any) => item.value))}
                                             ref={categoryRef}
                                         />
@@ -300,7 +377,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                                         />
                                     </div>
                                     <div className='w-full'>
-                                        <ImgUploadForm clearError={clearErrors} setImage={setImage} />
+                                        <ImgUploadForm clearError={clearErrors} setImage={setImage} editImageUrl={editValues?.imgUrl} editImageName={editValues?.name} />
                                     </div>
 
                                     {errors.root && <p className='text-red-500'>{errors.root.message}</p>}

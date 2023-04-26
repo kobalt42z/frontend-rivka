@@ -13,9 +13,9 @@ import StatusBadge from '../Badges/StatusBadge';
 
 
 interface ProductRowType {
-   
-    handleDeletClick: (arg:{id:string,name:string}) => void;
-    handleEditClick?: (id: string) => void;
+
+    handleDeletClick: (arg: { id: string, name: string }) => void;
+    handleEditClick: (data:productFromDB) => void;
     onClick: () => void;
     data: productFromDB
 }
@@ -72,7 +72,7 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
             </td>
             <td className="px-4 py-2">
                 <div className="flex items-center">
-                <StatusBadge active={active}/>
+                    <StatusBadge active={active} />
 
                 </div>
             </td>
@@ -88,14 +88,15 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
                     </div>
                     :
                     <div className='flex flex-row-reverse justify-evenly'>
-                        <CrudBtn color='red' onClick={() => handleDeletClick({id,name})}><TrashIcon className='h-[3vh] ' /></CrudBtn>
-                        <CrudBtn color='gray' onClick={() => handleDeletClick({id,name})}><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>
+                        <CrudBtn color='red' onClick={() => handleDeletClick({ id, name })}><TrashIcon className='h-[3vh] ' /></CrudBtn>
+                        <CrudBtn color='gray' onClick={()=>handleEditClick(data)
+                        }><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>
                     </div>
                 }
 
 
 
-            </td>
+        </td>
         </tr >
     )
 }
