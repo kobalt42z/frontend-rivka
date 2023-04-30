@@ -232,11 +232,11 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
     return (
         <>
             { }
-            <DarkVail>
-                <div dir='rtl' id="defaultModal" tabIndex={-1} aria-hidden="true" className=" flex   justify-center items-center w-full md:inset-0  md:h-full">
+            {/* <DarkVail> */}
+                <div dir='rtl' id="defaultModal" className=" flex  justify-center items-center w-full md:inset-0 bg-black bg-opacity-30       ">
 
                     {showLashes && <LashesDetails setValue={setValue} toggle={toggleLashes} />}
-                    <div className=" absolute overflow-y-auto top-10 w-full max-w-2xl h-full md:h-auto">
+                    <div className="  overflow-y-auto top-10 w-full max-w-2xl h-full md:h-auto">
                         {/* Modal content */}
                         <div className=" p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                             {/*  Modal header */}
@@ -407,7 +407,7 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
                         </div>
                     </div>
                 </div >
-            </DarkVail >
+            {/* </DarkVail > */}
         </>
     )
 }
