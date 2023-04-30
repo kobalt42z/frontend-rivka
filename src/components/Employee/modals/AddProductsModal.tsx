@@ -233,15 +233,15 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
         <>
             { }
             {/* <DarkVail> */}
-                <div dir='rtl' id="defaultModal" className=" flex  justify-center items-center w-full md:inset-0 bg-black bg-opacity-30       ">
+                <div dir='rtl' className="  absolute z-50  justify-center  w-full md:inset-0    ">
 
                     {showLashes && <LashesDetails setValue={setValue} toggle={toggleLashes} />}
-                    <div className="  overflow-y-auto top-10 w-full max-w-2xl h-full md:h-auto">
+                    <div className=" w-full   md:h-auto md:px-32 md:py-10 bg-black bg-opacity-30  ">
                         {/* Modal content */}
-                        <div className=" p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                        <div className="  bg-white rounded-lg shadow p-5">
                             {/*  Modal header */}
 
-                            <div className="flex  justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                            <div className="flex justify-between items-center  mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
 
                                 <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                     onClick={closeAddProduct} >
