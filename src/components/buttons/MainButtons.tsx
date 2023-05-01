@@ -7,6 +7,7 @@ interface MainButtonsProps {
   children: ReactNode;
   custom: string;
   isLoading?: boolean;
+  onClick?: (event: MouseEvent) => void;
 
 }
 const MainButtons = ({ ClickAction, children, custom, isLoading }: MainButtonsProps) => {

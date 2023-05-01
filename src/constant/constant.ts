@@ -6,5 +6,6 @@ export const BASE_URL_REST_API = 'http://localhost:3333'
 // export const UPLOAD_PRESET = 'b0epffxv'
 export const API_KEY = '287888494926217'
 export const BUCKET_NAME ='kobalt42z'
+export const CART_NAME='SHOP_CART'
 
 

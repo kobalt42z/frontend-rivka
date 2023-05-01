@@ -10,6 +10,7 @@ import { CategoryResponse, categoryFromDb } from '../interfaces'
 import { UseToggle } from 'sk-use-toggle/src'
 import { useAppDispatch, useAppSelector } from '../features/hooks'
 import { incrementCurrentPage, setMaxPage } from '../features/Slices/shop.slice'
+import { addToCart } from '../features/Slices/cart.slice'
 
 const Shop = () => {
     const [counter, setCounter] = useState<number>(0)
@@ -47,7 +48,10 @@ const Shop = () => {
         if (MaxPage) dispatch(setMaxPage(MaxPage))
     }, [maxPageFetched])
 
+ 
+    
 
+   
     const RenderProduct =
         productsResp?.categoryAndItems?.map(category => {
 
@@ -64,7 +68,7 @@ const Shop = () => {
                                         subtitle={product.brand}
                                         price={product.selling_price}
                                         sale={product.reduction_p}
-
+                                        addToCart={()=>dispatch(addToCart(product.id))}
                                         ref={lastProductRef}
                                         key={product.id}
                                     />

@@ -9,16 +9,17 @@ interface ShopItemProps {
     subtitle: string;
     price: number;
     sale?: number;
+    addToCart?: () => void;
 
 }
 
-const ShopItem = React.forwardRef(({ imgUrl, title, subtitle, price, sale }: ShopItemProps , ref:React.ForwardedRef<HTMLDivElement>) => {
+const ShopItem = React.forwardRef(({ imgUrl, title, subtitle, price, sale,addToCart }: ShopItemProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     return (
         <div className='container flex flex-col items-center ' ref={ref}>
             <IF condition={sale}>
-                 <div className='relative w-full'>
-                <div className='absolute w-[55px] h-[55px] bg-[url(./assets/Star.svg)] bg-center bg-cover top-[-25px] left-[-10px] text-center flex items-center justify-center text-sm font-extrabold uppercase'>sale</div>
-            </div>
+                <div className='relative w-full'>
+                    <div className='absolute w-[55px] h-[55px] bg-[url(./assets/Star.svg)] bg-center bg-cover top-[-25px] left-[-10px] text-center flex items-center justify-center text-sm font-extrabold uppercase'>sale</div>
+                </div>
             </IF>
             <img src={imgUrl} alt={title} className="w-[160px] h-[180px] pb-2" />
             {/* desciption : */}
@@ -26,16 +27,18 @@ const ShopItem = React.forwardRef(({ imgUrl, title, subtitle, price, sale }: Sho
                 <h5 className=' font-bold'>{title}</h5>
                 <h6 className=' font-thin'>{subtitle}</h6>
                 {/* <h6 className='font-bold'>{price}₪</h6> */}
-                {sale?
+                {sale ?
                     <div className='  flex justify-evenly'>
                         <h6 className='font-bold line-through'>{price}₪</h6>
-                        <h6 className='font-bold '>{price-((sale/100)*price)}₪</h6>
+                        <h6 className='font-bold '>{price - ((sale / 100) * price)}₪</h6>
                     </div>
                     : <h6 className='font-bold'>{price}₪</h6>}
 
 
             </div>
-            <MainButtons custom={"w-[85%] text-black font-bold "}>הוסף לסל</MainButtons>
+            <MainButtons 
+            ClickAction={addToCart}
+            custom={"w-[85%] text-black font-bold "}>הוסף לסל</MainButtons>
         </div>
     )
 })
