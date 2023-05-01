@@ -7,11 +7,12 @@ interface ItemDrawerProps {
     img: string;
     alt: string;
     title: string;
-    price: string;
+    price: number;
+    count:number;
 }
 
-export const ItemDrawer = ({ img, alt, title, price }: ItemDrawerProps) => {
-    const [amount, setAmount] = React.useState(1)
+export const ItemDrawer = ({ img, alt, title, price ,count}: ItemDrawerProps) => {
+    const [amount, setAmount] = React.useState(count)
     return (
         <div className='flex rtl:flex-row-reverse space-x-5 justify-center items-center text-center text-black capitalize'>
 
