@@ -68,7 +68,7 @@ const Shop = () => {
                                         subtitle={product.brand}
                                         price={product.selling_price}
                                         sale={product.reduction_p}
-                                        addToCart={()=>dispatch(addToCart(product.id))}
+                                        addToCart={()=>dispatch(addToCart(product))}
                                         ref={lastProductRef}
                                         key={product.id}
                                     />
@@ -79,7 +79,9 @@ const Shop = () => {
                                     subtitle={product.brand}
                                     price={product.selling_price}
                                     sale={product.reduction_p}
+                                    addToCart={()=>dispatch(addToCart(product))}
                                     key={product.id}
+
                                 />
                             )
                         })
