@@ -124,8 +124,8 @@ const AddProductsModal = ({ closeAddProduct, editMode, editValues }: props) => {
 
     //?react hook form submition : 
     const onSubmit: SubmitHandler<ProductDto> = async data => {
-        if (editValues) createProduct(data);
-        else updateProduct(data);
+        if (editValues) updateProduct(data);
+        else createProduct(data);
     };
 
     const createProduct: SubmitHandler<ProductDto> = async (data) => {

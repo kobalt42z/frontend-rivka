@@ -5,6 +5,7 @@ import TokenPayloadReducer from '../Slices/Payload.slice'
 import userSlice from "../Slices/user.slice";
 import { CategoryApi } from "../API/Category.Api";
 import { imgApi } from "../API/Image.api";
+import shopSlice from "../Slices/shop.slice";
 
 
 
@@ -17,6 +18,7 @@ export const store = configureStore({
         [imgApi.reducerPath]: imgApi.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
+        shop:shopSlice
        
 
 

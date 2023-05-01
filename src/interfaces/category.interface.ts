@@ -9,6 +9,9 @@ export interface categoryFromDb {
     products?:productFromDB[]
     productsIds:string[]
     imgUrl:string
+    _count?: {
+        products: 2
+    }
 }
 
 export type CategoryResponse = {
@@ -22,4 +25,9 @@ export interface categoryDto{
     description:string
     // products?:productFromDB[]
     productsIds:string[]
+}
+
+export  interface shopResponse {
+    categoryAndItems:categoryFromDb[]
+    categoryCount:number
 }

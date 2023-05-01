@@ -63,24 +63,25 @@ const Products = () => {
 
     return (
         <>
-            {!isLoading && <div>
-                <IF condition={showAddProduct}>
-                    <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /></IF>
-                <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>
-                <ProductsTable toggleAddProducts={addProduct}>
+            {!isLoading &&
+                <div >
+                    <IF condition={showAddProduct}>
+                        <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /></IF>
+                    <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>
+                    <ProductsTable toggleAddProducts={addProduct}>
 
 
-                    {isSuccess && data && data.products.map((product: productFromDB, i: number) => {
-                        return (
-                            <DropDownRow key={i} deleteClick={deletClick} data={product} editFunc={editProduct} />
-                        )
-                    })
-                    }
+                        {isSuccess && data && data.products.map((product: productFromDB, i: number) => {
+                            return (
+                                <DropDownRow key={i} deleteClick={deletClick} data={product} editFunc={editProduct} />
+                            )
+                        })
+                        }
 
 
 
-                </ProductsTable>
-            </div>}
+                    </ProductsTable>
+                </div>}
             {isLoading && <LoadingScreen />}
         </>
     )

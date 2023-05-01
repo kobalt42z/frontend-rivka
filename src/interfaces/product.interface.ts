@@ -1,3 +1,4 @@
+import { categoryFromDb } from "./category.interface";
 
 //  * Req section : 
 export interface ProductDto {
@@ -83,5 +84,5 @@ export interface transletionFromDb {
 
 export type ProductResponse = {
   products: productFromDB[],
-  count: number
 }
+

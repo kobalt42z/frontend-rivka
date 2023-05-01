@@ -1,66 +1,103 @@
-import React from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ShopDelimiter from '../components/shop/ShopDelimiter'
 import ShopItem from '../components/shop/ShopItem'
+import { useFindALlProductQuery, useGetMaxPageShopQuery, useGetShopQuery } from '../features/API/Products.Api'
+import LoadingScreen from '../components/Loading/LoadingScreen'
+import { IF } from '../components/special/if'
+import { useGetCategoriesQuery } from '../features/API/Category.Api'
+import { Button, TextInput } from 'flowbite-react'
+import { CategoryResponse, categoryFromDb } from '../interfaces'
+import { UseToggle } from 'sk-use-toggle/src'
+import { useAppDispatch, useAppSelector } from '../features/hooks'
+import { incrementCurrentPage, setMaxPage } from '../features/Slices/shop.slice'
 
 const Shop = () => {
+    const [counter, setCounter] = useState<number>(0)
+    const currentPage = useAppSelector((state) => state.shop.currentPage)
+    const dispatch = useAppDispatch()
+
+    const {
+        isLoading: isLoadingProducts,
+        isSuccess: isProductSuccess,
+        isError: isProductError,
+        error: ProductError,
+        data: productsResp,
+        isFetching: IsFetchingProduct,
+
+
+
+    } = useGetShopQuery(currentPage)
+
+
+    const { isSuccess: maxPageFetched, data: MaxPage } = useGetMaxPageShopQuery(undefined)
+
+    const intersectionObserver = useRef<IntersectionObserver>()
+    const lastProductRef = useCallback((product: HTMLDivElement) => {
+        if (isLoadingProducts) return
+        if (intersectionObserver.current) intersectionObserver.current.disconnect()
+        intersectionObserver.current = new IntersectionObserver(products => {
+            if (products[0].isIntersecting) {
+                if (currentPage < 3) dispatch(incrementCurrentPage())
+            }
+        })
+        if (product) intersectionObserver.current.observe(product)
+    }, [isLoadingProducts])
+
+    useEffect(() => {
+        if (MaxPage) dispatch(setMaxPage(MaxPage))
+    }, [maxPageFetched])
+
+
+    const RenderProduct =
+        productsResp?.categoryAndItems?.map(category => {
+
+            return (
+                <>
+                    <ShopDelimiter key={category.id} imgUrl={category.imgUrl} title={category.name}>
+
+
+                        {category.products && category.products.map((product, i) => {
+                            if (category.products && category.products.length === i + 1) {
+                                return (
+                                    <ShopItem imgUrl={product.imgUrl}
+                                        title={product.name}
+                                        subtitle={product.brand}
+                                        price={product.selling_price}
+                                        sale={product.reduction_p}
+
+                                        ref={lastProductRef}
+                                        key={product.id}
+                                    />
+                                )
+                            } else return (
+                                <ShopItem imgUrl={product.imgUrl}
+                                    title={product.name}
+                                    subtitle={product.brand}
+                                    price={product.selling_price}
+                                    sale={product.reduction_p}
+                                    key={product.id}
+                                />
+                            )
+                        })
+                        }
+                    </ShopDelimiter >
+                </>
+            )
+        })
+
+
+
     return (
-        <div className='container  py-10 px-2 bg-[var(--main-beige-color)]'>
-            <ShopDelimiter imgUrl='s' title='s' >
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-                    sale
-                />
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
+        <>
+            <IF condition={isLoadingProducts}> <LoadingScreen /></IF>
+            <IF condition={isProductError}> {JSON.stringify(ProductError)}</IF>
 
-                />
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-
-                />
-
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-                    sale
-                />
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-
-                />
-            </ShopDelimiter>
-            <ShopDelimiter imgUrl={"https://cache.stylist.fr/data/photo/w1000_ci/1pg/clean-beauty.jpg"}
-                title="קרמים להגנה על העור"
-            >
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-
-                />
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-
-                />
-                <ShopItem imgUrl={"https://caiacosmetics.com/img/bilder/artiklar/zoom/CAI815_2.jpg?m=1635583091"}
-                    title={' קרם גוף בניחוח דובדבן'}
-                    subtitle={"קרם עבה"}
-                    price={"445"}
-
-                />
-            </ShopDelimiter>
-        </div>
+            <IF condition={isProductSuccess}>
+                < div className='container  py-10 px-2 bg-[var(--main-beige-color)]' >
+                    {RenderProduct}
+                </div >
+            </IF>
+        </>
     )
 }
 

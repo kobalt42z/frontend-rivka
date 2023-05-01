@@ -65,6 +65,12 @@ export const CategoryApi = createApi({
                 method: 'DELETE',
             }),
             invalidatesTags: [{ type: 'Category', id: 'LIST' }]
+        }),
+        getCategoriesSlist: builder.query({
+            query:()=>({
+                url:'categories/slist',
+                method:'GET',
+            })
         })
     })
 
@@ -74,3 +80,4 @@ export const { useCreateCategoryMutation } = CategoryApi
 export const { useGetCategoriesQuery } = CategoryApi
 export const { useDeleteCategoryMutation } = CategoryApi
 export const { useEditCategoryMutation} = CategoryApi
+export const { useGetCategoriesSlistQuery} = CategoryApi
