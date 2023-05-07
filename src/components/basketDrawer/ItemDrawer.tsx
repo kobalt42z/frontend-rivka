@@ -1,7 +1,7 @@
 /*
 *props: img , alt , title , price
  */
-import React from 'react'
+import React, { useEffect } from 'react'
 
 interface ItemDrawerProps {
     img: string;
@@ -10,9 +10,21 @@ interface ItemDrawerProps {
     price: number;
     count:number;
 }
-
 export const ItemDrawer = ({ img, alt, title, price ,count}: ItemDrawerProps) => {
     const [amount, setAmount] = React.useState(count)
+
+    useEffect(()=>{
+      setAmount(amount)
+        
+    },[count])
+
+    useEffect(()=>{
+        console.log(amount);
+        
+          
+      },[amount])
+
+    
     return (
         <div className='flex rtl:flex-row-reverse space-x-5 justify-center items-center text-center text-black capitalize'>
 

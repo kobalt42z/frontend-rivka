@@ -17,8 +17,8 @@ const ShopItem = React.forwardRef(({ imgUrl, title, subtitle, price, sale,addToC
     return (
         <div className='container flex flex-col items-center ' ref={ref}>
             <IF condition={sale}>
-                <div className='relative w-full'>
-                    <div className='absolute w-[55px] h-[55px] bg-[url(./assets/Star.svg)] bg-center bg-cover top-[-25px] left-[-10px] text-center flex items-center justify-center text-sm font-extrabold uppercase'>sale</div>
+                <div className='relative w-full '>
+                    <div className='absolute w-[55px] h-[55px] bg-[url(./assets/Star.svg)] bg-center bg-cover top-[-25px] left-[-10px] md:left-[-28px] md:top-[-21px] text-center flex items-center justify-center text-sm font-extrabold uppercase'>sale</div>
                 </div>
             </IF>
             <img src={imgUrl} alt={title} className="w-[160px] h-[180px] pb-2" />

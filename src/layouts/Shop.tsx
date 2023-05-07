@@ -11,6 +11,7 @@ import { UseToggle } from 'sk-use-toggle/src'
 import { useAppDispatch, useAppSelector } from '../features/hooks'
 import { incrementCurrentPage, setMaxPage } from '../features/Slices/shop.slice'
 import { addToCart } from '../features/Slices/cart.slice'
+import ErrorsAlerter from '../components/errors/ErrorsAlerter'
 
 const Shop = () => {
     const [counter, setCounter] = useState<number>(0)
@@ -96,10 +97,11 @@ const Shop = () => {
     return (
         <>
             <IF condition={isLoadingProducts}> <LoadingScreen /></IF>
-            <IF condition={isProductError}> {JSON.stringify(ProductError)}</IF>
+            <IF condition={isProductError}>  <div className='min-h-screen'><ErrorsAlerter status={
+                ProductError?.status} /></div></IF> {/* ! tofix types*/}
 
             <IF condition={isProductSuccess}>
-                < div className='container  py-10 px-2 bg-[var(--main-beige-color)]' >
+                < div className='container flex flex-col items-center md:px-32 py-10 px-2 bg-[var(--main-beige-color)]' >
                     {RenderProduct}
                 </div >
             </IF>
