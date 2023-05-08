@@ -10,7 +10,7 @@ import { CategoryResponse, categoryFromDb } from '../interfaces'
 import { UseToggle } from 'sk-use-toggle/src'
 import { useAppDispatch, useAppSelector } from '../features/hooks'
 import { incrementCurrentPage, setMaxPage } from '../features/Slices/shop.slice'
-import { addToCart } from '../features/Slices/cart.slice'
+import { addToCart } from '../features/Slices/cart.slice' 
 import ErrorsAlerter from '../components/errors/ErrorsAlerter'
 
 const Shop = () => {

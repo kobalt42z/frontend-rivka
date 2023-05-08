@@ -3,16 +3,40 @@ import { productFromDB } from "../../interfaces";
 import { PayloadAction } from "@reduxjs/toolkit/src";
 import { CART_NAME } from "../../constant";
 
-interface initStateInteface {
+export interface cartSLiceInitState {
     products: productFromDB[]
+    totalInCart: number
 }
 
-const initialState: initStateInteface = {
-    products: []
+const initialState: cartSLiceInitState = {
+    products: [],
+    totalInCart: 0
 }
 
 
+const addToCartAction = (data: productFromDB[], product: productFromDB) => {
+    if (data.length === 0) {
+        data.push({ ...product, count: 1 })
+        updateLocalStorage(data)
 
+    }
+    else {
+        data.forEach(p => {
+            if (product.id === p.id && p.count) {
+                p.count++
+
+            }
+            else {
+                data.push({ ...product, count: 1 })
+            }
+        })
+
+        updateLocalStorage(data)
+    }
+
+
+    return data;
+};
 const updateLocalStorage = (cartData: productFromDB[]) => {
     localStorage.setItem(CART_NAME, JSON.stringify(cartData))
 }
@@ -21,8 +45,21 @@ export const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action: PayloadAction<productFromDB>) => {
-            state.products.push(action.payload)
-            updateLocalStorage(state.products)
+
+            state.products = addToCartAction(state.products, action.payload);
+            state.totalInCart++;
+
+        },
+        subItem: (state, action: PayloadAction<string>) => { 
+           state.products.map((p,i)=>{
+            if(p.id === action.payload && p.count){
+                p.count--;
+            }
+            if(p.id === action.payload&& p.count === 0){
+                state.products.splice(i,1);
+                updateLocalStorage(state.products)
+            }
+           })
         },
         removeFromCart: (state, action: PayloadAction<string>) => {
             state.products = state.products.filter(product => product.id !== action.payload)
@@ -37,8 +74,9 @@ export const cartSlice = createSlice({
             // console.log('loaded',{products},{payload});
         }
 
-    }
+    },
+
 })
 
-export const { addToCart, clearCart, removeFromCart,loadCart } = cartSlice.actions
+export const {subItem, addToCart, clearCart, removeFromCart, loadCart } = cartSlice.actions
 export default cartSlice.reducer
