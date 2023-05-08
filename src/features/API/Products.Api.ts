@@ -79,7 +79,7 @@ export const productApi = createApi({
                 return endpointName
             },
             merge: (currentCache, newItems) => {
-                console.log(currentCache, newItems)
+                // console.log(currentCache, newItems)//! debug only 
                 currentCache.categoryAndItems.push(...newItems.categoryAndItems)
             },
             forceRefetch({ currentArg, previousArg }) {

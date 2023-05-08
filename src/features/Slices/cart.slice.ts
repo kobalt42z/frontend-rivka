@@ -56,9 +56,9 @@ export const cartSlice = createSlice({
                 p.count--;
             }
             if(p.id === action.payload&& p.count === 0){
-                state.products.splice(i,1);
-                updateLocalStorage(state.products)
+                const t = state.products.splice(i,1);
             }
+            updateLocalStorage(state.products)
            })
         },
         removeFromCart: (state, action: PayloadAction<string>) => {

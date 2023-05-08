@@ -37,7 +37,6 @@ const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
             />)
     })
     useEffect(() => {
-        console.log('handle', Cart.products[0]?.count);
         setCurrentCart(() => buildedCart(Cart));
     }, [Cart])
     return (
