@@ -72,7 +72,7 @@ export interface productFromDB {
   active: boolean,
   translations: transletionFromDb[]
   categorys: { name: string }[]
-  count?:number
+  count:number
 }
 
 export interface transletionFromDb {

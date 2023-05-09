@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode'
 import React, { FC, useEffect } from 'react'
-import { AWS_ACCESS_KEYWORD, CART_NAME, TOKEN_KEYWORD } from '../../constant'
+import { AWS_ACCESS_KEYWORD, CART_COUNT_NAME, CART_NAME, TOKEN_KEYWORD } from '../../constant'
 import { useAppDispatch } from '../../features/hooks'
 import { setPayload, setToken } from '../../features/Slices/Payload.slice'
 import { productFromDB, userTokenPayload } from '../../interfaces'
@@ -42,9 +42,11 @@ const Loader: FC<props> = ({ children }) => {
 
     useEffect(() => {
         const StringifyedCart = localStorage.getItem(CART_NAME)
-        if (StringifyedCart) {
+        const Stringifyedtotalcount = localStorage.getItem(CART_COUNT_NAME)
+        if (StringifyedCart&&Stringifyedtotalcount) {
             const cart:productFromDB[] = JSON.parse(StringifyedCart)
-            dispatch(loadCart(cart))
+            const totalInCart:number = JSON.parse(Stringifyedtotalcount)
+            dispatch(loadCart({product:cart, count:totalInCart}))
            
             
         }

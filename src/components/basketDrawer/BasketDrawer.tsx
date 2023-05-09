@@ -15,7 +15,7 @@ interface BasketDrawerProps {
 }
 const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
     const Cart = useAppSelector(state => state.cart)
-    const [currentCart, setCurrentCart] = useState<ReactNode[]>()
+    const [currentCart, setCurrentCart] = useState<ReactNode[]>([])
     const dispatch = useAppDispatch()
 
 
@@ -32,7 +32,7 @@ const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
                 key={product.id}
                 count={product.count || 1}
                 addOne={() => dispatch(addToCart(product))}
-                subOne={()=>dispatch(subItem(product.id))}
+                subOne={() => dispatch(subItem(product.id))}
 
             />)
     })
@@ -55,8 +55,10 @@ const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
 
             /> */}
 
-            <MainButtons custom={"w-[100%] "}> pass to basket</MainButtons>
-        </NewDrawer>
+            {currentCart.length > 0 ? < MainButtons custom={"w-[100%] "}> מעבר לקופה </MainButtons> : <p className='text-center italic text-sm'>
+                סל הקניות שלך ריק כרגע
+            </p>}
+        </NewDrawer >
     )
 }
 
