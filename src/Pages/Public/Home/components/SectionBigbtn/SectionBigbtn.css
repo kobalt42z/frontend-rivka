@@ -1,0 +1,24 @@
+.colorBloor{
+    background-color: #69686864;
+  
+}
+
+.BigTorim{
+    background: url('../../../../../assets/torim.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.BigAcademy{
+    background: url('../../../../../assets/BigAcademy.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.BigShop{
+    background: url('../../../../../assets/BigShop.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

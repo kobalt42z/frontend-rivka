@@ -1,14 +1,16 @@
 
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { Forgot, LoginPage, NotFound, SharedLayouts } from "../layouts";
-import Home from "../layouts/Home";
-import Register from "../layouts/auth/Register";
-import Shop from "../layouts/Shop";
-import Products from "../layouts/employs/products";
-import Admin from "../Guards/Admin";
-import AdminSharedLayout from "../layouts/Admin/AdminSharedLayout";
 import Loader from "../components/misc/Loader";
-import BrowseCategory from "../layouts/employs/Categories/BrowseCategory";
+import { SharedLayouts } from "../Pages/Public/SharedLayouts/SharedLayouts";
+import Home from "../Pages/Public/Home/Home";
+import Shop from "../Pages/Public/shop/Shop";
+import Register from "../Pages/Public/auth/Register";
+import { LoginPage } from "../Pages/Public/auth/LoginPage";
+import { Forgot } from "../Pages/Public/auth/Forgot";
+import AdminSharedLayout from "../Pages/BackOffice/Admin/AdminSharedLayout";
+import BrowseCategory from "../Pages/BackOffice/employee/Categories/BrowseCategory";
+import Products from "../Pages/BackOffice/employee/products/products";
+import { NotFound } from "../Pages/404/NotFound";
 
 
 export const router = createBrowserRouter(

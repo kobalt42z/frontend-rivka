@@ -7,7 +7,8 @@ import { TOKEN_KEYWORD } from '../constant'
 import { useJwtAuthMutation } from '../features/API/Auth.Api'
 import { useAppSelector } from '../features/hooks'
 import { authMeRes, role } from '../interfaces'
-import { Forbidden } from '../layouts/404/Forbidden'
+import { Forbidden } from '../Pages/404/Forbidden'
+
 
 interface props {
   children: React.ReactNode

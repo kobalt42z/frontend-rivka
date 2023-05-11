@@ -1,0 +1,27 @@
+.academy {
+
+    background: url('../../../../../assets/academy.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: 5px solid #c0bea3;
+}
+.calendar{
+    
+        background: url('../../../../../assets/calendar.png');
+        background-position: center;
+        background-size: cover ;
+        background-repeat: no-repeat;   
+        border-radius: 50%;
+        border: 5px solid #c0bea3;
+}
+.products{
+    
+        background: url('../../../../../assets/products.png');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;   
+        border-radius: 50%;
+        border: 5px solid #c0bea3;
+}
