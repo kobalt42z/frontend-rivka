@@ -25,6 +25,7 @@ const CnavBar = () => {
     const [showMenu, setShowMenu] = React.useState(false)
     const location = useLocation()
     const TokenPayload = useAppSelector((state) => state.tokenReducer.tokenPayload)
+    const Cart =useAppSelector((state) => state.cart) 
 
     const openIt = () => {
         setShowSearch(true)
@@ -62,7 +63,14 @@ const CnavBar = () => {
                     <MenuUl closeMenuOnclick={toggleMenu} />
                 </MenuDrawer>
             </ClickOutside>
-            <button onClick={toggleDrawer} ><ShoppingBagIcon color='black' className='h-7  ' /></button>
+            <button onClick={toggleDrawer} ><div className='relative'>
+                <ShoppingBagIcon color='black' className='h-7  ' />
+
+                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-3 dark:border-gray-900">{Cart.totalInCart}</div>
+
+
+            </div>
+            </button>
 
             {TokenPayload ?
                 <DropDawnAvatar label={<UserCircleIcon color='black' className='h-7' />} /> :

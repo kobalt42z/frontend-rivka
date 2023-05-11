@@ -25,7 +25,7 @@ export const ItemDrawer = ({ img, alt, title, price ,count,addOne,subOne,id}: It
     },[count])
 
     useEffect(()=>{
-        console.log(amount);
+        
         
           
       },[amount])
