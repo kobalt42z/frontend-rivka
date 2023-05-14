@@ -11,6 +11,8 @@ import AdminSharedLayout from "../Pages/BackOffice/Admin/AdminSharedLayout";
 import BrowseCategory from "../Pages/BackOffice/employee/Categories/BrowseCategory";
 import Products from "../Pages/BackOffice/employee/products/products";
 import { NotFound } from "../Pages/404/NotFound";
+import { BOsharedLayoutes } from "../Pages/BackOffice/sharedLayouts/BOsharedLayoutes";
+import { OrdersTable } from "../Pages/BackOffice/employee/Orders/ordersTable";
 
 
 export const router = createBrowserRouter(
@@ -24,9 +26,10 @@ export const router = createBrowserRouter(
                 <Route path='/forgot' element={<Forgot />} />  
 
             </Route>
-            <Route path='/admin' element={<AdminSharedLayout/>} >
+            <Route path='/admin' element={<BOsharedLayoutes/>} >
                 <Route path="/admin/products" element={<Products />} />
                 <Route path="/admin/categories" element={<BrowseCategory/>} />
+                <Route path="/admin/orders" element={<OrdersTable/>} />
 
             </Route>
             <Route path="/employes" element={<NotFound />} />

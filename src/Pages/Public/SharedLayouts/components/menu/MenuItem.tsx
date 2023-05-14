@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from '@heroicons/react/24/outline'
+import { ChevronLeftIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 import { Link, To } from 'react-router-dom'
 
@@ -12,14 +12,20 @@ interface MenuItemsProps {
   children: React.ReactNode;
   to?: To;
   active?: boolean;
+  chevronDown?: boolean;
+  smaller?:boolean
 }
 
 
-const MenuItem = ({ children, to, active }: MenuItemsProps) => {
+const MenuItem = ({ children, to, active, chevronDown,smaller }: MenuItemsProps) => {
   return (
-    <Link to={to || '/'} >
-      <li className={` py-3
-     flex rtl:flex-row-reverse justify-between items-center w-full  text-[var(--main-text-color)] font-medium text-lg  `}><ChevronLeftIcon className="h-6  text-gray-500" />{children}
+    <Link to={to || '/'} className={`${ smaller ? 'w-[80%]':  "w-full" }`}>
+      <li  className={` py-3
+     flex rtl:flex-row-reverse justify-between items-center  text-[var(--main-text-color)] font-medium text-lg  `}>
+
+        {chevronDown ? <ChevronDownIcon className="h-6  text-gray-500" /> :
+          <ChevronLeftIcon className="h-6  text-gray-500" />
+        }{children}
       </li>
     </Link>
   )

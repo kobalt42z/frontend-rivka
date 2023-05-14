@@ -7,6 +7,7 @@ import { CategoryApi } from "../API/Category.Api";
 import { imgApi } from "../API/Image.api";
 import shopSlice from "../Slices/shop.slice";
 import cartSlice from "../Slices/cart.slice";
+import { MainAPi } from "../API/Main.Api";
 
 
 
@@ -17,10 +18,12 @@ export const store = configureStore({
         [productApi.reducerPath]: productApi.reducer,
         [CategoryApi.reducerPath]: CategoryApi.reducer,
         [imgApi.reducerPath]: imgApi.reducer,
+        [MainAPi.reducerPath]: MainAPi.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
         shop:shopSlice,
-        cart:cartSlice
+        cart:cartSlice,
+
        
 
 
@@ -31,6 +34,7 @@ export const store = configureStore({
         .concat(productApi.middleware)
         .concat(CategoryApi.middleware)
         .concat(imgApi.middleware)
+        .concat(MainAPi.middleware)
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
