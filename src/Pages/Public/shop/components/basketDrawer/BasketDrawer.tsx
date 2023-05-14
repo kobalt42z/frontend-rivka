@@ -7,6 +7,7 @@ import NewDrawer from "./NewDrawer";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import LoadingScreen from "../../../../../components/Loading/LoadingScreen";
 import MainButtons from "../../../../../components/buttons/MainButtons";
+import { Link } from "react-router-dom";
 
 interface BasketDrawerProps {
     open: boolean;
@@ -54,7 +55,7 @@ const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
 
             /> */}
 
-            {currentCart.length > 0 ? < MainButtons custom={"w-[100%] "}> מעבר לקופה </MainButtons> : <p className='text-center italic text-sm'>
+            {currentCart.length > 0 ? <Link  to={'/myCart/'}>< MainButtons custom={"w-[100%] mt-5 "}> מעבר לקופה </MainButtons></Link> : <p className='text-center italic text-sm'>
                 סל הקניות שלך ריק כרגע
             </p>}
         </NewDrawer >

@@ -7,33 +7,36 @@ import { removeFromCart } from '../../../../../features/Slices/cart.slice';
 
 
 interface ItemDrawerProps {
-    id:string;
+    id: string;
     img: string;
     alt: string;
     title: string;
     price: number;
-    count:number;
-    addOne:()=>void;
-    subOne:()=>void;
-    
+    count: number;
+    addOne: () => void;
+    subOne: () => void;
+    className?: string;
+
 }
-export const ItemDrawer = ({ img, alt, title, price ,count,addOne,subOne,id}: ItemDrawerProps) => {
+export const ItemDrawer = ({ img, alt, title, price, count, addOne, subOne, id,className }: ItemDrawerProps) => {
     const [amount, setAmount] = React.useState(count)
     const dispatch = useAppDispatch()
-    useEffect(()=>{
-      setAmount(amount)
-        
-    },[count])
+    useEffect(() => {
+        setAmount(amount)
 
-    useEffect(()=>{
-        
-        
-          
-      },[amount])
+    }, [count])
 
-    
+    useEffect(() => {
+
+
+
+    }, [amount])
+
+
     return (
-        <div className='flex rtl:flex-row-reverse space-x-5 justify-center items-center text-center text-black capitalize'>
+        <div className={`flex rtl:flex-row-reverse space-x-5 justify-center items-center text-center text-black capitalize
+        ${className&&className} 
+    `}>
 
             <img className='w-[100px] h-[100px]' src={img} alt={alt} />
 
@@ -48,9 +51,9 @@ export const ItemDrawer = ({ img, alt, title, price ,count,addOne,subOne,id}: It
 
 
                 <h4 className='font-semibold text-lg'>{price} ש"ח</h4>
-                <button 
-                onClick={()=>dispatch(removeFromCart(id))}
-                className='text-white rounded bg-[var(--main-btn-color)] py-1 px-2'>הסר מהסל</button>
+                <button
+                    onClick={() => dispatch(removeFromCart(id))}
+                    className='text-white rounded bg-[var(--main-btn-color)] py-1 px-2'>הסר מהסל</button>
                 {/* need to apply on global store of basket  */}
             </div>
         </div>

@@ -14,6 +14,7 @@ import { NotFound } from "../Pages/404/NotFound";
 import { BOsharedLayoutes } from "../Pages/BackOffice/sharedLayouts/BOsharedLayoutes";
 import { OrdersTable } from "../Pages/BackOffice/employee/Orders/ordersTable";
 import { ProductPage } from "../Pages/Public/shop/components/productPage/product";
+import { MyCart } from "../Pages/Public/shop/components/Cart/MyCart";
 
 
 export const router = createBrowserRouter(
@@ -27,6 +28,8 @@ export const router = createBrowserRouter(
                 <Route path='/register' element={<Register />} />
                 <Route path='/forgot' element={<Forgot />} />  
                 <Route path='/product/:id' element={<ProductPage />} />  
+                <Route path='/Mycart/' element={<MyCart />} />  
+
 
             </Route>
             {/* BACKOFFICE  ROUTES  */}

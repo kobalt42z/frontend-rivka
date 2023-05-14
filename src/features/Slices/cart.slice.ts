@@ -6,11 +6,13 @@ import { CART_COUNT_NAME, CART_NAME } from "../../constant";
 export interface cartSLiceInitState {
     products: productFromDB[]
     totalInCart: number
+    totalPrice: number
 }
 
 const initialState: cartSLiceInitState = {
     products: [],
-    totalInCart: 0
+    totalInCart: 0,
+    totalPrice: 0
 }
 
 
@@ -52,6 +54,7 @@ export const cartSlice = createSlice({
 
             state.products = addToCartAction(state.products, action.payload);
             state.totalInCart++;
+            state.totalPrice += action.payload.selling_price
             updateLocalStorage(state.products, state.totalInCart);
 
         },
