@@ -13,19 +13,23 @@ import Products from "../Pages/BackOffice/employee/products/products";
 import { NotFound } from "../Pages/404/NotFound";
 import { BOsharedLayoutes } from "../Pages/BackOffice/sharedLayouts/BOsharedLayoutes";
 import { OrdersTable } from "../Pages/BackOffice/employee/Orders/ordersTable";
+import { ProductPage } from "../Pages/Public/shop/components/productPage/product";
 
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route >
+            {/* PUBLIC ROUTES */}
             <Route path="/" element={<Loader><SharedLayouts /></Loader>} >
                 <Route index element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/forgot' element={<Forgot />} />  
+                <Route path='/product/example' element={<ProductPage />} />  
 
             </Route>
+            {/* BACKOFFICE  ROUTES  */}
             <Route path='/admin' element={<BOsharedLayoutes/>} >
                 <Route path="/admin/products" element={<Products />} />
                 <Route path="/admin/categories" element={<BrowseCategory/>} />
