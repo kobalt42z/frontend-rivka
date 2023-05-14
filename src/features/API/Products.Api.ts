@@ -42,6 +42,15 @@ export const productApi = createApi({
 
 
         }),
+        findProductById: builder.query<productFromDB, string>({
+            query: (id) => ({
+                
+                url: `products/${id}`,
+                method: 'GET',
+            }),
+            // providesTags: (result) =>
+            //  [{ type: 'Product', id: "LIST" }]
+        }),
         createProduct: builder.mutation({
             query: (_body: FormData) => ({
                 url: 'products',
@@ -118,3 +127,4 @@ export const { useUpdateProductMutation } = productApi
 export const { useDeleteProductMutation } = productApi
 export const { useGetShopQuery } = productApi
 export const { useGetMaxPageShopQuery } = productApi
+export const { useFindProductByIdQuery } = productApi

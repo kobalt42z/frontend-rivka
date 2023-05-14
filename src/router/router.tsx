@@ -26,7 +26,7 @@ export const router = createBrowserRouter(
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/forgot' element={<Forgot />} />  
-                <Route path='/product/example' element={<ProductPage />} />  
+                <Route path='/product/:id' element={<ProductPage />} />  
 
             </Route>
             {/* BACKOFFICE  ROUTES  */}

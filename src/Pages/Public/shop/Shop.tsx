@@ -46,10 +46,10 @@ const Shop = () => {
         if (MaxPage) dispatch(setMaxPage(MaxPage))
     }, [maxPageFetched])
 
- 
-    
 
-   
+
+
+
     const RenderProduct =
         productsResp?.categoryAndItems?.map(category => {
 
@@ -66,9 +66,10 @@ const Shop = () => {
                                         subtitle={product.brand}
                                         price={product.selling_price}
                                         sale={product.reduction_p}
-                                        addToCart={()=>dispatch(addToCart(product))}
+                                        addToCart={() => dispatch(addToCart(product))}
                                         ref={lastProductRef}
                                         key={product.id}
+                                        id={product.id}
                                     />
                                 )
                             } else return (
@@ -77,8 +78,9 @@ const Shop = () => {
                                     subtitle={product.brand}
                                     price={product.selling_price}
                                     sale={product.reduction_p}
-                                    addToCart={()=>dispatch(addToCart(product))}
+                                    addToCart={() => dispatch(addToCart(product))}
                                     key={product.id}
+                                    id={product.id}
 
                                 />
                             )
