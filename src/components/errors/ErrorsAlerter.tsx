@@ -14,11 +14,11 @@ const ErrorsAlerter: FC<props> = ({ status }) => {
             {status == 500 || status === "FETCH_ERROR" &&
                 <Alert
                     color="failure"
-                    icon={InformationCircleIcon}
+                    
                 >
                     <span>
                         <span className="font-medium">
-                            שגיאה!
+                        <InformationCircleIcon/>  שגיאה!
                         </span>
                         {' '}השרת אינו זמין כעת אנא נסו מאוחר יותר{" "}
                     </span>
@@ -26,11 +26,11 @@ const ErrorsAlerter: FC<props> = ({ status }) => {
             {status == 400 &&
                 <Alert
                     color="failure"
-                    icon={InformationCircleIcon}
+                
                 >
                     <span>
                         <span className="font-medium">
-                            שגיאה!
+                        <InformationCircleIcon/> שגיאה!
                         </span>
                         {' '}המערכת זיהתתא בקשה לא חוקית{" "}
                     </span>
@@ -38,11 +38,11 @@ const ErrorsAlerter: FC<props> = ({ status }) => {
             {status == 409 &&
                 <Alert
                     color="failure"
-                    icon={InformationCircleIcon}
+               
                 >
                     <span>
                         <span className="font-medium">
-                            שגיאה!
+                        <InformationCircleIcon/> שגיאה!
                         </span>
                         {' '}מספר טלפון או מייל קיימים במערכת {" "}
                     </span>
@@ -50,11 +50,11 @@ const ErrorsAlerter: FC<props> = ({ status }) => {
             {status == 403 &&
                 <Alert
                     color="failure"
-                    icon={InformationCircleIcon}
+                 
                 >
                     <span>
                         <span className="font-medium">
-                            שגיאה!
+                        <InformationCircleIcon/> שגיאה!
                         </span>
                         {' '}מייל או ססמה שגויים{" "}
                     </span>

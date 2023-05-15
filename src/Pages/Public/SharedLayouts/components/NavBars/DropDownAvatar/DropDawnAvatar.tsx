@@ -14,10 +14,10 @@ interface props {
 
 const DropDawnAvatar: FC<props> = ({ label }) => {
     const navigate = useNavigate();
-    const user = useAppSelector((state)=>state.tokenReducer.tokenPayload)
+    const user = useAppSelector((state) => state.tokenReducer.tokenPayload)
     const dispatch = useAppDispatch()
- 
-    
+
+
     return (
         <Dropdown label={label}
             inline={true}
@@ -34,11 +34,11 @@ const DropDawnAvatar: FC<props> = ({ label }) => {
                     </span>
                 </div>
             </Dropdown.Header>
-            <Dropdown.Item icon={ComputerDesktopIcon}>
-                Dashboard
+            <Dropdown.Item >
+                <ComputerDesktopIcon />  Dashboard
             </Dropdown.Item>
-            <Dropdown.Item icon={Cog6ToothIcon}>
-                Settings
+            <Dropdown.Item >
+                <Cog6ToothIcon />   Settings
             </Dropdown.Item>
             {/* <Dropdown.Item icon={HiCurrencyDollar}>
                 Earnings
@@ -48,8 +48,8 @@ const DropDawnAvatar: FC<props> = ({ label }) => {
                 localStorage.removeItem(TOKEN_KEYWORD)
                 dispatch(clearToken())
                 navigate("/")
-            }} icon={ArrowRightOnRectangleIcon}>
-                Sign out
+            }} >
+                <ArrowRightOnRectangleIcon /> Sign out
             </Dropdown.Item>
         </Dropdown>
     )

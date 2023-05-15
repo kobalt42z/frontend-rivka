@@ -19,7 +19,7 @@ const Shop = () => {
         isLoading: isLoadingProducts,
         isSuccess: isProductSuccess,
         isError: isProductError,
-        error: ProductError,
+        error: any,
         data: productsResp,
         isFetching: IsFetchingProduct,
 
