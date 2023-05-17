@@ -103,7 +103,12 @@ export const productApi = createApi({
             //             { type: 'Product', id: "LIST" }
             //         ]
             //         : [{ type: 'Product', id: "LIST" }]
-
+            transformErrorResponse: (
+                response: { status: string | number },
+                meta,
+                arg
+              ) => response.status,
+          
 
 
 

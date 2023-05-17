@@ -10,10 +10,16 @@ module.exports = {
     container: {
       center: true,
     },
-    fontFamily: {
-      'body':["Assistant"],
+    extend: {
+      colors: {
+        mainGreen: '#959c73'
+      },
     },
-    extend: {},
+
+    fontFamily: {
+      'body': ["Assistant"],
+    },
+    
   },
   plugins: [],
 }

@@ -2,7 +2,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { Alert } from 'flowbite-react'
 import React, { FC, useEffect } from 'react'
 interface props {
-    status: number | string
+    status: any
 }
 const ErrorsAlerter: FC<props> = ({ status }) => {
 

@@ -19,7 +19,7 @@ const Shop = () => {
         isLoading: isLoadingProducts,
         isSuccess: isProductSuccess,
         isError: isProductError,
-        error: any,
+        error: ProductError,
         data: productsResp,
         isFetching: IsFetchingProduct,
 
@@ -44,6 +44,8 @@ const Shop = () => {
 
     useEffect(() => {
         if (MaxPage) dispatch(setMaxPage(MaxPage))
+       
+        
     }, [maxPageFetched])
 
 
@@ -96,8 +98,8 @@ const Shop = () => {
     return (
         <>
             <IF condition={isLoadingProducts}> <LoadingScreen /></IF>
-            <IF condition={isProductError}>  <div className='min-h-screen'><ErrorsAlerter status={
-                ProductError?.status} /></div></IF> {/* ! tofix types*/}
+            <IF condition={isProductError &&ProductError}>  <div className='min-h-screen'><ErrorsAlerter status={
+                ProductError} /> {JSON.stringify(ProductError)} </div></IF> {/* ! tofix types*/}
 
             <IF condition={isProductSuccess}>
                 < div className='container flex flex-col items-center md:px-32 py-10 px-2 bg-[var(--main-beige-color)]' >

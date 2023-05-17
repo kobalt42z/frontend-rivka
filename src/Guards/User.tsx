@@ -12,8 +12,12 @@ const User: FC<props> = ({ children }) => {
     const [isUser, setIsUser] = useState(false)
     const [invalid, setInvalid] = useState(false)
     const [authMe, { isLoading }] = useJwtAuthMutation()
+
+
     const navigat = useNavigate()
+
     const token: string | null = useAppSelector((state) => state.tokenReducer.token)
+  
     useEffect(() => {
         async () => {
             try {
