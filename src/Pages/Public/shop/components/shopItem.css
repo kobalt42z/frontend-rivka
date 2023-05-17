@@ -1,0 +1,6 @@
+/* shop  */
+.drop-down-blure{
+    background: rgba(217,217,217,0.60) ;
+    backdrop-filter: blur(10px);
+   }
+

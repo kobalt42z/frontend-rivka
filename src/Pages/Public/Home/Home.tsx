@@ -10,7 +10,7 @@ const Home = () => {
     <div className=' flex flex-col items-center '>
       {/* <BasketDrawer open /> */}
 
-
+     
       <CircleMenu />
       <OurOffreCarusel />
       <div className="flex justify-center items-center">
