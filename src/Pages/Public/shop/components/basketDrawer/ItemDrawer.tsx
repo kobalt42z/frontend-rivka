@@ -1,7 +1,7 @@
 /*
 *props: img , alt , title , price
  */
-import React, { useEffect } from 'react'
+import React, { useEffect ,FC} from 'react'
 import { useAppDispatch } from '../../../../../features/hooks';
 import { removeFromCart } from '../../../../../features/Slices/cart.slice';
 
@@ -18,7 +18,7 @@ interface ItemDrawerProps {
     className?: string;
 
 }
-export const ItemDrawer = ({ img, alt, title, price, count, addOne, subOne, id,className }: ItemDrawerProps) => {
+export const ItemDrawer:FC<ItemDrawerProps> = ({ img, alt, title, price, count, addOne, subOne, id,className }) => {
     const [amount, setAmount] = React.useState(count)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -52,7 +52,7 @@ export const ItemDrawer = ({ img, alt, title, price, count, addOne, subOne, id,c
 
                 <h4 className='font-semibold text-lg'>{price} ש"ח</h4>
                 <button
-                    onClick={() => dispatch(removeFromCart(id))}
+                    onClick={() =>  dispatch(removeFromCart(id))}
                     className='text-white rounded bg-[var(--main-btn-color)] py-1 px-2'>הסר מהסל</button>
                 {/* need to apply on global store of basket  */}
             </div>
