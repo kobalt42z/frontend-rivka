@@ -8,6 +8,10 @@ import { addToCart } from "../../../features/Slices/cart.slice"
 import LoadingScreen from "../../../components/Loading/LoadingScreen"
 import ErrorsAlerter from "../../../components/errors/ErrorsAlerter"
 import { IF } from "../../../components/special/if"
+import CategoryCarusel from "./categoryCarusel/CategoryCarusel"
+import MiniBannerAds from "./miniBannerAds/miniBannerAds"
+import { Icon } from "@iconify/react"
+import SortBy from "./sortBy/SortBy"
 
 
 const Shop = () => {
@@ -44,8 +48,8 @@ const Shop = () => {
 
     useEffect(() => {
         if (MaxPage) dispatch(setMaxPage(MaxPage))
-       
-        
+
+
     }, [maxPageFetched])
 
 
@@ -97,13 +101,80 @@ const Shop = () => {
 
     return (
         <>
-            <IF condition={isLoadingProducts}> <LoadingScreen /></IF>
-            <IF condition={isProductError &&ProductError}>  <div className='min-h-screen'><ErrorsAlerter status={
+            {/* <IF condition={isLoadingProducts}> <LoadingScreen /></IF> */}
+            <IF condition={false && isProductError && ProductError}>  <div className='min-h-screen'><ErrorsAlerter status={
                 ProductError} /> {JSON.stringify(ProductError)} </div></IF> {/* ! tofix types*/}
 
-            <IF condition={isProductSuccess}>
+            <IF condition={true || isProductSuccess}>
                 < div className='container flex flex-col items-center md:px-32 py-10 px-2 bg-[var(--main-beige-color)]' >
-                    {RenderProduct}
+                    {/* {RenderProduct} */}
+                    <CategoryCarusel />
+                    <MiniBannerAds />
+                    <hr className="h-[2px] box-shadow w-[95%] mx-auto bg-mainGreen border-0 dark:bg-gray-700" />
+                    <div dir="rtl" className="flex w-full px-2 space-x-reverse space-x-2 pb-2 items-center">
+                        <h2 className="text-shadow text-xl">המומלצים שלנו:</h2> <Icon icon="icon-park-outline:like" width={20} color="gray" className="" />
+                    </div>
+                    <SortBy/>
+
+                    <div className='container flex flex-col items-center '>
+                        <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
+                            <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                                title={'testotest'}
+                                subtitle={'miniTest'}
+                                price={50}
+                                sale={10}
+                                addToCart={() => console.log("yay he click me ")
+                                }
+                                key={0}
+                                id={"13542"}
+
+                            />
+                            <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                                title={'testotest'}
+                                subtitle={'miniTest'}
+                                price={50}
+                                sale={10}
+                                addToCart={() => console.log("yay he click me ")
+                                }
+                                key={0}
+                                id={"13542"}
+
+                            />
+                            <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                                title={'testotest'}
+                                subtitle={'miniTest'}
+                                price={50}
+                                sale={10}
+                                addToCart={() => console.log("yay he click me ")
+                                }
+                                key={0}
+                                id={"13542"}
+
+                            />
+                            <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                                title={'testotest'}
+                                subtitle={'miniTest'}
+                                price={50}
+                                sale={10}
+                                addToCart={() => console.log("yay he click me ")
+                                }
+                                key={0}
+                                id={"13542"}
+
+                            />
+                            <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                                title={'testotest'}
+                                subtitle={'miniTest'}
+                                price={50}
+                                sale={10}
+                                addToCart={() => console.log("yay he click me ")
+                                }
+                                key={0}
+                                id={"13542"}
+
+                            />
+                        </div>
+                    </div>
                 </div >
             </IF>
         </>
