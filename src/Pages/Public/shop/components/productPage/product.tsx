@@ -4,8 +4,8 @@ import makeAnimated from "react-select/animated";
 import { useForm } from 'react-hook-form';
 import productTestImage from '../../../../../assets/testProd.png'
 import ShopItem from '../ShopItem';
-import { Button, Tooltip } from 'flowbite-react';
-import { ArrowUturnLeftIcon, BuildingStorefrontIcon, ChevronLeftIcon, ChevronRightIcon, MinusIcon, PlusIcon, ReceiptRefundIcon } from '@heroicons/react/24/outline';
+import { Accordion, Button, Tooltip } from 'flowbite-react';
+import { ArrowUturnLeftIcon, BuildingStorefrontIcon, ChevronDoubleDownIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, MinusIcon, PlusIcon, ReceiptRefundIcon } from '@heroicons/react/24/outline';
 import Carusel from '../../../../../components/carusel/Carusel';
 import { useFindProductByIdQuery } from '../../../../../features/API/Products.Api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,12 +15,22 @@ import { IF } from '../../../../../components/special/if';
 import MainButtons from '../../../../../components/buttons/MainButtons';
 import { addToCart } from '../../../../../features/Slices/cart.slice';
 import { useAppDispatch } from '../../../../../features/hooks';
+import SizeSpan from '../sizeSpan';
+import ColorSpan from '../colorSpan';
+import ClassicHr from '../../../../../components/HR/ClassicHr';
+import { UseToggle } from 'sk-use-toggle/src';
+import Comments from '../comments/comments';
+import { Icon } from '@iconify/react';
+import Star from '../../../../../components/ratings/Star';
+import Rating from '../../../../../components/ratings/Rating';
 
 export const ProductPage = () => {
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [currenPosition, setCurrentPosition] = useState<number>(0);
     const caruselRef = useRef<HTMLDivElement>(null);
     const caruselItemRef = useRef<HTMLDivElement>(null);
+    const [showComment, toggleComment] = UseToggle();
 
     const [selectedColor, setSelectedColor] = useState(0);
 
@@ -38,10 +48,10 @@ export const ProductPage = () => {
     });
 
     const params = useParams()
-    if (!params.id) return (<NotFound />)
+    // if (!params.id) return (<NotFound />)
     const { isError, isFetching, isSuccess, data, error: e } = useFindProductByIdQuery(params.id)
     const error: any = e; // ! status not exist in type ? 
-    if (isError && error.status == 404) return (<><NotFound /> {params.id} </>)
+    // if (isError && error.status == 404) return (<><NotFound /> {params.id} </>)
 
     // useEffect(() => {
 
@@ -52,153 +62,188 @@ export const ProductPage = () => {
     const curves = data?.curves.map(size => ({ value: size, label: size }))
     const thinkness = data?.thickness.map(size => ({ value: size, label: size }))
 
-    if (isFetching) return (<LoadingScreen />);
-    if (data) return (
-        <div className='container flex flex-col items-center space-y-5 min-h-[80vh] justify-center p-5  md:pt-0'>
-            <img src={data.imgUrl} alt="" className='w-full md:w-10/12 ' />
-            <div className='text-center'>
-                <h2 className='text-lg capitalize font-semibold '>{data.name}</h2>
-                <h4 className='text-base capitalize font-normal '>{data.brand}</h4>
-            </div>
-            <p className='w-full md:w-10/12 text-center'>{data.description}</p>
-            <div>
-                <div className='flex space-x-3 '>
-
-                    {data.colors.length > 0 &&
-                        data.colors.map((item, id) => {
-                            return (
-                                <Tooltip content={`${item}`}>
-                                    <div key={id} className={selectedColor == id ? `w-7 h-7 px-2  border-black border-4` : `w-7 h-7 px-2  `} style={{ background: `${item}` }}
-                                        onClick={() => setSelectedColor(id)}
-                                    ></div>
-                                </Tooltip>
-                            )
-                        })
-                    }
+    // if (isFetching) return (<LoadingScreen />);
+    if (true || data) return (
+        <div dir='rtl' className='container flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5 pb-0 md:pt-0'>
+            <img src={"https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"} alt="" className='w-full md:w-10/12 box-shadow' />
+            <div className="w-full flex justify-between ">
+                <div className='text-right w-full'>
+                    <h2 className='text-lg capitalize font-semibold '>{'קרם לחות'}</h2>
+                    <h4 className='text-base capitalize font-normal '>{'nivea'}</h4>
+                </div>
+                <div className='text-right w-full'>
+                    <h4 className='text-base capitalize font-normal text-left  '>{'134 ש"ח'}</h4>
                 </div>
             </div>
-            <div className='w-full md:flex md:flex-row-reverse md:justify-around'>
-                <div dir='rtl' className='space-y-5'>
-                    <IF condition={data.sizes && data?.sizes.length > 0}><div className='w-full md:w-2/5'>
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מידות</label>
-                        <Select
-                            closeMenuOnSelect={false}
-                            placeholder='מידות ...'
-                            components={animatedComponents}
-                            // defaultValue={sizes[0]}
-                            isMulti
-                            isDisabled={!data.sizes || data.sizes.length === 0}
-                            options={sizes}
-                            onChange={(choice) => setValue('sizes', choice.map((item: any) => item.value))}
-                        />
-                    </div ></IF>
-                    <IF condition={data.thickness && data?.thickness.length > 0}> <div className='w-full md:w-2/5'>
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">עובי</label>
-                        <Select
-                            closeMenuOnSelect={false}
-                            placeholder='עובי ...'
-                            components={animatedComponents}
-                            // defaultValue={sizes[0]}
-                            isMulti
-                            options={thinkness}
-                            onChange={(choice) => setValue('sizes', choice.map((item: any) => item.value))}
-                        />
-                    </div ></IF>
-                    <IF condition={data.curves && data?.curves.length > 0}><div className='w-full md:w-2/5'>
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">קיעור</label>
-                        <Select
-                            closeMenuOnSelect={false}
-                            placeholder='קיעור ...'
-                            components={animatedComponents}
-                            // defaultValue={sizes[0]}
-                            isMulti
-                            options={curves}
-                            onChange={(choice) => setValue('sizes', choice.map((item: any) => item.value))}
-                        />
-                    </div ></IF>
+            <p className='w-full md:w-10/12 text-right'>{' ואני טיפה יותר ארוך לבדיקה בוא נראה מה זה נותן אני תאור מוצר מעניין ביותר'}</p>
+            <div className='w-full'>
+                <h3 className='font-semibold'>מידה</h3>
+                <div className='flex space-x-reverse space-x-2  '>
+                    <SizeSpan title='XL' />
+                    <SizeSpan title='XXl' />
+                    <SizeSpan title='XL' />
+                    <SizeSpan title='XL' />
+                </div>
+            </div>
+            <div className='w-full'>
+                <h3 className='font-semibold'>מידה</h3>
+                <div className='flex space-x-reverse space-x-2  '>
+                    <SizeSpan title='C' />
+                    <SizeSpan title='CC' />
+                    <SizeSpan title='H' />
 
                 </div>
-                <div className="flex justify-evenly  md:w-2/5 pt-5">
-                    <div className='flex justify-between w-1/3' >
-                        <Button size={'xxs'} outline color={'light'} onClick={() => setCounter(counter + 1)} >
-                            <PlusIcon className="h-4 w-6 text-gray-500" />
+            </div>
+            <div className='w-full'>
+                <h3 className='font-semibold'>מידה</h3>
+                <div className='flex space-x-reverse space-x-2  '>
+                    <SizeSpan title='3.5' />
+                    <SizeSpan title='44.0' />
+                    <SizeSpan title='48' />
+                    <SizeSpan title='33' />
+                </div>
+            </div>
+            <div className='w-full'>
+                <h3 className='font-semibold'>צבעים</h3>
+                <div className='flex space-x-reverse space-x-2  '>
+                    <ColorSpan color='red' />
+                    <ColorSpan color='blue' />
+                    <ColorSpan color='yellow' />
+                    <ColorSpan color='purple' />
+                    <ColorSpan color='green' />
+
+                </div>
+            </div>
+            <div className='pt-5 w-full md:flex md:flex-row-reverse md:justify-around'>
+                <h3 className='font-semibold'>כמות</h3>
+                <div className="  md:w-2/5 pt-5">
+                    <div className='flex justify-between items-center w-1/4 border-2' >
+                        <Button size={'xxs'} outline color={'light'} onClick={() => setCounter(counter + 1)} className='rounded-none border-0'>
+                            <PlusIcon className="h-6 w-4 text-gray-500" />
                         </Button>
                         {counter}
-                        <Button size={'xxs'} outline color={'light'} onClick={() => setCounter(counter > 0 ? counter - 1 : counter)} >
-                            <MinusIcon className="h-4 w-6 text-gray-500" />
+                        <Button size={'xxs'} outline color={'light'} onClick={() => setCounter(counter > 1 ? counter - 1 : counter)} className='rounded-none border-0' >
+                            <MinusIcon className="h-6 w-4 text-gray-500" />
                         </Button>
                     </div>
-                    <p dir='rtl' className='capitalize font-semibold '>
-                        מחיר : {counter * data.selling_price} ₪
-                    </p>
+                    <div dir='ltr'>
+                        <p dir='rtl' className='capitalize font-semibold w-1/2 text-right '>
+                            מחיר : {counter * 150} ₪
+                        </p>
+                    </div>
                 </div>
             </div>
-            <MainButtons
-                ClickAction={() => dispatch(addToCart(data))}
-                custom={"w-[85%] text-black font-bold "}>הוסף לסל</MainButtons>
-            <MainButtons
-            // className='outline-red-300'
-                ClickAction={() => dispatch(addToCart(data))}
-                custom={"w-[85%] text-black font-bold  outline outline-[var(--main-btn-color)] bg-white "}>מעבר לקופה</MainButtons>
-            {/* <Carusel firstObjectRef={caruselItemRef} dealay={2000} onlyPhone>
-                <ShopItem imgUrl={productTestImage} ref={caruselItemRef}
-                    title={'creme for earse'}
-                    subtitle={'sun controle'}
-                    price={150}
-                    sale={0}
-                    addToCart={() => console.log('he clicked on me ')
-                    }
-                    key={11}
-                    className='md:w-1/4'
-                    id='sss'
-                />
-                <ShopItem imgUrl={productTestImage}
-                    title={'creme for earse'}
-                    subtitle={'sun controle'}
-                    price={250}
-                    sale={0}
-                    addToCart={() => console.log('he clicked on me ')
-                    }
-                    key={22}
-                    className='md:w-1/4'
-                    id='sss'
-                />
-                <ShopItem imgUrl={productTestImage}
-                    title={'creme for earse'}
-                    subtitle={'sun controle'}
-                    price={350}
-                    sale={0}
-                    addToCart={() => console.log('he clicked on me ')
-                    }
-                    key={33}
-                    className='md:w-1/4'
-                    id='sss'
-                />
-                <ShopItem imgUrl={productTestImage}
-                    title={'creme for earse'}
-                    subtitle={'sun controle'}
-                    price={350}
-                    sale={0}
-                    addToCart={() => console.log('he clicked on me ')
-                    }
-                    key={44}
-                    className='md:w-1/4'
-                    id='sss'
-                />
-            </Carusel> */}
-            <div className=" space-y-10   border-2 border-solid px-16 py-10">
-                <div className="flex flex-col justify-center items-center">
-                    <ReceiptRefundIcon className="h-10 w-10 text-gray-500" />
-                    <p className='capitalize text-base font-semibold'>ניתן להחזיר / להחליף את המוצר</p>
+            <div className="w-full flex  flex-col items-end space-y-3 pb-2">
+                <MainButtons
+                    ClickAction={() => dispatch(addToCart(data))}
+                    custom={" font-bold w-[171px]  h-[38px] "}>הוסף לסל
+                </MainButtons>
+                <MainButtons
+                    // className='outline-red-300'
+                    ClickAction={() => navigate("/mycart")}
+                    custom={"w-[170px]  h-[38px]  font-bold    bg-white border-[2px] border-mainGreen  "}>מעבר לקופה</MainButtons>
+            </div>
+            <ClassicHr />
+            <div className='text right w-full'>
+                <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח (+{46})</h2>
+                <div dir='ltr' className='flex '>
+                <Rating avrage={5.07} />
+
                 </div>
-                <div className="flex flex-col justify-center items-center">
-                    <BuildingStorefrontIcon className="h-10 w-10 text-gray-500" />
-                    <p className='capitalize text-base font-semibold'>איסוף מהחנות </p>
+            </div>
+
+            <ClassicHr />
+            <div className='flex justify-start w-full px-3'>
+                <button onClick={toggleComment} className='flex flex-row-reverse  items-center'>
+                    {showComment ?
+                        <ChevronDownIcon className='w-6 h-6 mx-2 text-shadow' />
+                        :
+                        <ChevronUpIcon className='w-6 h-6 mx-2 text-shadow' />
+                    }
+                    <span className='text-shadow text-lg font-semibold'>תגובות</span>
+
+                </button>
+
+            </div>
+            {showComment &&
+                <div className='w-full'>
+
+                    <Comments />
+                    <Comments />
+                    <Comments />
+                    <Comments />
+                    <Comments />
+                    <div dir='ltr' className='py-3 flex justify-start space-x-2 '>
+                        <div className="w-6 h-6 rounded-full  border-2 border-mainGreen  flex justify-center items-center">1</div>
+                        <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">2</div>
+                        <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">3</div>
+                        <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">4</div>
+                    </div>
                 </div>
+            }
+            <ClassicHr />
+
+
+            <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
+                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                    title={'testotest'}
+                    subtitle={'miniTest'}
+                    price={50}
+                    sale={10}
+                    addToCart={() => console.log("yay he click me ")
+                    }
+                    key={0}
+                    id={"13542"}
+
+                />
+                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                    title={'testotest'}
+                    subtitle={'miniTest'}
+                    price={50}
+                    sale={10}
+                    addToCart={() => console.log("yay he click me ")
+                    }
+                    key={0}
+                    id={"13542"}
+
+                />
+                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                    title={'testotest'}
+                    subtitle={'miniTest'}
+                    price={50}
+                    sale={10}
+                    addToCart={() => console.log("yay he click me ")
+                    }
+                    key={0}
+                    id={"13542"}
+
+                />
+                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                    title={'testotest'}
+                    subtitle={'miniTest'}
+                    price={50}
+                    sale={10}
+                    addToCart={() => console.log("yay he click me ")
+                    }
+                    key={0}
+                    id={"13542"}
+
+                />
+                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
+                    title={'testotest'}
+                    subtitle={'miniTest'}
+                    price={50}
+                    sale={10}
+                    addToCart={() => console.log("yay he click me ")
+                    }
+                    key={0}
+                    id={"13542"}
+
+                />
             </div>
 
 
         </div>
     )
-    else return (<NotFound />)
+    // else return (<NotFound />)
 }

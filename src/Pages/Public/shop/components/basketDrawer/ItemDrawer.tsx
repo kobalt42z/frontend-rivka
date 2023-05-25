@@ -1,9 +1,15 @@
 /*
 *props: img , alt , title , price
  */
-import React, { useEffect ,FC} from 'react'
+import React, { useEffect, FC } from 'react'
 import { useAppDispatch } from '../../../../../features/hooks';
 import { removeFromCart } from '../../../../../features/Slices/cart.slice';
+import Rating from '../../../../../components/ratings/Rating';
+import { Dropdown } from 'flowbite-react';
+import { Icon } from '@iconify/react';
+import { UseToggle } from 'sk-use-toggle/src';
+import Counter from '../../../../../components/counter/Counter';
+import DropDown from '../../../../../components/dropDown/DropDown';
 
 
 interface ItemDrawerProps {
@@ -18,8 +24,10 @@ interface ItemDrawerProps {
     className?: string;
 
 }
-export const ItemDrawer:FC<ItemDrawerProps> = ({ img, alt, title, price, count, addOne, subOne, id,className }) => {
+export const ItemDrawer: FC<ItemDrawerProps> = ({ img, alt, title, price, count, addOne, subOne, id, className }) => {
     const [amount, setAmount] = React.useState(count)
+    const [counter, setCounter] = React.useState<number>(0)
+
     const dispatch = useAppDispatch()
     useEffect(() => {
         setAmount(amount)
@@ -34,27 +42,31 @@ export const ItemDrawer:FC<ItemDrawerProps> = ({ img, alt, title, price, count, 
 
 
     return (
-        <div className={`flex rtl:flex-row-reverse space-x-5 justify-center items-center text-center text-black capitalize
-        ${className&&className} 
-    `}>
 
-            <img className='w-[100px] h-[100px]' src={img} alt={alt} />
-
-            <div className='space-y-1'>
-                <h2 className='font-bold '>{title}</h2>
-
-                <h4 className='font-thin'> <button className='px-[8px] py-1 bg-gray-200 mx-2 rounded'
-                    onClick={addOne}
-                >+</button>
-                    {count}
-                    <button className='px-[10px] py-1 mx-1 bg-gray-200 rounded' onClick={subOne}>-</button>יחידה</h4>
-
-
-                <h4 className='font-semibold text-lg'>{price} ש"ח</h4>
-                <button
-                    onClick={() =>  dispatch(removeFromCart(id))}
-                    className='text-white rounded bg-[var(--main-btn-color)] py-1 px-2'>הסר מהסל</button>
-                {/* need to apply on global store of basket  */}
+        <div className='flex space-x-2 space-x-reverse w-full my-2'>
+            <img src={img} alt="" className='w-[90px] h-[90px]' />
+            <div className='w-full'>
+                <div>
+                    <h3>בסט סלר</h3>
+                    <h3>בסט סלר</h3>
+                    <Rating avrage={4} />
+                </div>
+                <div className='flex w-[70%] justify-between space-x-3 space-x-reverse pt-5'>
+                    <DropDown  >
+                        <li>L</li>
+                        <li>X</li>
+                        <li>XL</li>
+                        <li>XX</li>
+                        <li>XXL</li>
+                    </DropDown>
+                    <Counter counter={counter}
+                        onClickMinus={() => setCounter(counter - 1)}
+                        onClickPlus={() => setCounter(counter + 1)}
+                    />
+                </div>
+            </div>
+            <div className='pl-3'>
+                <Icon icon="ph:x" width={20} height={20} />
             </div>
         </div>
     )

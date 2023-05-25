@@ -9,6 +9,9 @@ import { ArrowLeftOnRectangleIcon, Bars3Icon, ChevronLeftIcon, ChevronRightIcon,
 import DropDawnAvatar from "./DropDownAvatar/DropDawnAvatar"
 import { SearchBar } from "../Search/SearchBar"
 import Logo from '../../../../../assets/finalLogo.png'
+import { Icon } from "@iconify/react"
+import { Avatar } from "flowbite-react"
+import avatarPlaceHolder from "../../../../../assets/avatar.svg"
 
 
 const CnavBar = () => {
@@ -84,17 +87,17 @@ const CnavBar = () => {
 
                 <div className="flex space-x-3">
                     <button onClick={toggleDrawer} ><div className='relative'>
-                        <ShoppingBagIcon color='black' className='h-6  ' />
+                    <Icon icon="bytesize:cart"  width={20} height={20}/>
 
-                        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-3 dark:border-gray-900">{Cart.totalInCart}</div>
+                        {/* <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-3 dark:border-gray-900">{Cart.totalInCart}</div> */}
 
 
                     </div>
                     </button>
 
                     {TokenPayload ?
-                        <DropDawnAvatar label={<UserCircleIcon color='black' className='h-7' />} /> :
-                        <Link to={"/login"}><ArrowLeftOnRectangleIcon color='black' className='h-7' /></Link>
+                        <DropDawnAvatar label={<img src={avatarPlaceHolder} className="rounded-full w-[30px] h-[30px] bg-mainGreen" /> } /> :
+                        <Link to={"/login"}><Icon icon="radix-icons:avatar" width={20} height={20}   /></Link>
                     }
 
 

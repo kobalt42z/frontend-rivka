@@ -15,6 +15,8 @@ import { BOsharedLayoutes } from "../Pages/BackOffice/sharedLayouts/BOsharedLayo
 import { OrdersTable } from "../Pages/BackOffice/employee/Orders/ordersTable";
 import { ProductPage } from "../Pages/Public/shop/components/productPage/product";
 import { MyCart } from "../Pages/Public/shop/components/Cart/MyCart";
+import CartStepper from "../Pages/Public/shop/components/Cart/components/CartStepper";
+import PaymentPage from "../Pages/Public/shop/paymentPage/PaymentPage";
 
 
 export const router = createBrowserRouter(
@@ -24,19 +26,27 @@ export const router = createBrowserRouter(
             <Route path="/" element={<Loader><SharedLayouts /></Loader>} >
                 <Route index element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
-                <Route path='/login' element={<LoginPage />} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/forgot' element={<Forgot />} />  
-                <Route path='/product/:id' element={<ProductPage />} />  
-                <Route path='/Mycart/' element={<MyCart />} />  
+                <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
+                <Route path='/register' element={<Register loginUrl="/login" />} />
+                <Route path='/forgot' element={<Forgot loginUrl="/login" />} />
+                {/* <Route path='/product/:id' element={<ProductPage />} />   */}
+                <Route path='/product/' element={<ProductPage />} />
+                <Route path="/myCart/" element={<CartStepper />}>
+                    <Route index element={<MyCart />} />
+                    <Route path="/myCart/login/" element={<LoginPage registerUrl="/myCart/register" forgotUrl="/myCart/forgot/" />} />
+                    <Route path="/myCart/register/" element={<Register loginUrl="/myCart/login" />} />
+                    <Route path="/myCart/forgot/" element={<Forgot loginUrl="/myCart/login" />} />
+                    <Route path="/myCart/payment/" element={<PaymentPage />} />
+                    <Route path="/myCart/inovice/" element={<MyCart />} />
+                </Route>
 
 
             </Route>
             {/* BACKOFFICE  ROUTES  */}
-            <Route path='/admin' element={<BOsharedLayoutes/>} >
+            <Route path='/admin' element={<BOsharedLayoutes />} >
                 <Route path="/admin/products" element={<Products />} />
-                <Route path="/admin/categories" element={<BrowseCategory/>} />
-                <Route path="/admin/orders" element={<OrdersTable/>} />
+                <Route path="/admin/categories" element={<BrowseCategory />} />
+                <Route path="/admin/orders" element={<OrdersTable />} />
 
             </Route>
             <Route path="/employes" element={<NotFound />} />

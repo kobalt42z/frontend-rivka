@@ -14,7 +14,12 @@ import ErrorsAlerter from "../../../components/errors/ErrorsAlerter";
 import { lemailValidator, lpasswordValidator } from "./Validators/";
 import MainButtons from "../../../components/buttons/MainButtons";
 
-export const LoginPage = () => {
+interface props{
+  registerUrl: string;
+  forgotUrl: string;
+}
+
+export const LoginPage:React.FC <props> = ({forgotUrl,registerUrl}) => {
   const [login, { isLoading, isError, isSuccess, error, data: userData }] = useLoginMutation()
   const [status, setStatus] = useState(0)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<LoginInputs>();
@@ -54,7 +59,7 @@ export const LoginPage = () => {
       <ErrorsAlerter status={status} />
       <h2 className='font-bold text-lg'>: התחברות</h2>
       <div className="flex uppercase text-base justify-around  w-[80%] py-10 text-black">
-        <Link to={'/register'}><h2 className='font-semibold underline text-[14px]'>! הירשמי עכשיו </h2></Link>
+        <Link to={registerUrl}><h2 className='font-semibold underline text-[14px]'>! הירשמי עכשיו </h2></Link>
         <h2 className='font-bold text-base '>? איו לך חשבון </h2>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className=" pt-10 w-[70%] lg:w-1/2 flex flex-col  justify-center-center  space-y-10">
@@ -72,7 +77,7 @@ export const LoginPage = () => {
           {errors.password && <p role={"alert"} className="text-red-600 capitalize">{errors.password?.message}</p>}
         </div>
         <div className="pt-5 text-right">
-          <Link to={'/forgot'} className='capitalize text-base font-bold underline '  >...שחכתי סיסמא</Link>
+          <Link to={forgotUrl} className='capitalize text-base font-bold underline '  >...שחכתי סיסמא</Link>
           <br />
           <Link to={'/policy'} className='capitalize text-base '>עייני ב-<span className="underline">תנאי השימוש </span></Link>
         </div>

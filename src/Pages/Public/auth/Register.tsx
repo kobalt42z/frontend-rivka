@@ -10,8 +10,11 @@ import FormError from "../../../components/misc/formError";
 import SelectLanguage from "../../../components/misc/SelectLanguage";
 import MainButtons from "../../../components/buttons/MainButtons";
 
-
-const Register = () => {
+interface props {
+    loginUrl: string;
+    
+}
+const Register:React.FC<props> = ({loginUrl}) => {
 
 
     const { register, setError, handleSubmit, clearErrors, watch, setValue, formState: { errors } } = useForm<RegisterInpute>();
@@ -28,7 +31,7 @@ const Register = () => {
             data.phone = "+972" + data.phone;
             if (!data.selectedLanguage) data.selectedLanguage = "he";
             const response = await signUp(data).unwrap()
-            navigate('/login')
+            navigate(loginUrl)
 
         } catch (error: FetchBaseQueryError | any) {
             setStatus(error.status)
@@ -49,7 +52,7 @@ const Register = () => {
             {/* registerbtn  */}
             {/* registerbtn  */}
             <div className="flex uppercase text-xs justify-around w-[80%] py-10 text-black">
-                <Link to={'/login'}><h2 className='font-semibold underline text-base'>התחברי </h2></Link>
+                <Link to={loginUrl}><h2 className='font-semibold underline text-base'>התחברי </h2></Link>
                 <h2 className='font-bold text-base'>כבר יש לך חשבון?</h2>
             </div>
             <h2 className="capitalize   text-xs w-[65%] text-center">מידע זה ישמש להזמנות עתידיות ומעקב אחר הזמנות ושרותים </h2>

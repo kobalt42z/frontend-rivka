@@ -83,7 +83,7 @@ const DropDownBlure: FC<props> = ({ toggleBlurMenu }) => {
                     ClickAction={() => {
                         console.log(selectedColor);
                     }}
-                    custom={" text-black  mt-2  drop-shadow-lg "}>הוסף לסל</MainButtons>
+                    custom={" w-[85px] h-[35px] text-black  mt-2  drop-shadow-lg "}>הוסף לסל</MainButtons>
 
             </div>
         </div>

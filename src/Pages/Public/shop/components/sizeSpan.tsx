@@ -9,7 +9,7 @@ const SizeSpan: FC<props> = ({ chooseMe, title }) => {
     const [selected, setSelected] = useState(false)
     return (
         <div
-            className={`w-[45px] h-[30px] rounded-full  flex justify-center items-center ${selected ? " border-2 border-black " : " border-2 border-gray-400 "}} `}
+            className={`w-[45px] h-[30px] rounded-full  flex justify-center  box-shadow items-center ${selected ? " border-2 border-black " : " border-2 border-gray-400 "}} `}
             onClick={() => {
                 chooseMe(title)
                 setSelected(!selected)

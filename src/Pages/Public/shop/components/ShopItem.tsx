@@ -42,7 +42,7 @@ const ShopItem = React.forwardRef(({ id, imgUrl, title, subtitle, price, sale, a
                     <Icon icon={`icon-park-${like ? "solid" : "outline"}:like`} height="25" className={`  ${rotate ? "rotate-12" : "rotate-0"} transition-all duration-75 ease-in-out  
                      `} />
                 </button>
-                <Link to={`/product/${id}`} className="">
+                <Link to={`/product/`} className="">
                     <img src={imgUrl} alt={title} className=" w-[170px] h-[160px] pb-2  drop-shadow-lg  " height={160} />
                 </Link>
             </div>
@@ -62,7 +62,7 @@ const ShopItem = React.forwardRef(({ id, imgUrl, title, subtitle, price, sale, a
             </div>
             <MainButtons
                 ClickAction={toggleBlureMenu}
-                custom={" text-black  relative top-[5px] drop-shadow-lg "}>הוסף לסל</MainButtons>
+                custom={" w-[85px] h-[35px] text-black  relative top-[5px] drop-shadow-lg "}>הוסף לסל</MainButtons>
         </div>
     )
 })
