@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../../../features/hooks';
 import { TOKEN_KEYWORD } from '../../../../../../constant';
 import { clearToken } from '../../../../../../features/Slices/Payload.slice';
+import { getAuth, signOut } from 'firebase/auth';
+import { clearUser, setUser } from '../../../../../../features/Slices/user.slice';
+import { Icon } from '@iconify/react';
 
 
 interface props {
@@ -16,6 +19,7 @@ const DropDawnAvatar: FC<props> = ({ label }) => {
     const navigate = useNavigate();
     const user = useAppSelector((state) => state.tokenReducer.tokenPayload)
     const dispatch = useAppDispatch()
+    const auth = getAuth()
 
 
     return (
@@ -26,30 +30,22 @@ const DropDawnAvatar: FC<props> = ({ label }) => {
             <Dropdown.Header>
                 <div className=''>
                     <span className="text-center block font-semibold text-sm capitalize">
-                        {user && user.firstName + " " + user.lastName}
-
+                        {auth.currentUser?.displayName}
                     </span>
-                    <span className=" text-center block truncate text-xs font-medium  lowercase ">
-                        {user && user.role}
+                    <span className="text-center block  text-sm ">
+                        {auth.currentUser?.email?? auth.currentUser?.phoneNumber}
                     </span>
+                   
                 </div>
             </Dropdown.Header>
-            <Dropdown.Item >
-                <ComputerDesktopIcon />  Dashboard
-            </Dropdown.Item>
-            <Dropdown.Item >
-                <Cog6ToothIcon />   Settings
-            </Dropdown.Item>
-            {/* <Dropdown.Item icon={HiCurrencyDollar}>
-                Earnings
-            </Dropdown.Item> */}
-            <Dropdown.Divider />
             <Dropdown.Item onClick={() => {
-                localStorage.removeItem(TOKEN_KEYWORD)
-                dispatch(clearToken())
+                signOut(auth)
+                dispatch(clearUser())
                 navigate("/")
             }} >
-                <ArrowRightOnRectangleIcon /> Sign out
+               <div className='w-full flex text-sm'>
+               <Icon icon="grommet-icons:logout" className='mx-1' /> Sign out
+               </div>
             </Dropdown.Item>
         </Dropdown>
     )

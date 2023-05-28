@@ -10,6 +10,8 @@ import FormError from "../../../components/misc/formError";
 import SelectLanguage from "../../../components/misc/SelectLanguage";
 import MainButtons from "../../../components/buttons/MainButtons";
 
+// * complete you registeration page *
+
 interface props {
     loginUrl: string;
     
@@ -62,7 +64,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
 
 
                 <div className="text-right">
-                    <input type={"text"} placeholder={"שם פרטי *"} className={` w-full bg-transparent border-0  border-b-2 focus:outline-none focus:border-t-0 
+                    <input type={"text"} placeholder={"שם פרטי "} className={` w-full bg-transparent border-0  border-b-2 focus:outline-none focus:border-t-0 
                     
                     ${errors.firstName && 'border-red-500'}
                     `}
@@ -72,7 +74,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
                 </div>
 
                 <div>
-                    <input type={"text"} placeholder={"שם משפחה *"} className={` w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    <input type={"text"} placeholder={"שם משפחה "} className={` w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                     ${errors.lastName && 'border-red-500'}
                     `}
                         {...register('lastName', lastNameValidator)}
@@ -119,7 +121,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
                     <FormError error={errors.dateOfBirth} />
                 </div>
                 <div>
-                    <input type={"text"} placeholder={" כתובת מייל * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    <input type={"text"} placeholder={" כתובת מייל  "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                     ${errors.email && 'border-red-500'}
                     `}
                         {...register('email',emailValidator)}

@@ -1,26 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit/src";
-import { user } from "../../interfaces";
+import { minFBUser } from "../../interfaces";
+
 
 interface userState {
-    user:user |null,
+    user: minFBUser | null
 }
-const initialState:userState = {
-    user:null
+const initialState: userState = {
+    user: null
 }
 
 export const userSlice = createSlice({
-    name:'user',
+    name: 'user',
     initialState,
-    reducers:{
-        setUser:(state,action:PayloadAction<user>) => {
+    reducers: {
+        setUser: (state, action: PayloadAction<minFBUser>) => {
             state.user = action.payload
         },
-        clear:(state)=>{
+        clearUser: (state) => {
             state.user = null
         }
     }
 })
 
-export const {setUser,clear} = userSlice.actions
-export default userSlice.reducer ;
+export const { setUser, clearUser } = userSlice.actions
+export default userSlice.reducer;

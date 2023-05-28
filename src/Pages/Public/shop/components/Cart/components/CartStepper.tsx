@@ -13,7 +13,7 @@ const CartStepper = ({ }) => {
             case "/mycart":
                 setSelected(1)
                 break;
-            case "/myCart/login" || "/myCart/register" || "/myCart/forgot ":
+            case "/myCart/login" || "/myCart/register" || "/myCart/forgot":
                 setSelected(2)
                 break;
             case "/myCart/payment":

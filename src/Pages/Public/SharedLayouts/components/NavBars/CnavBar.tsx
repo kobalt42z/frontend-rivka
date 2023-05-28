@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useEffect} from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useAppSelector } from "../../../../../features/hooks"
 import { ClickOutside } from "../../../../../components/special/ClickOutside"
@@ -12,14 +12,16 @@ import Logo from '../../../../../assets/finalLogo.png'
 import { Icon } from "@iconify/react"
 import { Avatar } from "flowbite-react"
 import avatarPlaceHolder from "../../../../../assets/avatar.svg"
+import { getAuth, signOut } from "firebase/auth"
 
 
 const CnavBar = () => {
+    const auth = getAuth()
     const [showSearch, setShowSearch] = React.useState(false)
     const [showDrawer, setShowDrawer] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
     const location = useLocation()
-    const TokenPayload = useAppSelector((state) => state.tokenReducer.tokenPayload)
+    const {user} = useAppSelector((state) => state.user)
     const Cart = useAppSelector((state) => state.cart)
 
     const openIt = () => {
@@ -35,8 +37,6 @@ const CnavBar = () => {
     const toggleMenu = () => {
         setShowMenu(!showMenu)
     }
-
-
 
 
 
@@ -95,8 +95,8 @@ const CnavBar = () => {
                     </div>
                     </button>
 
-                    {TokenPayload ?
-                        <DropDawnAvatar label={<img src={avatarPlaceHolder} className="rounded-full w-[30px] h-[30px] bg-mainGreen" /> } /> :
+                    {user ?
+                        <DropDawnAvatar label={<img src={user?.photoURL??avatarPlaceHolder} className="rounded-full w-[30px] h-[30px] bg-mainGreen" /> } /> :
                         <Link to={"/login"}><Icon icon="radix-icons:avatar" width={20} height={20}   /></Link>
                     }
 

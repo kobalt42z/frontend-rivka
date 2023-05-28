@@ -9,6 +9,8 @@ import { RouterProvider } from 'react-router-dom'
 import { store } from './features/Store/store';
 import './index.css'
 import { router } from './router/router'
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './FireBase/FbConfig';
 
 
 i18next
@@ -29,10 +31,11 @@ i18next
     })
 
 
+const FBAPP = initializeApp(firebaseConfig);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
     <Provider store={store}>
 
-         <RouterProvider router={router} />
+        <RouterProvider router={router} />
     </Provider>
 )

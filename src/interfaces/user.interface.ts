@@ -23,3 +23,10 @@ export interface userTokenPayload {
     iat: number,
     exp: number
 }
+export interface minFBUser {
+    uid: string ;
+    displayName: string | null
+    emailOrNumber: string | null
+    role?: role;
+    photoURL: string | null
+}

@@ -17,14 +17,15 @@ import { ProductPage } from "../Pages/Public/shop/components/productPage/product
 import { MyCart } from "../Pages/Public/shop/components/Cart/MyCart";
 import CartStepper from "../Pages/Public/shop/components/Cart/components/CartStepper";
 import PaymentPage from "../Pages/Public/shop/paymentPage/PaymentPage";
+import UserGuard from "../Guards/User";
 
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route >
             {/* PUBLIC ROUTES */}
-            <Route path="/" element={<Loader><SharedLayouts /></Loader>} >
-                <Route index element={<Home />} />
+            <Route path="/" element={<SharedLayouts />} >
+                <Route index element={<UserGuard><Home /></UserGuard>} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
                 <Route path='/register' element={<Register loginUrl="/login" />} />
