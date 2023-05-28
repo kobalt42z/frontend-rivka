@@ -6,8 +6,7 @@ export default interface LoginCredentials {
 }
 
 export interface RegisterInpute {
-    firstName: string;
-    lastName: string;
+    fullName: string;
     dateOfBirth: Date;
     email?: string;
     phone: string;

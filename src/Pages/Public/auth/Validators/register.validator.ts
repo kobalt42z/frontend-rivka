@@ -2,13 +2,13 @@ import { RegisterOptions } from "react-hook-form";
 import { RegisterInpute } from "../../../../interfaces";
 
 
-export const firstNameValidator: RegisterOptions<RegisterInpute, 'firstName'> = {
+export const fullName: RegisterOptions<RegisterInpute, 'fullName'> = {
     required: {
         value: true,
         message: 'נדרש שם משתמש תקין'
     },
     maxLength: {
-        value: 10,
+        value: 20,
         message: 'יותר מדי תווים בשדה זה'
     },
     pattern: {
@@ -17,20 +17,7 @@ export const firstNameValidator: RegisterOptions<RegisterInpute, 'firstName'> = 
     }
 }
 
-export const lastNameValidator: RegisterOptions<RegisterInpute, 'lastName'> = {
-    required: {
-        value: true,
-        message: 'נדרש שם משתמש תקין'
-    },
-    maxLength: {
-        value: 10,
-        message: 'יותר מדי תווים בשדה זה'
-    },
-    pattern: {
-        value: /[a-zA-Zא-ת]/,
-        message: "שם מכיל אותיות בלבד"
-    }
-}
+
 export const phoneValidator: RegisterOptions<RegisterInpute, 'phone'> = {
     required: {
         value: true,
