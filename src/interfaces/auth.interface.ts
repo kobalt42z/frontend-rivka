@@ -9,11 +9,17 @@ export interface RegisterInpute {
     firstName: string;
     lastName: string;
     dateOfBirth: Date;
-    email: string;
+    email?: string;
     phone: string;
-    password: string;
-    Cpassword?: string
     selectedLanguage: string;
+
+    street: string
+    stNum: number;
+    entrance?: string; // optional
+    apartment: string; 
+    city: string;
+    postalCode: string;
+
     acceptEmail: boolean;
     acceptTerms?: boolean;
 }
@@ -42,4 +48,4 @@ export type LoginInputs = {
     exampleRequired: string,
     email: string,
     password: string
-  }
+}

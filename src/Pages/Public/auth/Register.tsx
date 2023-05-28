@@ -5,18 +5,19 @@ import { useSignUpMutation } from "../../../features/API/Auth.Api";
 import { Link, useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import ErrorsAlerter from "../../../components/errors/ErrorsAlerter";
-import { CpasswordValidator, acceptTermsValidator, emailValidator, firstNameValidator, lastNameValidator, passwordValidator, phoneValidator } from "./Validators";
+import { acceptTermsValidator, apartment, city, emailValidator, entrance, firstNameValidator, lastNameValidator, phoneValidator, postalCode, street, streetNumber } from "./Validators";
 import FormError from "../../../components/misc/formError";
 import SelectLanguage from "../../../components/misc/SelectLanguage";
 import MainButtons from "../../../components/buttons/MainButtons";
+import ClassicHr from "../../../components/HR/ClassicHr";
 
 // * complete you registeration page *
 
 interface props {
     loginUrl: string;
-    
+
 }
-const Register:React.FC<props> = ({loginUrl}) => {
+const Register: React.FC<props> = ({ loginUrl }) => {
 
 
     const { register, setError, handleSubmit, clearErrors, watch, setValue, formState: { errors } } = useForm<RegisterInpute>();
@@ -28,7 +29,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
 
         try {
 
-            delete data.Cpassword
+            // delete data.Cpassword
             delete data.acceptTerms
             data.phone = "+972" + data.phone;
             if (!data.selectedLanguage) data.selectedLanguage = "he";
@@ -48,7 +49,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
 
 
     return (
-        <div className='   flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
+        <div dir="rtl" className='   flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
             <ErrorsAlerter status={status} />
 
             {/* registerbtn  */}
@@ -88,7 +89,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
                     ${errors.phone && 'border-red-500'}
                     `}
 
-                            {...register('phone',phoneValidator)}
+                            {...register('phone', phoneValidator)}
                         />
                     </div>
                     <FormError error={errors.phone} />
@@ -124,36 +125,74 @@ const Register:React.FC<props> = ({loginUrl}) => {
                     <input type={"text"} placeholder={" כתובת מייל  "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
                     ${errors.email && 'border-red-500'}
                     `}
-                        {...register('email',emailValidator)}
+                        {...register('email', emailValidator)}
                     />
                     <FormError error={errors.email} />
                 </div>
 
+                <div className="space-y-2 w-full ">
+                    <h3 className=" text-base font font-semibold text-center text-shadow">פרטים למשלוח </h3>
+                    <ClassicHr />
+                </div>
                 <div>
-                    <input type={"password"} placeholder={"סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.password && 'border-red-500'}
+                    <input type={"text"} placeholder={"רחוב   "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.street && 'border-red-500'}
                     `}
-                        {...register('password',passwordValidator)}
+                        {...register('street', street)}
                     />
-                    <FormError error={errors.password} />
+                    <FormError error={errors.street} />
+                </div>
+                <div className="grid grid-cols-3  gap-4">
+                    <input type={"text"} placeholder={"מס בית"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.stNum && 'border-red-500'}
+                    `}
+                        {...register('stNum', streetNumber)}
+                    />
+
+                    <input type={"text"} placeholder={"כניסה"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.entrance && 'border-red-500'}
+                    `}
+                        {...register('entrance', entrance)}
+                    />
+                    <input type={"text"} placeholder={"דירה"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.apartment && 'border-red-500'}
+                    `}
+                        {...register('apartment', apartment)}
+                    />
+                    <div className="col-span-3">
+                        <FormError error={errors.stNum} />
+                        <FormError error={errors.entrance} />
+                        <FormError error={errors.apartment} />
+                    </div>
                 </div>
 
-                <div>
-                    <input type={"password"} placeholder={"ווידוא סיסמא * "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                     ${errors.Cpassword && 'border-red-500'}
+                <div className="grid grid-cols-2  gap-4">
+                    <input type={"text"} placeholder={"עיר"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.city && 'border-red-500'}
                     `}
-                        {...register('Cpassword',CpasswordValidator)}
+                        {...register('city', city)}
                     />
-                    <FormError error={errors.Cpassword} />
+
+                    <input type={"text"} placeholder={"מיקוד"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.postalCode && 'border-red-500'}
+                    `}
+                        {...register('postalCode', postalCode)}
+                    />
+                    <FormError error={errors.city} />
+                    <FormError error={errors.postalCode} />
+
                 </div>
 
-                <div className='w-full text-right'>
+
+
+
+                {/* <div className='w-full text-right'>
                     <p className='pl-2 text-sm  '>שפה מועדפת</p>
                     <SelectLanguage onChange={(selected) => setValue('selectedLanguage', selected)} />
-                </div>
+                </div> */}
 
 
-                <div className="pt-5 space-y-5 flex flex-col items-end">
+                <div dir="ltr" className="pt-5 space-y-5 flex flex-col items-end">
 
 
                     <Link to={'/policy'} className='capitalize text-sm '>עייני ב- <span className="underline"> תנאי השירות</span> למידע נוסף</Link>
@@ -169,7 +208,7 @@ const Register:React.FC<props> = ({loginUrl}) => {
                             </Link>
                         </p>
                         <input type="checkbox" className='ml-2'
-                            {...register('acceptTerms',acceptTermsValidator)}
+                            {...register('acceptTerms', acceptTermsValidator)}
                         />
                     </div>
                     <FormError error={errors.acceptTerms} />
