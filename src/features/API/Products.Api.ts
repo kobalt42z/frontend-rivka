@@ -3,22 +3,11 @@ import { BASE_URL_REST_API } from "../../constant";
 import { ProductDto, ProductResponse, categoryFromDb, productFromDB, productResponse, shopResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 import { types } from "util";
+import { MainAPI } from "./Main.Api";
 
 
 
-export const productApi = createApi({
-    reducerPath: "products",
-    baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL_REST_API,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as RootState).tokenReducer.token
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`)
-            }
-            return headers
-        }
-    }),
-    tagTypes: ['Product'],
+export const productApi = MainAPI.injectEndpoints({
     endpoints: (builder) => ({
         findALlProduct: builder.query<ProductResponse, number>({
             query: (page) => ({

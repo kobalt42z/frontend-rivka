@@ -1,7 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterInpute } from "../../../interfaces";
 import { useState } from "react";
-import { useSignUpMutation } from "../../../features/API/Auth.Api";
 import { Link, useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import ErrorsAlerter from "../../../components/errors/ErrorsAlerter";
@@ -19,7 +18,7 @@ interface props {
 
 }
 const Register: React.FC<props> = ({ loginUrl }) => {
-
+// TODO: add edit mode for edit account 
     const auth = getAuth();
     const { currentUser } = auth
     const { register, setError, handleSubmit, clearErrors, watch, setValue, formState: { errors } } = useForm<RegisterInpute>({
@@ -29,7 +28,7 @@ const Register: React.FC<props> = ({ loginUrl }) => {
             phone: currentUser?.phoneNumber ?? "",
         }
     });
-    const [signUp, { isError, isLoading }] = useSignUpMutation()
+
     const [status, setStatus] = useState(0)
     const navigate = useNavigate()
     const onSubmit: SubmitHandler<RegisterInpute> = async data => {

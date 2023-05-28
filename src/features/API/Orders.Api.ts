@@ -1,8 +1,8 @@
 import { Order } from "../../interfaces/Order.interface"
-import { MainAPi } from "./Main.Api"
+import { MainAPI } from "./Main.Api"
 
 
-const extendedApi = MainAPi.injectEndpoints({
+const ordersApi = MainAPI.injectEndpoints({
     endpoints: (build) => ({
         getOrders: build.query<Order[],undefined>({
             query: () =>({
@@ -15,4 +15,4 @@ const extendedApi = MainAPi.injectEndpoints({
     overrideExisting: true,
 })
 
-export const { useGetOrdersQuery } = extendedApi
+export const { useGetOrdersQuery } = ordersApi

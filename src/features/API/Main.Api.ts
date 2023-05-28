@@ -4,7 +4,7 @@ import { BASE_URL_REST_API } from '../../constant'
 import { RootState } from '../Store/store'
 
 // initialize an empty api service that we'll inject endpoints into later as needed
-export const MainAPi = createApi({
+export const MainAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL_REST_API + '/',
         prepareHeaders: (headers, { getState }) => {
@@ -15,7 +15,8 @@ export const MainAPi = createApi({
             return headers
         }
     }),
+    tagTypes: ['Product','Category'],
     endpoints: () => ({}),
 })
 
-export default MainAPi.reducer
+export default MainAPI.reducer

@@ -3,24 +3,10 @@ import { BASE_URL_REST_API } from "../../constant";
 import { RootState } from "../Store/store";
 import { CategoryResponse, categoryFromDb } from "../../interfaces";
 import { url } from "inspector";
+import { MainAPI } from "./Main.Api";
 
-export const CategoryApi = createApi({
-    reducerPath: 'category',
-    baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL_REST_API,
-        prepareHeaders: (headers, { getState }) => {
-
-            const token = (getState() as RootState).tokenReducer.token
-            if (!token) throw 'unauthenticated user '
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`)
-            }
-            return headers
-
-        }
-
-    }),
-    tagTypes: ['Category'],
+export const CategoryApi = MainAPI.injectEndpoints({
+   
     endpoints: (builder) => ({
         getCategories: builder.query<CategoryResponse, void>({
             query: () => ({

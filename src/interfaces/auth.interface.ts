@@ -1,4 +1,4 @@
-import { userTokenPayload } from "./user.interface";
+
 
 export default interface LoginCredentials {
     email: string;
@@ -15,7 +15,7 @@ export interface RegisterInpute {
     street: string
     stNum: number;
     entrance?: string; // optional
-    apartment: string; 
+    apartment: number; 
     city: string;
     postalCode: string;
 
@@ -23,13 +23,6 @@ export interface RegisterInpute {
     acceptTerms?: boolean;
 }
 
-export interface subsetUser {
-    email: string;
-    firstName: string;
-    lastName: string;
-    id: string;
-    role: string;
-}
 
 // try to use it in langage selection at register form 
 export enum languages {
@@ -38,10 +31,7 @@ export enum languages {
     en = 'en',
 }
 
-export interface authMeRes {
-    valid: boolean;
-    payload: userTokenPayload
-}
+
 export type LoginInputs = {
     example: string,
     exampleRequired: string,

@@ -1,40 +1,26 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authApiSlice } from "../API/Auth.Api";
 import { productApi } from "../API/Products.Api";
 import TokenPayloadReducer from '../Slices/Payload.slice'
 import userSlice from "../Slices/user.slice";
 import { CategoryApi } from "../API/Category.Api";
-import { imgApi } from "../API/Image.api";
 import shopSlice from "../Slices/shop.slice";
 import cartSlice from "../Slices/cart.slice";
-import { MainAPi } from "../API/Main.Api";
+import { MainAPI } from "../API/Main.Api";
 
 
 
 
 export const store = configureStore({
     reducer: {
-        [authApiSlice.reducerPath]: authApiSlice.reducer,
-        [productApi.reducerPath]: productApi.reducer,
-        [CategoryApi.reducerPath]: CategoryApi.reducer,
-        [imgApi.reducerPath]: imgApi.reducer,
-        [MainAPi.reducerPath]: MainAPi.reducer,
+        [MainAPI.reducerPath]: MainAPI.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
         shop:shopSlice,
         cart:cartSlice,
-
-       
-
-
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
-        .concat(authApiSlice.middleware)
-        .concat(productApi.middleware)
-        .concat(CategoryApi.middleware)
-        .concat(imgApi.middleware)
-        .concat(MainAPi.middleware)
+        .concat(MainAPI.middleware)
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
