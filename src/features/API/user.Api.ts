@@ -7,10 +7,13 @@ export const UserApi = MainAPI.injectEndpoints({
         // endpoint for complete registeration 
         registerUser: builder.mutation({
             query: (_body: RegisterInpute) => ({
-                url: "/auth/register",
+                url: "/userArea/registeration",
                 method: "POST",
                 body: _body,
             })
         })
+        
     })
 });
+
+export const { useRegisterUserMutation } = UserApi

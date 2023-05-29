@@ -34,10 +34,11 @@ export const productApi = MainAPI.injectEndpoints({
         }),
         findeByCategory: builder.query<productFromDB, string>({
             query: (categoryName) => ({
-                url: `prodyct/${categoryName}`,
+                url: `product/byCategory/${categoryName}`,
                 method: 'GET',
             }),
-        })
+        }),
+        
         findProductById: builder.query<productFromDB, string>({
             query: (id) => ({
 
@@ -47,6 +48,10 @@ export const productApi = MainAPI.injectEndpoints({
             // providesTags: (result) =>
             //  [{ type: 'Product', id: "LIST" }]
         }),
+
+
+// * CRUD :
+
         createProduct: builder.mutation({
             query: (_body: FormData) => ({
                 url: 'products',
@@ -55,6 +60,7 @@ export const productApi = MainAPI.injectEndpoints({
             }),
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
+
         updateProduct: builder.mutation({
             query: (arg: { _body?: FormData, id: string }) => ({
                 url: `products/${arg.id}`,
@@ -63,6 +69,7 @@ export const productApi = MainAPI.injectEndpoints({
             }),
             invalidatesTags: [{ type: "Product", id: "LIST" }]
         }),
+
         deleteProduct: builder.mutation({
             query: (id: string) => ({
                 url: `products/${id}`,

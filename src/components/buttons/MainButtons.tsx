@@ -14,7 +14,7 @@ interface MainButtonsProps {
 }
 const MainButtons = ({ ClickAction, children, custom, isLoading, submit , disabled}: MainButtonsProps) => {
   return (
-    <button disabled={disabled} onClick={ClickAction} type={'submit'??'button'} className={`capitalize bg-[var(--main-btn-color)] text-[#474A49] ${custom}`}>
+    <button disabled={disabled||isLoading} onClick={ClickAction} type={'submit'??'button'} className={`capitalize bg-[var(--main-btn-color)] text-[#474A49] disabled:opacity-60 ${custom} `}>
       {isLoading ? <Spinner color="info" /> : children}
     </button>
     //  

@@ -75,96 +75,90 @@ export const emailValidator: RegisterOptions<RegisterInpute, 'email'> = {
 //     }
 // }
 
-export const acceptTermsValidator: RegisterOptions<RegisterInpute,'acceptTerms'> =  {
+export const acceptTermsValidator: RegisterOptions<RegisterInpute, 'acceptTerms'> = {
     required: {
         value: true,
         message: "יש לאשר את תנאי השימוש"
     }
 }
-export const street: RegisterOptions<RegisterInpute,'street'> =  {
+export const street: RegisterOptions<RegisterInpute, 'address.street'> = {
     required: {
         value: true,
         message: "יש לספק כתובת למשלוח "
-    }, 
-    pattern:{
-        value:/^([a-zA-Zא-ת'"_ ])*$/gm,
-        message:"נא לספק שם רחוב תקין ללא מספרים "
     },
-    maxLength:{
+    pattern: {
+        value: /^([a-zA-Zא-ת'"_ ])*$/gm,
+        message: "נא לספק שם רחוב תקין ללא מספרים "
+    },
+    maxLength: {
         value: 200,
-        message:"כתובת ארוכה מידי "
+        message: "כתובת ארוכה מידי "
     }
 }
-export const streetNumber: RegisterOptions<RegisterInpute,'stNum'> =  {
+export const streetNumber: RegisterOptions<RegisterInpute, 'address.stNum'> = {
+    valueAsNumber: true,
     required: {
         value: true,
         message: "יש לספק מספר בית  "
-    }, 
-    pattern:{
-        value:/^([1-9])*$/gm,
-        message:"נא לספק מספר רחוב תקין "
     },
-    max:{
+    max: {
         value: 1000,
-        message:"מספר רחוב לא תקין "
-    }
+        message: "מספר רחוב לא תקין "
+    },
 }
 
-export const entrance: RegisterOptions<RegisterInpute,'entrance'> =  {
+export const entrance: RegisterOptions<RegisterInpute, 'address.entrance'> = {
     required: {
         value: false,
         message: "יש לספק כניסה למשלוח "
-    }, 
-    pattern:{
-        value:/^([a-zA-Zא-ת'"_ ])*$/gm,
-        message:"נא לספק אות המציינת כניסה "
     },
-  maxLength:{
-    value:2,
-    message:"מספר התווים חורג מהמותר "
-  }
+    pattern: {
+        value: /^([a-zA-Zא-ת'"_ ])*$/gm,
+        message: "נא לספק אות המציינת כניסה "
+    },
+    maxLength: {
+        value: 2,
+        message: "מספר התווים חורג מהמותר "
+    }
 }
 
-export const apartment: RegisterOptions<RegisterInpute,'apartment'> =  {
+export const apartment: RegisterOptions<RegisterInpute, 'address.apartment'> = {
+    valueAsNumber: true,
     required: {
         value: true,
         message: "יש לספק מספר דירה "
-    }, 
-    pattern:{
-        value:/^([1-9])*$/gm,
-        message:"נא לספק מספר דירה תקין  "
     },
-    max:{
+    max: {
         value: 1000,
-        message:"מספר דירה לא תקין "
+        message: "מספר דירה לא תקין "
     }
 }
-export const postalCode: RegisterOptions<RegisterInpute,'postalCode'> =  {
+export const postalCode: RegisterOptions<RegisterInpute, 'address.postalCode'> = {
     required: {
         value: true,
-        message:" יש לספק מיקוד "
-    }, 
-    pattern:{
-        value:/^([0-9])*$/gm,
-        message:"מיקוד מכיל ספרות בלבד "
+        message: " יש לספק מיקוד "
     },
-    maxLength:{
+    pattern: {
+        value: /^([0-9])*$/gm,
+        message: "מיקוד מכיל ספרות בלבד "
+    },
+    maxLength: {
         value: 15,
-        message:"מיקוד לא תקין "
+        message: "מיקוד לא תקין "
     }
 }
 
-export const city: RegisterOptions<RegisterInpute,'city'> =  {
+export const city: RegisterOptions<RegisterInpute, 'address.city'> = {
     required: {
         value: true,
         message: "יש לספק כתובת למשלוח "
-    }, 
-    pattern:{
-        value:/^([a-zA-Zא-ת'"_ ])*$/gm,
-        message:"נא לספק שם עיר תקין ללא מספרים "
     },
-    maxLength:{
+    pattern: {
+        value: /^([a-zA-Zא-ת'"_ ])*$/gm,
+        message: "נא לספק שם עיר תקין ללא מספרים "
+    },
+    maxLength: {
         value: 200,
-        message:"שם עיר ארוך  מידי "
+        message: "שם עיר ארוך  מידי "
     }
 }

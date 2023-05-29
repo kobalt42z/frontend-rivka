@@ -10,6 +10,7 @@ import SelectLanguage from "../../../components/misc/SelectLanguage";
 import MainButtons from "../../../components/buttons/MainButtons";
 import ClassicHr from "../../../components/HR/ClassicHr";
 import { getAuth } from "firebase/auth";
+import { useRegisterUserMutation } from "../../../features/API/user.Api";
 
 // * complete you registeration page *
 
@@ -18,7 +19,7 @@ interface props {
 
 }
 const Register: React.FC<props> = ({ loginUrl }) => {
-// TODO: add edit mode for edit account 
+    // TODO: add edit mode for edit account 
     const auth = getAuth();
     const { currentUser } = auth
     const { register, setError, handleSubmit, clearErrors, watch, setValue, formState: { errors } } = useForm<RegisterInpute>({
@@ -31,23 +32,23 @@ const Register: React.FC<props> = ({ loginUrl }) => {
 
     const [status, setStatus] = useState(0)
     const navigate = useNavigate()
+    const [finalRegister, { isError, isLoading, isSuccess, error: mutationError }] = useRegisterUserMutation()
     const onSubmit: SubmitHandler<RegisterInpute> = async data => {
         console.log(data);
 
         try {
-
-      
             delete data.acceptTerms
             data.phone = "+972" + data.phone;
             if (!data.selectedLanguage) data.selectedLanguage = "he";
-           
-
-        } catch (error: FetchBaseQueryError | any) {
-            setStatus(error.status)
+            const resp = await finalRegister(data).unwrap()
+            if (isError) console.log(mutationError);
+            auth.currentUser?.getIdToken(true)
+            navigate('/')
+        } catch (error) {
             console.log(error);
-            throw error
 
         }
+
 
     };
 
@@ -56,7 +57,7 @@ const Register: React.FC<props> = ({ loginUrl }) => {
 
     return (
         <div dir="rtl" className='   flex flex-col items-center min-h-[90vh] pt-10 mb-10 '>
-            <ErrorsAlerter status={500} />
+            <ErrorsAlerter status={status} />
 
             <h1 className="text-center">השלמת פרטי משתמש</h1>
             <h2 className="capitalize   text-xs w-[65%] text-center">מידע זה ישמש למשלוחים וזימון תורים   </h2>
@@ -135,49 +136,49 @@ const Register: React.FC<props> = ({ loginUrl }) => {
                     <label htmlFor="" className="font-semibold m-0">כתובת</label>:
                     <div>
                         <input type={"text"} placeholder={"רחוב   "} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.street && 'border-red-500'}
+                    ${errors.address?.street && 'border-red-500'}
                     `}
-                            {...register('street', street)}
+                            {...register('address.street', street)}
                         />
-                        <FormError error={errors.street} />
+                        <FormError error={errors.address?.street} />
                     </div>
                     <div className="grid grid-cols-3  gap-4">
-                        <input type={"text"} placeholder={"מס בית"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.stNum && 'border-red-500'}
+                        <input type={"number"} placeholder={"מס בית"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.address?.stNum && 'border-red-500'}
                     `}
-                            {...register('stNum', streetNumber)}
+                            {...register('address.stNum', streetNumber)}
                         />
 
                         <input type={"text"} placeholder={"כניסה"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.entrance && 'border-red-500'}
+                    ${errors.address?.entrance && 'border-red-500'}
                     `}
-                            {...register('entrance', entrance)}
+                            {...register('address.entrance', entrance)}
                         />
-                        <input type={"text"} placeholder={"דירה"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.apartment && 'border-red-500'}
+                        <input type={"number"} placeholder={"דירה"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
+                    ${errors.address?.apartment && 'border-red-500'}
                     `}
-                            {...register('apartment', apartment)}
+                            {...register('address.apartment', apartment)}
                         />
                         <div className="col-span-3">
-                            <FormError error={errors.stNum} />
-                            <FormError error={errors.entrance} />
-                            <FormError error={errors.apartment} />
+                            <FormError error={errors.address?.stNum} />
+                            <FormError error={errors.address?.entrance} />
+                            <FormError error={errors.address?.apartment} />
                         </div>
                     </div>
                     <div className="grid grid-cols-2  gap-4">
                         <input type={"text"} placeholder={"עיר"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.city && 'border-red-500'}
+                    ${errors.address?.city && 'border-red-500'}
                     `}
-                            {...register('city', city)}
+                            {...register('address.city', city)}
                         />
 
                         <input type={"text"} placeholder={"מיקוד"} className={`w-full bg-transparent border-0 border-b-2 focus:outline-none focus:border-t-0 
-                    ${errors.postalCode && 'border-red-500'}
+                    ${postalCode && 'border-red-500'}
                     `}
-                            {...register('postalCode', postalCode)}
+                            {...register('address.postalCode', postalCode)}
                         />
-                        <FormError error={errors.city} />
-                        <FormError error={errors.postalCode} />
+                        <FormError error={errors.address?.city} />
+                        <FormError error={errors.address?.postalCode} />
 
                     </div>
                 </div>
@@ -215,7 +216,7 @@ const Register: React.FC<props> = ({ loginUrl }) => {
                     <FormError error={errors.acceptTerms} />
                 </div>
 
-                <MainButtons isLoading={isLoading} custom={'h-10 rounded-[50px] w-[70%] self-center text-black font-semibold lg:w-1/2 '} >צור חשבון</MainButtons>
+                <MainButtons isLoading={isLoading} custom={'h-10  w-[70%] self-center text-black font-semibold lg:w-1/2 '} >צור חשבון</MainButtons>
             </form>
 
         </div>

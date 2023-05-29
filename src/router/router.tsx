@@ -25,17 +25,20 @@ export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route >
             {/* PUBLIC ROUTES */}
+           
+           
+                <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
+                
             <Route path="/" element={<SharedLayouts />} >
-                <Route index element={<UserGuard><Home /></UserGuard>} />
+                <Route index element={<Home />} />
                 <Route path="/shop/:category" element={<Shop />} >
                     <Route index element={<ItemGrid />} />
                 </Route>
-                <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
                 <Route path='/register' element={<Register loginUrl="/login" />} />
                 <Route path='/forgot' element={<Forgot loginUrl="/login" />} />
                 {/* <Route path='/product/:id' element={<ProductPage />} />   */}
                 <Route path='/product/' element={<ProductPage />} />
-                <Route path="/myCart/" element={<CartStepper />}>
+                <Route path="/myCart/" element={<UserGuard><CartStepper /></UserGuard>}>
                     <Route index element={<MyCart />} />
                     <Route path="/myCart/login/" element={<LoginPage registerUrl="/myCart/register" forgotUrl="/myCart/forgot/" />} />
                     <Route path="/myCart/register/" element={<Register loginUrl="/myCart/login" />} />

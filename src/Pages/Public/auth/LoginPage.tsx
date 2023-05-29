@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useJwtAuthMutation, useLoginMutation } from "../../../features/API/Auth.Api";
 import { LoginInputs } from "../../../interfaces";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,7 +24,6 @@ interface props {
 }
 
 export const LoginPage: React.FC<props> = ({ forgotUrl, registerUrl }) => {
-  const [login, { isLoading, isError, isSuccess, error, data: userData }] = useLoginMutation()
   const [status, setStatus] = useState(0)
   const [Authing, setAuthing] = useState(false)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<LoginInputs>();

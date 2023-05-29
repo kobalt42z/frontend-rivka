@@ -12,12 +12,14 @@ export interface RegisterInpute {
     phone: string;
     selectedLanguage: string;
 
-    street: string
-    stNum: number;
-    entrance?: string; // optional
-    apartment: number; 
-    city: string;
-    postalCode: string;
+    address: {
+        street: string
+        stNum: number;
+        entrance?: string; // optional
+        apartment: number;
+        city: string;
+        postalCode: string;
+    }
 
     acceptEmail: boolean;
     acceptTerms?: boolean;
