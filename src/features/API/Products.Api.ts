@@ -4,6 +4,7 @@ import { ProductDto, ProductResponse, categoryFromDb, productFromDB, productResp
 import { RootState } from "../Store/store";
 import { types } from "util";
 import { MainAPI } from "./Main.Api";
+import { url } from "inspector";
 
 
 
@@ -31,9 +32,15 @@ export const productApi = MainAPI.injectEndpoints({
 
 
         }),
+        findeByCategory: builder.query<productFromDB, string>({
+            query: (categoryName) => ({
+                url: `prodyct/${categoryName}`,
+                method: 'GET',
+            }),
+        })
         findProductById: builder.query<productFromDB, string>({
             query: (id) => ({
-                
+
                 url: `products/${id}`,
                 method: 'GET',
             }),
@@ -96,8 +103,8 @@ export const productApi = MainAPI.injectEndpoints({
                 response: { status: string | number },
                 meta,
                 arg
-              ) => response.status,
-          
+            ) => response.status,
+
 
 
 

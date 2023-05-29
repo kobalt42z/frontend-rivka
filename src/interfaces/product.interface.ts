@@ -1,4 +1,5 @@
 import { categoryFromDb } from "./category.interface";
+import { DBEntity } from "./global.interfaces";
 
 //  * Req section : 
 export interface ProductDto {
@@ -8,18 +9,23 @@ export interface ProductDto {
   base_price: number;
   selling_price: number;
   reduction_p: number;
-  supply: number;
+  supply?: number;
   active: boolean;
 
   categoryIds: string[]
-  colors: string[]
-  sizes: string[]
-  curves: string[]
-  thickness: string[]
   translations?: TranslationDto
-  // imgUrl?: string;
-
+  specifications:specificationDto[]
 }
+
+export interface specificationDto {
+  color: string
+  size: string
+  curve: string
+  thicknes: string
+  supply: number
+}
+
+
 interface LangueDto {
   language?: string
   name?: string;
@@ -39,7 +45,7 @@ export interface productResponse {
   count: number;
 }
 
-interface ProductTranslation {
+export interface ProductTranslation {
   language: string;
   name: string;
   description: string;
@@ -51,28 +57,10 @@ interface ProductTranslation {
 
 
 //  ? from the db 
-export interface productFromDB {
-  id: string,
-  createdAt: string,
-  updatedAt: string,
-  name: string,
-  brand: string,
-  description: string,
-  base_price: number,
-  selling_price: number,
-  reduction_p: number,
-  supply: number,
-  imgUrl: string,
-  colors: string[],
-  sizes: string[],
-  curves: string[],
-  thickness: string[],
-  orderId: string | null,
-  categoryIds: string[],
-  active: boolean,
+export interface productFromDB extends Omit<ProductDto, 'translations'>, DBEntity {
   translations: transletionFromDb[]
   categorys: { name: string }[]
-  count:number
+  count: number
 }
 
 export interface transletionFromDb {

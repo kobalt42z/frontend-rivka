@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { IF } from '../components/special/if'
 import { TOKEN_KEYWORD } from '../constant'
-import { useJwtAuthMutation } from '../features/API/Auth.Api'
 import { useAppSelector } from '../features/hooks'
-import { authMeRes, role } from '../interfaces'
+import { role } from '../interfaces'
 import { Forbidden } from '../Pages/404/Forbidden'
 
 

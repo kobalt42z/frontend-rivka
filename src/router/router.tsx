@@ -18,6 +18,7 @@ import { MyCart } from "../Pages/Public/shop/components/Cart/MyCart";
 import CartStepper from "../Pages/Public/shop/components/Cart/components/CartStepper";
 import PaymentPage from "../Pages/Public/shop/paymentPage/PaymentPage";
 import UserGuard from "../Guards/User";
+import ItemGrid from "../Pages/Public/shop/ItemGrid";
 
 
 export const router = createBrowserRouter(
@@ -26,7 +27,9 @@ export const router = createBrowserRouter(
             {/* PUBLIC ROUTES */}
             <Route path="/" element={<SharedLayouts />} >
                 <Route index element={<UserGuard><Home /></UserGuard>} />
-                <Route path="/shop" element={<Shop />} />
+                <Route path="/shop/:category" element={<Shop />} >
+                    <Route index element={<ItemGrid />} />
+                </Route>
                 <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
                 <Route path='/register' element={<Register loginUrl="/login" />} />
                 <Route path='/forgot' element={<Forgot loginUrl="/login" />} />

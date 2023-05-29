@@ -1,5 +1,5 @@
 import { productFromDB } from "./product.interface"
-import { user } from "./user.interface"
+import { DB_user } from "./user.interface"
 
 export interface Order {
     id: string,
@@ -11,7 +11,7 @@ export interface Order {
     totalPrice: number,
     status: Status,
     cart:cart,
-    user: user
+    user: DB_user
 }
 enum Status {
     WAITING_FOR_PAYMENT
