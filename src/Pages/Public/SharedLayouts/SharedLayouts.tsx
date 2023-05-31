@@ -15,7 +15,7 @@ export const SharedLayouts = () => {
     <>
       <OverLayBtn />
       <div className='flex justify-center'> <CnavBar /></div>
-      <UserGuard  forceAuth> <Outlet /></UserGuard>
+      <Outlet />
       <MainFooter />
     </>
   )

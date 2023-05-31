@@ -42,9 +42,8 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
     }
     const isRegistred = async () => {
         const decodedToken = await auth.currentUser?.getIdTokenResult()
-        console.log(decodedToken?.claims.role,(Object.values(role).includes(decodedToken?.claims.role)));
+        console.log(decodedToken?.claims.role, (Object.values(role).includes(decodedToken?.claims.role)));
         if (!(Object.values(role).includes(decodedToken?.claims.role))) navigate("/register")
-        
     }
     // ?check if user is authenticated FB 
     // check if user is in DB 
@@ -61,12 +60,14 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
                     photoURL: user.photoURL ?? 'url to basic avatar !'
                 }))
                 dispacthToken()
-
+                isRegistred();
                 SetPass(true);
             }
-            else if (!forceAuth) SetPass(true);
+            else if (!forceAuth) {
+                isRegistred();
+                SetPass(true);
+            }
             else {
-                console.log('הלבב שלי כבר קשהה לוו');
                 navigate('/login')
             }
         })
@@ -74,12 +75,7 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
         return () => observerUnsub()
     }, [auth])
 
-    useEffect(() => {
-       
 
-        isRegistred()
-
-    }, [location.pathname])
 
     return (
         <>

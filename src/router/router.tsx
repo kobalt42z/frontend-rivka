@@ -25,11 +25,15 @@ export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route >
             {/* PUBLIC ROUTES */}
-           
-           
-                <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
-                
-            <Route path="/" element={<SharedLayouts />} >
+
+
+            <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
+
+            <Route path="/" element={
+                <UserGuard >
+                    <SharedLayouts />
+                </UserGuard>
+            } >
                 <Route index element={<Home />} />
                 <Route path="/shop/:category" element={<Shop />} >
                     <Route index element={<ItemGrid />} />
