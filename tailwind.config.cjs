@@ -19,7 +19,6 @@ module.exports = {
     fontFamily: {
       'body': ["Assistant"],
     },
-    
+
   },
-  plugins: [],
 }

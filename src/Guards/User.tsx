@@ -42,7 +42,6 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
     }
     const isRegistred = async () => {
         const decodedToken = await auth.currentUser?.getIdTokenResult()
-        console.log(decodedToken?.claims.role, (Object.values(role).includes(decodedToken?.claims.role)));
         if (!(Object.values(role).includes(decodedToken?.claims.role))) navigate("/register")
     }
     // ?check if user is authenticated FB 

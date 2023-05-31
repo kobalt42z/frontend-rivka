@@ -7,6 +7,10 @@ import ProductsTable from './table/ProductsTable'
 import DelModal from './components/modals/DelModal'
 import DropDownRow from './table/DropDownRow'
 import LoadingScreen from '../../../../components/Loading/LoadingScreen'
+import BasicModal from '../../../../components/Modals/BasicModal'
+import BasicStep from './components/CRUD_forms/create/BasicStep'
+import TranslationStep from './components/CRUD_forms/create/TranslationStep'
+import SpecificationStep from './components/CRUD_forms/create/SpecificationStep'
 
 
 
@@ -66,8 +70,15 @@ const Products = () => {
         <>
             {!isLoading &&
                 <div >
+                    
                     <IF condition={showAddProduct}>
-                        <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /></IF>
+                        {/* <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /> */}
+                        <BasicModal title='הוספת מוצר' toggleClose={closeAddProduct}>
+                            {/* <BasicStep /> */}
+                            {/* <TranslationStep index={0} language='Francais'/> */}
+                            {/* <SpecificationStep index={0} /> */}
+                        </BasicModal>
+                    </IF>
                     <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>
                     <ProductsTable toggleAddProducts={addProduct}>
 

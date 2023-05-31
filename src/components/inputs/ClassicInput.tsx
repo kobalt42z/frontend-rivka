@@ -16,7 +16,7 @@ export const ClassicInput = ({ labelTitle, type, placeholder, className, useFrom
     return (
         <div>
             <label className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white`}>{labelTitle}
-                <span className='text-blue-500 px-1'>
+                <span className='text-blue-500 px-1 text-Base capitalize'>
                     {language}
                 </span>
             </label>

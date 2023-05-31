@@ -1,60 +1,29 @@
-import { Spinner } from 'flowbite-react'
-import React, { FC, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-import { IF } from '../components/special/if'
-import { TOKEN_KEYWORD } from '../constant'
-import { useAppSelector } from '../features/hooks'
-import { role } from '../interfaces'
-import { Forbidden } from '../Pages/404/Forbidden'
-
-
+import { getAuth } from 'firebase/auth';
+import React, { FC, useEffect } from 'react'
+import { role } from '../interfaces';
+import { useNavigate } from 'react-router-dom';
 interface props {
   children: React.ReactNode
 }
+
+
+
 const Admin: FC<props> = ({ children }) => {
-  const [jwtAuth, { isLoading }] = useJwtAuthMutation()
   const navigate = useNavigate()
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [isInvalid, setIsInvalid] = useState(false)
-  const token = useAppSelector((state) => state.tokenReducer.token)
-
-  const auth = async (token: string) => {
-    
-
+  const auth = getAuth();
+  const isAdmin = async () => {
     try {
-      const response: authMeRes = await jwtAuth(token).unwrap()
-      if (response.payload.role === role.ADMIN) setIsAdmin(true);
-
-    } catch (err) {
-      console.error(err);
-      setIsInvalid(true)
+      const decodedToken = await auth.currentUser?.getIdTokenResult();
+      console.log(decodedToken);
+      if (role.ADMIN !== decodedToken?.claims.role) navigate('/')
+    } catch (error) {
+      throw "no user was found"
     }
   }
-  
   useEffect(() => {
-    
-    if(token)auth(token)
-    else navigate("/login")
-    
-  },[])
+    isAdmin()
+  }, [auth])
 
-  return (
-    <>
-
-      <IF condition={isLoading}>
-        <div className='w-full h-[100vh] flex justify-center items-center'>
-          <Spinner color={"failure"} size={'xl'} />
-        </div>
-      </IF>
-      <IF condition={isAdmin}>
-        {children}
-      </IF>
-      <IF condition={isInvalid}>
-        <Forbidden />
-      </IF>
-    </>
-  )
+  return (<>{children}</>)
 }
-
 export default Admin

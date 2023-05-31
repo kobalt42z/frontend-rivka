@@ -2,7 +2,13 @@ import { categoryFromDb } from "./category.interface";
 import { DBEntity } from "./global.interfaces";
 
 //  * Req section : 
-export interface ProductDto {
+export interface ProductDto extends BasicProduct {
+  translations: LangueDto[]
+  specifications: specificationDto[]
+}
+ 
+
+export interface BasicProduct {
   name: string;
   brand: string;
   description: string;
@@ -11,10 +17,7 @@ export interface ProductDto {
   reduction_p: number;
   supply?: number;
   active: boolean;
-
   categoryIds: string[]
-  translations?: TranslationDto
-  specifications:specificationDto[]
 }
 
 export interface specificationDto {
@@ -26,11 +29,10 @@ export interface specificationDto {
 }
 
 
-interface LangueDto {
+export interface LangueDto {
   language?: string
   name?: string;
   description?: string;
-
 }
 
 interface TranslationDto {

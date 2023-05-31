@@ -105,3 +105,60 @@ html[dir="rtl"] {
    backdrop-filter: blur(10px);
  }
 
+/* color piker  */
+#swatch{
+  background: white;
+  box-shadow: 1em 1em 1em rgba(0, 0, 0, .1);
+  display: flex;
+  flex-direction: row;
+}
+
+#swatch .info{
+  padding: 1em;
+  
+}
+
+#swatch h1{
+  margin: 0;
+  text-transform: uppercase;
+}
+
+#swatch h2{
+  font-weight: normal;
+  margin: 0;
+}
+
+input[type="color"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  height: 5em;
+  padding: 0;
+  width: 3em;
+}
+
+*:focus{
+  border-radius: 0;
+  outline: none;
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-color-swatch{
+  border: 0;
+  border-radius: 0;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner{
+  border: 0;
+}
+
+::-moz-focus-inner{
+  padding: 0;
+}

@@ -14,9 +14,9 @@ interface props {
 export const TextArea = ({labelTitle,language,placeholder,useFromsParams,errorMessage,className}:props) => {
     return (
 
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-1">
             <label htmlFor="ItemDescription" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{labelTitle}
-                <span className='text-blue-500 px-1'>
+                <span className='text-blue-500 px-1 text-base capitalize'>
                     {language}
                 </span>
             </label>

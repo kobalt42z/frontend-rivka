@@ -6,6 +6,7 @@ import { CategoryApi } from "../API/Category.Api";
 import shopSlice from "../Slices/shop.slice";
 import cartSlice from "../Slices/cart.slice";
 import { MainAPI } from "../API/Main.Api";
+import productFromSlice from "../Slices/productFrom.slice";
 
 
 
@@ -17,6 +18,7 @@ export const store = configureStore({
         user: userSlice,
         shop:shopSlice,
         cart:cartSlice,
+        productFrom:productFromSlice
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
