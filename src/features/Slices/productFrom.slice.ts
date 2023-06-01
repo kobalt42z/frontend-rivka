@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit/src";
-import { BasicProduct, LangueDto, ProductDto, specificationDto } from "../../interfaces";
+import { BasicProduct, LangueDto, ProductDto, TranslationDto, specificationDto } from "../../interfaces";
 import { PayloadAction } from "@reduxjs/toolkit";
+import { languages } from "../../interfaces/product.interface";
+
 
 interface data {
     basicProduct: BasicProduct | null, // ? can be  a product id to add 
-    translations: LangueDto[]
-    translationIndex: number
+    translations: TranslationDto,
     specifications: specificationDto[]
     specificationIndex: number
     basicProductId?: string
@@ -13,8 +14,10 @@ interface data {
 
 const initialState: data = {
     basicProduct: null,
-    translations: [],
-    translationIndex: 0,
+    translations: {
+        fr: undefined,
+        en: undefined,
+    },
     specifications: [],
     specificationIndex: 0
 }
@@ -31,19 +34,13 @@ const productForm = createSlice({
             state.basicProduct = action.payload;
         },
         addTranslation: (state, action: PayloadAction<LangueDto>) => {
-            const exist = state.translations?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload));
-            if (exist === -1) {
-                state.translations?.push(action.payload)
-                state.translationIndex += 1;
-            }
-            else state.translations[exist] = action.payload
+
+            if (!action.payload.language) return
+            state.translations[action.payload.language] = action.payload
         },
         deleteTranslation: (state, action: PayloadAction<LangueDto>) => {
-            const exist = state.translations?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
-            if (exist !== -1) {
-                state.translations.splice(exist, 1)
-                state.translationIndex -= 1;
-            }
+            if (!action.payload.language) return
+            state.translations[action.payload.language] = undefined
         },
         addSpecification: (state, action: PayloadAction<specificationDto>) => {
             const exist = state.specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
@@ -57,7 +54,7 @@ const productForm = createSlice({
             const exist = state.specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
             if (exist !== -1) {
                 state.specifications.splice(exist, 1)
-                state.specificationIndex -=1
+                state.specificationIndex -= 1
             }
         },
         init: (state) => {

@@ -6,7 +6,7 @@ export interface ProductDto extends BasicProduct {
   translations: LangueDto[]
   specifications: specificationDto[]
 }
- 
+
 
 export interface BasicProduct {
   name: string;
@@ -30,14 +30,14 @@ export interface specificationDto {
 
 
 export interface LangueDto {
-  language?: string
+  language?: languages
   name?: string;
   description?: string;
 }
 
-interface TranslationDto {
-  fr?: LangueDto
-  en?: LangueDto
+export type TranslationDto = {
+  [key in languages]?: LangueDto
+ 
 }
 
 
@@ -76,4 +76,7 @@ export interface transletionFromDb {
 export type ProductResponse = {
   products: productFromDB[],
 }
-
+export enum languages {
+  fr = "fr",
+  en = "en",
+} 

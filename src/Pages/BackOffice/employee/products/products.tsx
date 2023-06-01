@@ -9,9 +9,13 @@ import DropDownRow from './table/DropDownRow'
 import LoadingScreen from '../../../../components/Loading/LoadingScreen'
 import BasicModal from '../../../../components/Modals/BasicModal'
 import BasicStep from './components/CRUD_forms/create/BasicStep'
+import TranslationForm from './components/CRUD_forms/create/TranslationForm'
+import SpecificationForm from './components/CRUD_forms/create/SpecificationForm'
+import { motion } from "framer-motion"
+import CreateProductForm from './components/CRUD_forms/create/CreateProductForm'
 import TranslationStep from './components/CRUD_forms/create/TranslationStep'
-import SpecificationStep from './components/CRUD_forms/create/SpecificationStep'
-
+import { languages } from '../../../../interfaces/product.interface'
+import SpecificationStep from './components/CRUD_forms/create/specificationStep'
 
 
 
@@ -75,8 +79,12 @@ const Products = () => {
                         {/* <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /> */}
                         <BasicModal title='הוספת מוצר' toggleClose={closeAddProduct}>
                             {/* <BasicStep /> */}
-                            {/* <TranslationStep index={0} language='Francais'/> */}
-                            {/* <SpecificationStep index={0} /> */}
+                            {/* <TranslationForm index={0} language='Francais'/> */}
+                            {/* <SpecificationForm index={0} /> */}
+                            <SpecificationStep />
+                            {/* <CreateProductForm/> */}
+                            {/* <TranslationStep languages={[languages.fr,languages.en]}/>
+                             */}
                         </BasicModal>
                     </IF>
                     <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>

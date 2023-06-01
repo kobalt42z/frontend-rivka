@@ -23,7 +23,7 @@
     "firebase": "^9.22.1",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.4.1",
-    "framer-motion": "^10.12.12",
+    "framer-motion": "^10.12.16",
     "i18next": "^22.4.11",
     "i18next-browser-languagedetector": "^7.0.1",
     "jwt-decode": "^3.1.2",

@@ -1,121 +1,85 @@
-import React, { FC, useState, useCallback } from 'react'
-import { ClassicInput } from '../../../../../../../components/inputs/ClassicInput'
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
-import { BasicProduct, specificationDto } from '../../../../../../../interfaces';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../../../../../../features/hooks';
-import { supplyValidator } from '../../../Validators/addProduct.validator';
-import { addSpecification } from '../../../../../../../features/Slices/productFrom.slice';
-import { Button } from 'flowbite-react';
-import { Icon } from '@iconify/react';
-interface props {
-    index: number;
-}
+import { Icon } from '@iconify/react'
+import { Accordion, Button } from 'flowbite-react'
+import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../../../../../../features/hooks'
+import SpecificationForm from './SpecificationForm'
+import { UseToggle } from 'sk-use-toggle/src'
+import { IF } from '../../../../../../../components/special/if'
+import { Disclosure } from '@headlessui/react'
 
-//TODO: add error handling for selectors with red border on error
-const SpecificationStep: FC<props> = ({ index }) => {
-    const [color, setColor] = useState("#959C73")
+const SpecificationStep = () => {
     const dispatch = useAppDispatch()
-    const specification = useAppSelector((state) => state.productFrom.specifications[index])
-    const animatedComponents = makeAnimated();
-    const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<specificationDto>({
-        defaultValues: { color: "959C73" },
-        values: { ...specification ?? undefined, }
-    });
-
-    const sizes = [
-        { value: '', label: 'ללא' },
-        { value: 'S', label: 'S' },
-        { value: 'M', label: 'M' },
-        { value: 'L', label: 'L' },
-        { value: 'XL', label: 'XL' },
-        { value: '1', label: '1' },
-
-    ].concat(
-        Array.from({ length: 14 }, (_, i) => ({
-            value: (i + 2).toString(),
-            label: (i + 2).toString(),
-        })))
-
-
-    const curves = [
-        { value: 'C', label: "C" },
-        { value: 'CC', label: "CC" },
-        { value: 'D', label: "D" }
-    ]
-    const thickness = [
-        { value: '0.07', label: '0.07' },
-        { value: '0.10', label: '0.10' },
-        { value: '0.12', label: '0.12' },
-        { value: '0.15', label: '0.15' }
-    ]
-
-    const onSubmit: SubmitHandler<specificationDto> = data => {
-        console.log(data);
-        dispatch(addSpecification(data));
-    }
-    const handleColorChange = (c: React.ChangeEvent<HTMLInputElement>) => setColor(c.target.value)
+    const specifications = useAppSelector(state => state.productFrom.specifications)
+    const index = useAppSelector((state) => state.productFrom.specificationIndex)
+    const [AddRow, toggleAddrow] = UseToggle()
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-2 gap-5'>
-
+        <div>
             <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מידות</label>
-                <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
+                <Button className='' onClick={toggleAddrow}> הוספה
+                    <Icon icon="ic:baseline-plus"
+                        height={20}
+                        className='mx-1 ' />
+                </Button>
+                <hr className=' my-3' />
+                <div className='space-y-2' >
+                    <div className=''>
+                        {AddRow &&
 
-                    isMulti={false}
-                    options={sizes}
-                    onChange={(c: any) => setValue('size', c.value)}
-                />
-            </div >
-            <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">קיעור</label>
-                <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
+                            <Disclosure>
 
-                    isMulti={false}
-                    options={curves}
-                    onChange={(c: any) => { setValue('curve', c.value) }}
-                />
+                                {({ open }) => (<>
+                                    <Disclosure.Button className=" w-full m-0 ">
+                                        <div className={`w-full h-20 px-5 flex  justify-between items-center border-2 rounded-t-2xl ${!open && "rounded-2xl"} `}>
+                                            <div className='flex items-center capitalize  '>
+                                                פרוט מוצר חדש
+                                            </div>
+                                            <Icon icon={`ion:chevron-${open ? "up" : "down"}`} height={20} />
+                                        </div>
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="text-gray-500">
+                                        <div className="border-x-2 border-b-2 rounded-b-2xl p-10">
+                                            <SpecificationForm index={index} />
+                                        </div>
+                                    </Disclosure.Panel>
 
-            </div >
-            <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">עובי</label>
-                <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-
-                    isMulti={false}
-                    options={thickness}
-                    onChange={(c: any) => { setValue('thicknes', c.value) }}
-                />
-
-            </div >
-            <ClassicInput
-                labelTitle='כמות'
-                type='number'
-                placeholder='54'
-                useFromsParams={register('supply', supplyValidator)}
-                errorMessage={errors.supply?.message}
-            />
-            <div id="swatch" className='   '>
-                <input type="color" id="color" name="color" value={color} onChange={handleColorChange} onBlur={() => setValue("color", color)} />
-                <div className="info">
-                    <h1>לחץ לבחירת צבע</h1>
-                    <h2>{color}</h2>
+                                </>)}
+                            </Disclosure>
+                        }
+                    </div>
+                    <div className='space-y-3'>
+                        {
+                            specifications.map(({ size, color, curve, supply, thicknes }, i) => {
+                                return (
+                                    <div className=''>
+                                        <Disclosure>
+                                            {({ open }) => (<>
+                                                <Disclosure.Button className=" w-full ">
+                                                    <div className={`w-full h-20 px-5 flex  justify-between items-center border-2 rounded-t-2xl ${!open && "rounded-b-2xl"} `}>
+                                                        <div className='h-5 w-5' style={{ background: color }}></div>
+                                                        <span>מידה: {size}</span>
+                                                        <span>קיעור: {curve}</span>
+                                                        <span>עובי: {thicknes}</span>
+                                                        <span>כמות: {supply}</span>
+                                                        <Icon icon={`ion:chevron-${open ? "up" : "down"}`} height={20} />
+                                                    </div>
+                                                </Disclosure.Button>
+                                                <Disclosure.Panel className="text-gray-500 m-0">
+                                                    <div className="border-x-2 border-b-2 rounded-b-2xl p-10">
+                                                        <SpecificationForm index={i} />
+                                                    </div>
+                                                </Disclosure.Panel>
+                                            </>
+                                            )}
+                                        </Disclosure>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
-            <div className=" flex justify-between items-center flex-row-reverse">
-
-                <Button type='submit' className=''>שמור שינויים  <Icon icon="material-symbols:check"
-                    height={20}
-                    className='mx-1 ' /></Button>
-            </div>
-
-        </form>
+            </div >
+        </div >
     )
 }
+
 export default SpecificationStep
