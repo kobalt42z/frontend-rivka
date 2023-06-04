@@ -12,6 +12,7 @@ interface data {
     specificationIndex: number
     basicProductId?: string
     goNext: boolean
+    image: File | null
 }
 
 const initialState: data = {
@@ -22,7 +23,8 @@ const initialState: data = {
     },
     specifications: [],
     specificationIndex: 0,
-    goNext: false
+    goNext: false,
+    image: null
 }
 
 const productForm = createSlice({
@@ -63,6 +65,12 @@ const productForm = createSlice({
         setGoNext: (state, action: PayloadAction<boolean>) => {
             state.goNext = action.payload
         },
+        setImage: (state, action: PayloadAction<File>) => {
+            state.image = action.payload
+        },
+        deleteImage: (state)  => {
+            state.image = null
+        },
         init: (state) => {
             state = initialState
         }
@@ -77,6 +85,8 @@ export const { addBasicProduct,
     addBasicProductId,
     init,
     setGoNext,
+    deleteImage,
+    setImage
 } = productForm.actions
 
 export default productForm.reducer

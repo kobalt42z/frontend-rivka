@@ -2,8 +2,12 @@ import { File } from 'buffer'
 import { Button } from 'flowbite-react';
 import React, { CSSProperties, Dispatch, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
-import { UseFormClearErrors } from 'react-hook-form';
+import { FieldErrors, UseFormClearErrors } from 'react-hook-form';
 import { IF } from '../../../../../../components/special/if';
+import { useAppDispatch, useAppSelector } from '../../../../../../features/hooks';
+import { deleteImage, setImage } from '../../../../../../features/Slices/productFrom.slice';
+import { Icon } from '@iconify/react';
+import { BasicProduct } from '../../../../../../interfaces';
 
 
 
@@ -70,18 +74,17 @@ const img: CSSProperties = {
 
 interface previewFile extends File {
     previewURL: string
+  
 }
 interface props {
     clearError: UseFormClearErrors<any>
-    setImage: Dispatch<React.SetStateAction<any>>
-    editImageUrl?: string
-    editImageName?: string
+    errors:FieldErrors<BasicProduct>
 }
 
-const ImgUploadForm: FC<props> = ({ clearError, setImage, editImageName, editImageUrl }) => {
-    const [file, setFile] = useState<previewFile | null>(null);
-    const [originalFile, setOriginalFile] = useState<Blob | null>(null);
-    const [editMode, setEditMode] = useState(false)
+const ImgUploadForm: FC<props> = ({ clearError,errors  }) => {
+    const [imgPrevUrl, setImgPrevUrl] = useState<string | null>(null)
+    const dispatch = useAppDispatch()
+    const imgFile = useAppSelector((state) => state.productFrom.image)
     const {
         getRootProps,
         getInputProps,
@@ -100,14 +103,11 @@ const ImgUploadForm: FC<props> = ({ clearError, setImage, editImageName, editIma
             'image/*': []
         },
         multiple: false,
-        onDrop: (acceptedFiles: any) => {
+        onDrop: (acceptedFiles: globalThis.File[]) => {
             console.log(acceptedFiles[0]);
             clearError('root')
-            setOriginalFile(acceptedFiles);
-            setImage(acceptedFiles[0])
-            setFile(Object.assign(acceptedFiles[0], {
-                previewURL: URL.createObjectURL(acceptedFiles[0])
-            }))
+            dispatch(setImage(acceptedFiles[0]));
+            setImgPrevUrl(URL.createObjectURL(acceptedFiles[0]))
         }
     });
 
@@ -116,72 +116,56 @@ const ImgUploadForm: FC<props> = ({ clearError, setImage, editImageName, editIma
         ...baseStyle,
         ...(isFocused ? focusedStyle : {}),
         ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {})
+        ...(isDragReject ||errors.root? rejectStyle : {})
     }), [
         isFocused,
         isDragAccept,
         isDragReject
     ]);
-    const thumbs = file &&
-        <div style={thumb} key={file.name}>
+    const thumbs = imgPrevUrl && imgFile &&
+        <div style={thumb} key={imgFile.name}>
             <div style={thumbInner}>
                 < img className=''
-                    src={file.previewURL}
+                    src={imgPrevUrl}
                     style={img}
                     // Revoke data uri after image is loaded
-                    onLoad={() => { URL.revokeObjectURL(file.previewURL) }}
+                    onLoad={() => { URL.revokeObjectURL(imgPrevUrl) }}
                 />
             </div>
         </div>
 
-    const thumbsEdit = editImageUrl &&
-        <div style={thumb} key={editImageName}>
-            <div style={thumbInner}>
-                < img className=''
-                    src={editImageUrl}
-                    style={img}
-                />
-            </div>
-        </div>
+
 
     useEffect(() => {
-        if (editImageName && editImageUrl) setEditMode(true)
+        
+        imgFile && setImgPrevUrl(URL.createObjectURL(imgFile))
     }, [])
 
     return (
         <section dir='rtl' className="container">
-            <IF condition={file}>
+            <IF condition={imgFile}>
 
 
                 <div className='flex items-center space-x-reverse space-x-2' >
                     <aside style={thumbsContainer}>
                         {thumbs}
                     </aside>
-                    <div className='flex flex-col space-y-2'>
-                        <Button onClick={() => setFile(null)}
-                            className='h-9 w-30' color={'failure'}>ביטול </Button>
+                    <div className='flex flex-col space-y-2 '>
+                        {/* <Button onClick={() => dispatch(deleteImage())}
+                            className='h-9 w-30' color={'failure'}>ביטול </Button> */}
                     </div>
                 </div>
+                <button className=' relative top-[-108px] -left-[10px]' onClick={()=>dispatch(deleteImage())} ><Icon icon="ph:x" height={20} /></button>
             </IF>
 
-            <IF condition={!file && !editMode}>
+            <IF condition={!imgFile}>
                 <div {...getRootProps({ className: 'dropzone', style })}>
                     <input {...getInputProps()} />
                     <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>
             </IF>
 
-            <IF condition={editMode}>
-                <div className='flex items-center space-x-reverse space-x-2' >
-                    <aside style={thumbsContainer}>
-                        {thumbsEdit}
-                    </aside>
-                    <div className='flex flex-col space-y-2'>
-                        <Button onClick={() => setEditMode(false)}
-                            className='h-9 w-30' color={'failure'}>ביטול </Button>
-                    </div>
-                </div>
-            </IF>
+
 
         </section>
     );

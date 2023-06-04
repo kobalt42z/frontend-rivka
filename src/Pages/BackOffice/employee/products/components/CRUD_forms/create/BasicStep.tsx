@@ -7,17 +7,19 @@ import { basePriceValidator, brandValidator, descriptionValidator, productNameVa
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { TextArea } from '../../../../../../../components/inputs/TextArea';
-import { Button, ToggleSwitch } from 'flowbite-react';
+import { Button, Label, ToggleSwitch } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import { UseToggle } from 'sk-use-toggle/src';
 import { Switch } from '@headlessui/react';
 import { addBasicProduct, setGoNext } from '../../../../../../../features/Slices/productFrom.slice';
+import ImgUploadForm from '../../modals/ImgUploadForm';
 
 const BasicStep = ({ }) => {
   const animatedComponents = makeAnimated();
   const [active, toggleActive] = UseToggle(true)
   const dispatch = useAppDispatch()
   const basicProductState = useAppSelector((state) => state.productFrom.basicProduct)
+  const image = useAppSelector((state) => state.productFrom.image)
 
   // TODO: make a function that build option from idarray in global function folder
   const categorysOptions: categorysOptions[] = [
@@ -29,6 +31,9 @@ const BasicStep = ({ }) => {
 
 
   const onSubmit: SubmitHandler<BasicProduct> = data => {
+    if(!image) setError('root',{
+      message:"נדרשת תמונה לתיאור המוצר"
+    })
     console.log(data);
     dispatch(addBasicProduct(data));
     dispatch(setGoNext(true))
@@ -109,14 +114,24 @@ const BasicStep = ({ }) => {
           }}
           isMulti
           options={categorysOptions}
-          defaultValue={
-            categorysOptions[0]
-          }
           onChange={(choice) => setValue('categoryIds', choice.map((item: any) => item.value))}
           ref={categoryRef}
         />
         {errors.categoryIds && <p className='text-red-500'>{errors.categoryIds.message}</p>}
       </div >
+      <div dir='ltr' id="fileUpload" className='text-right py-2 col-span-2'>
+        <div className="mb-2 block text-right">
+          <Label
+            htmlFor="file"
+            value="העלאת תמונה"
+          />
+        </div>
+        <div className='w-full '>
+          <ImgUploadForm clearError={clearErrors}  errors={errors} />
+        </div>
+
+        {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
+      </div>
       <div className="col-span-2 flex justify-between items-center flex-row-reverse">
 
         <Button type='submit' className=''>שמור מוצר  <Icon icon="ic:baseline-plus" className='mx-1' /></Button>
