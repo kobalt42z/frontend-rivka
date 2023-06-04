@@ -8,6 +8,8 @@ interface props {
     languages: languages[]
 }
 const TranslationStep: React.FC<props> = ({ languages }) => {
+
+    
     const translations = useAppSelector(state => state.productFrom.translations)
     return (
         <Accordion  >

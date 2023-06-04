@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react'
+import React, { useEffect, FC, useState, useCallback } from 'react'
 import { ClassicInput } from '../../../../../../../components/inputs/ClassicInput'
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -9,15 +9,18 @@ import { supplyValidator } from '../../../Validators/addProduct.validator';
 import { addSpecification } from '../../../../../../../features/Slices/productFrom.slice';
 import { Button } from 'flowbite-react';
 import { Icon } from '@iconify/react';
+import { toggler } from 'sk-use-toggle/src';
+import { RSelectFormatter } from '../../../../../../../functions';
 interface props {
     index: number;
+    toggleFinish: toggler
 }
 
 //TODO: add error handling for selectors with red border on error
-const SpecificationForm: FC<props> = ({ index }) => {
+const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
     const [color, setColor] = useState("#959C73")
     const dispatch = useAppDispatch()
-    const specification = useAppSelector((state) => state.productFrom.specifications[index]?? null)
+    const specification = useAppSelector((state) => state.productFrom.specifications[index] ?? null)
     const animatedComponents = makeAnimated();
     const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<specificationDto>({
         defaultValues: { color: "959C73" },
@@ -54,8 +57,11 @@ const SpecificationForm: FC<props> = ({ index }) => {
     const onSubmit: SubmitHandler<specificationDto> = data => {
         console.log(data);
         dispatch(addSpecification(data));
+        toggleFinish()
     }
     const handleColorChange = (c: React.ChangeEvent<HTMLInputElement>) => setColor(c.target.value)
+
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-2 gap-5'>
 
@@ -64,7 +70,7 @@ const SpecificationForm: FC<props> = ({ index }) => {
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-
+                    defaultValue={RSelectFormatter(specification?.size) ?? undefined}
                     isMulti={false}
                     options={sizes}
                     onChange={(c: any) => setValue('size', c.value)}
@@ -75,7 +81,7 @@ const SpecificationForm: FC<props> = ({ index }) => {
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-
+                    defaultValue={RSelectFormatter(specification?.curve) ?? undefined}
                     isMulti={false}
                     options={curves}
                     onChange={(c: any) => { setValue('curve', c.value) }}
@@ -87,7 +93,7 @@ const SpecificationForm: FC<props> = ({ index }) => {
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-
+                    defaultValue={RSelectFormatter(specification?.thicknes) ?? undefined}
                     isMulti={false}
                     options={thickness}
                     onChange={(c: any) => { setValue('thicknes', c.value) }}
@@ -102,7 +108,11 @@ const SpecificationForm: FC<props> = ({ index }) => {
                 errorMessage={errors.supply?.message}
             />
             <div id="swatch" className='   '>
-                <input type="color" id="color" name="color" value={color} onChange={handleColorChange} onBlur={() => setValue("color", color)} />
+                <input type="color" id="color" value={color}   {...register('color', {
+                    onBlur: () => setValue("color", color),
+                    onChange: handleColorChange,
+
+                })} />
                 <div className="info">
                     <h1>לחץ לבחירת צבע</h1>
                     <h2>{color}</h2>
@@ -112,7 +122,8 @@ const SpecificationForm: FC<props> = ({ index }) => {
 
                 <Button type='submit' className=''>שמור שינויים <Icon icon="material-symbols:check"
                     height={20}
-                    className='mx-1 ' /></Button>
+                    className='mx-1 '
+                /></Button>
             </div>
 
         </form>

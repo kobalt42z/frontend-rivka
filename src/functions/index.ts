@@ -1,1 +1,2 @@
-export * from './DateFormatter'
+export * from './DateFormatter';
+export * from './RSelectFormatter' ;

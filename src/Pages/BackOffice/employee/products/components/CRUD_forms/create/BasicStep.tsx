@@ -11,11 +11,11 @@ import { Button, ToggleSwitch } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import { UseToggle } from 'sk-use-toggle/src';
 import { Switch } from '@headlessui/react';
-import { addBasicProduct } from '../../../../../../../features/Slices/productFrom.slice';
+import { addBasicProduct, setGoNext } from '../../../../../../../features/Slices/productFrom.slice';
 
-const BasicStep = () => {
+const BasicStep = ({ }) => {
   const animatedComponents = makeAnimated();
-  const [active, toggleActive] = UseToggle()
+  const [active, toggleActive] = UseToggle(true)
   const dispatch = useAppDispatch()
   const basicProductState = useAppSelector((state) => state.productFrom.basicProduct)
 
@@ -31,6 +31,7 @@ const BasicStep = () => {
   const onSubmit: SubmitHandler<BasicProduct> = data => {
     console.log(data);
     dispatch(addBasicProduct(data));
+    dispatch(setGoNext(true))
   }
 
   const { ref: categoryRef, } = register("categoryIds", {
@@ -39,6 +40,11 @@ const BasicStep = () => {
       message: "נדרשת קטגוריה אחת לפחות"
     }
   })
+
+  React.useEffect(() => {
+    dispatch(setGoNext(false))
+  }, [])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-2 gap-5'>
       <section className='col-span-2' >
@@ -115,7 +121,7 @@ const BasicStep = () => {
 
         <Button type='submit' className=''>שמור מוצר  <Icon icon="ic:baseline-plus" className='mx-1' /></Button>
         <div className=' space-y-3  w-[110px] ' >
-          <label className='font-semibold  '> סטטוס: <span className={active ? "text-green-500" : "text-gray-500"}>{active ? "פעיל" :"לא זמין"}</span></label>
+          <label className='font-semibold  '> סטטוס: <span className={active ? "text-green-500" : "text-gray-500"}>{active ? "פעיל" : "לא זמין"}</span></label>
           <div dir='ltr' className="mx-auto">
             <Switch
               checked={active}
