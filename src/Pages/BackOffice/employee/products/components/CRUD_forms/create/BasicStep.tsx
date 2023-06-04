@@ -119,7 +119,7 @@ const BasicStep = ({ }) => {
         />
         {errors.categoryIds && <p className='text-red-500'>{errors.categoryIds.message}</p>}
       </div >
-      <div dir='ltr' id="fileUpload" className='text-right py-2 col-span-2'>
+      <div dir='ltr' id="fileUpload" className='text-right py-2 '>
         <div className="mb-2 block text-right">
           <Label
             htmlFor="file"
