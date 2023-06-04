@@ -16,13 +16,18 @@ export const store = configureStore({
         [MainAPI.reducerPath]: MainAPI.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
-        shop:shopSlice,
-        cart:cartSlice,
-        productFrom:productFromSlice
+        shop: shopSlice,
+        cart: cartSlice,
+        productFrom: productFromSlice
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-        .concat(MainAPI.middleware)
+        getDefaultMiddleware({
+            // Ignore these paths in the 
+            serializableCheck: {
+                ignoredPaths: ['productFrom.image',"productFrom.reqBody"],
+            }
+        })
+            .concat(MainAPI.middleware)
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

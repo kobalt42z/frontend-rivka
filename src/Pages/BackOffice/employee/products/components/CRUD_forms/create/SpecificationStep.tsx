@@ -58,7 +58,7 @@ const SpecificationStep = () => {
                     <div className='space-y-3'>
                         {
                             specifications.map((item, i) => {
-                                const { size, color, curve, supply, thicknes } = item
+                                const { size, color, curve, supply, thickness } = item
                                 return (
                                     <div className=''>
                                         <Disclosure>
@@ -69,7 +69,7 @@ const SpecificationStep = () => {
                                                         <div className='h-5 w-5' style={{ background: color }}></div>
                                                         <span>מידה: {size}</span>
                                                         <span>קיעור: {curve}</span>
-                                                        <span>עובי: {thicknes}</span>
+                                                        <span>עובי: {thickness}</span>
                                                         <span>כמות: {supply}</span>
                                                         <Icon icon={`ion:chevron-${open ? "up" : "down"}`} height={20} />
 

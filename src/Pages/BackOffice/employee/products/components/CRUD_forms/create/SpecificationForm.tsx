@@ -93,10 +93,10 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-                    defaultValue={RSelectFormatter(specification?.thicknes) ?? undefined}
+                    defaultValue={RSelectFormatter(specification?.thickness) ?? undefined}
                     isMulti={false}
                     options={thickness}
-                    onChange={(c: any) => { setValue('thicknes', c.value) }}
+                    onChange={(c: any) => { setValue('thickness', c.value) }}
                 />
 
             </div >

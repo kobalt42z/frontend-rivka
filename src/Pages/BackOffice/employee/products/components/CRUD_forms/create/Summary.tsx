@@ -66,7 +66,7 @@ const Summary = () => {
             <div dir="ltr" className='flex justify-end space-x-2'>
                 {
                     product.specifications.map(item => (
-                        <SizeSpan title={item.thicknes} chooseMe={() => { }} />
+                        <SizeSpan title={item.thickness} chooseMe={() => { }} />
                     ))
                 }
             </div>

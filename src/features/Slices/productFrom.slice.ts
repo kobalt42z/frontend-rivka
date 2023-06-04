@@ -13,6 +13,7 @@ interface data {
     basicProductId?: string
     goNext: boolean
     image: File | null
+    reqBody :FormData
 }
 
 const initialState: data = {
@@ -24,8 +25,11 @@ const initialState: data = {
     specifications: [],
     specificationIndex: 0,
     goNext: false,
-    image: null
+    image: null,
+    reqBody:new FormData(),
 }
+
+
 
 const productForm = createSlice({
     name: "productFormSlice",
@@ -73,6 +77,21 @@ const productForm = createSlice({
         },
         init: (state) => {
             state = initialState
+        },
+        prepareToLaunch:(state)=>{
+            state.reqBody = new FormData()
+            if(!state.basicProduct ) return console.warn("No basic product!")
+            if(!state.image ) return console.warn("No image !")
+            const body:ProductDto =  {
+                ...state.basicProduct,
+                translations: state.translations,
+                specifications:state.specifications,
+            }
+            
+            
+            
+            state.reqBody.append("json_body", JSON.stringify(body))
+            state.reqBody.append("image",state.image)
         }
     }
 })
@@ -86,7 +105,8 @@ export const { addBasicProduct,
     init,
     setGoNext,
     deleteImage,
-    setImage
+    setImage,
+    prepareToLaunch
 } = productForm.actions
 
 export default productForm.reducer

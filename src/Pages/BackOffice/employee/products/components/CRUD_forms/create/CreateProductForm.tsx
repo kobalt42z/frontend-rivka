@@ -13,13 +13,16 @@ import { Button, Tooltip } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import Summary from "./Summary";
 import { toggler } from "sk-use-toggle/src";
+import { prepareToLaunch } from "../../../../../../../features/Slices/productFrom.slice";
+import { useCreateProductMutation } from "../../../../../../../features/API/Products.Api";
 
 interface props {
     toggleModal: toggler
 }
 
 export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
-    //   const [selectedTab, setSelectedTab] = useState(tabs[0]);
+    const [createProductReq, { isLoading, isSuccess, error }] = useCreateProductMutation()
+    const reqBody = useAppSelector(state => state.productFrom.reqBody)
     const canGoNext = useAppSelector((state) => state.productFrom.goNext)
     const dispatch = useAppDispatch()
     const steps: React.ReactNode[] = [
@@ -30,7 +33,6 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
 
 
     ]
-    // dispatch(initMultiFormHook(useMultiStepForm({ steps })))
 
     const {
         currentStep,
@@ -45,9 +47,18 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
         "תרגום מוצר",
         "פירוט מוצר",
         "סיכום",
-
     ]
 
+    const creatProduct = async () => {
+        try {
+            dispatch(prepareToLaunch());
+            const resp = await createProductReq(reqBody).unwrap();
+            console.log(resp);//!debig only
+            next(toggleModal)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div className="window">
@@ -87,7 +98,7 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
                     הקודם
                 </Button>
                 <Tooltip className={!canGoNext ? "block " : "hidden"} content={"יש לשמור שינויים על מנת להמשיך"}>
-                    <Button className=" disabled:opacity-70" disabled={!canGoNext} onClick={() => next(toggleModal)} >
+                    <Button className=" disabled:opacity-70" disabled={!canGoNext} onClick={currentStep > steps.length - 2?creatProduct:()=>next(toggleModal)} >
                         {currentStep > steps.length - 2 ? "סיום" : "הבא"}
                         <Icon className="mx-1" height={18} icon="mdi:arrow-left" />
                     </Button>

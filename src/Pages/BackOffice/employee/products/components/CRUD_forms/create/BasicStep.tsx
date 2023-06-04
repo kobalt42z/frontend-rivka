@@ -23,10 +23,13 @@ const BasicStep = ({ }) => {
 
   // TODO: make a function that build option from idarray in global function folder
   const categorysOptions: categorysOptions[] = [
-    { label: "default", value: "idOFDEFAULT" }
+    { label: "default", value: "646ba62e4bf2d430be37d5e1" }
   ]
   const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<BasicProduct>({
     values: basicProductState ?? undefined,
+    defaultValues:{
+      active:true,
+    }
   });
 
 
