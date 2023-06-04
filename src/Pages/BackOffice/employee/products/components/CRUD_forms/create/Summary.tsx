@@ -6,6 +6,10 @@ import { useAppSelector } from '../../../../../../../features/hooks'
 
 const Summary = () => {
     const product = useAppSelector((state) => state.productFrom)
+    const imgFile = useAppSelector((state) => state.productFrom.image)
+
+    const imgURL = imgFile ? URL.createObjectURL(imgFile) : ""
+
     const gridTitles = [
 
         { title: "חברה", value: product.basicProduct?.brand },
@@ -25,7 +29,9 @@ const Summary = () => {
                     <p className='w-1/2'>{product.basicProduct?.description}</p>
                 </div>
 
-                <img src="https://images.unsplash.com/photo-1591154669695-5f2a8d20c089?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="" className='h-[200px] w-[290px]' />
+                <img src={imgURL}
+                    onLoad={() => URL.revokeObjectURL(imgURL)}
+                    alt="" className='h-[200px] w-[290px]' />
             </div>
 
             <div>
@@ -50,7 +56,7 @@ const Summary = () => {
             </div>
             <h4 className='text-base font-semibold'>מידות:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
-            {
+                {
                     product.specifications.map(item => (
                         <SizeSpan title={item.size} chooseMe={() => { }} />
                     ))
@@ -58,7 +64,7 @@ const Summary = () => {
             </div>
             <h4 className='text-base font-semibold'>עובי:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
-            {
+                {
                     product.specifications.map(item => (
                         <SizeSpan title={item.thicknes} chooseMe={() => { }} />
                     ))
@@ -66,7 +72,7 @@ const Summary = () => {
             </div>
             <h4 className='text-base font-semibold'>קיעור:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
-            {
+                {
                     product.specifications.map(item => (
                         <SizeSpan title={item.curve} chooseMe={() => { }} />
                     ))
