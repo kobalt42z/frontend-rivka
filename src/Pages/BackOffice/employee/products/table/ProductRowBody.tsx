@@ -16,8 +16,6 @@ const ProductRowBody: FC<props> = ({ data }) => {
         name,
         description,
         translations,
-        sizes,
-        colors,
         brand,
         reduction_p,
         selling_price,
@@ -25,6 +23,15 @@ const ProductRowBody: FC<props> = ({ data }) => {
         active,
         id
     } = data
+    let sizes = "";
+    let curves = "";
+    let thickness = "";
+    
+    data.Specification.forEach(spec=>{
+        sizes += spec.size + ", " 
+        curves += spec.curve + ", "
+        thickness += spec.thickness + ", "
+    })
     const lang = ["עברית ", "Francais", "English"]
     
     const title = [
@@ -38,17 +45,17 @@ const ProductRowBody: FC<props> = ({ data }) => {
         translations[0]?.description,
         translations[1]?.description
     ]
-    const colorBoxes = colors.map((item, i) => {
+    const colorBoxes = data.Specification.map(({color}, i) => {
         return (
-            <Tooltip dir='ltr' content={item}>
-                <div className='w-5 h-5 '
-                    style={{ backgroundColor: `${item}` }} >
+            <Tooltip dir='ltr' content={color}>
+                <div className='w-5 h-5 rounded-full '
+                    style={{ backgroundColor: `${color}` }} >
                 </div>
             </Tooltip>
         )
     })
     const gridTitles = [
-        { title: "מידות", value: sizes.toString() },
+        { title: "מידות", value: sizes },
         { title: "צבעים", value: colorBoxes },
         { title: "חברה", value: brand },
         { title: "הנחה", value: reduction_p + "%" },

@@ -26,12 +26,6 @@ export interface RegisterInpute {
 }
 
 
-// try to use it in langage selection at register form 
-export enum languages {
-    he = 'he',
-    fr = 'fr',
-    en = 'en',
-}
 
 
 export type LoginInputs = {

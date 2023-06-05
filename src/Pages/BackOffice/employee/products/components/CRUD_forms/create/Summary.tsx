@@ -45,7 +45,7 @@ const Summary = () => {
             <h4 className='text-base font-semibold'>צבעים:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
                 {
-                    product.specifications.map(item => (
+                    product.Specifications.map(item => (
                         < ColorSpan color={item.color} chooseMe={() => { }} />
                     ))
                 }
@@ -57,7 +57,7 @@ const Summary = () => {
             <h4 className='text-base font-semibold'>מידות:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
                 {
-                    product.specifications.map(item => (
+                    product.Specifications.map(item => (
                         <SizeSpan title={item.size} chooseMe={() => { }} />
                     ))
                 }
@@ -65,7 +65,7 @@ const Summary = () => {
             <h4 className='text-base font-semibold'>עובי:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
                 {
-                    product.specifications.map(item => (
+                    product.Specifications.map(item => (
                         <SizeSpan title={item.thickness} chooseMe={() => { }} />
                     ))
                 }
@@ -73,7 +73,7 @@ const Summary = () => {
             <h4 className='text-base font-semibold'>קיעור:</h4>
             <div dir="ltr" className='flex justify-end space-x-2'>
                 {
-                    product.specifications.map(item => (
+                    product.Specifications.map(item => (
                         <SizeSpan title={item.curve} chooseMe={() => { }} />
                     ))
                 }

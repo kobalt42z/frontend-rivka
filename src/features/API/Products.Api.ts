@@ -57,6 +57,7 @@ export const productApi = MainAPI.injectEndpoints({
                 url: 'products',
                 method: 'POST',
                 body: _body,
+                
             }),
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),

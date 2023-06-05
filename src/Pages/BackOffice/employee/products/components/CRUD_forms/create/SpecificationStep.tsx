@@ -10,8 +10,8 @@ import { deleteSpecification, setGoNext } from '../../../../../../../features/Sl
 
 const SpecificationStep = () => {
     const dispatch = useAppDispatch()
-    const specifications = useAppSelector(state => state.productFrom.specifications)
-    const index = useAppSelector((state) => state.productFrom.specificationIndex)
+    const Specifications = useAppSelector(state => state.productFrom.Specifications)
+    const index = useAppSelector((state) => state.productFrom.SpecificationIndex)
     const [AddRow, toggleAddrow] = UseToggle(true)
 
 
@@ -57,7 +57,7 @@ const SpecificationStep = () => {
                     </div>
                     <div className='space-y-3'>
                         {
-                            specifications.map((item, i) => {
+                            Specifications.map((item, i) => {
                                 const { size, color, curve, supply, thickness } = item
                                 return (
                                     <div className=''>

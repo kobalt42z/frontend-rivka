@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit/src";
-import { BasicProduct, LangueDto, ProductDto, TranslationDto, specificationDto } from "../../interfaces";
+import { BasicProduct, LangueDto, ProductDto, TranslationDto, SpecificationDto } from "../../interfaces";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { languages } from "../../interfaces/product.interface";
+import { languages, productFromDB } from "../../interfaces/product.interface";
 import { multiStepFormOut, useMultiStepForm } from "../../Hooks/UseMultiStepForm";
 
 
 interface data {
     basicProduct: BasicProduct | null, // ? can be  a product id to add 
     translations: TranslationDto,
-    specifications: specificationDto[]
-    specificationIndex: number
+    Specifications: SpecificationDto[]
+    SpecificationIndex: number
     basicProductId?: string
     goNext: boolean
     image: File | null
@@ -22,8 +22,8 @@ const initialState: data = {
         fr: undefined,
         en: undefined,
     },
-    specifications: [],
-    specificationIndex: 0,
+    Specifications: [],
+    SpecificationIndex: 0,
     goNext: false,
     image: null,
     reqBody:new FormData(),
@@ -36,6 +36,11 @@ const productForm = createSlice({
     initialState,
     
     reducers: {
+        editProduct:(state, {payload:{Specification,categorys,translations,...rest}}: PayloadAction<productFromDB>)=>{
+            state.basicProduct=rest,
+            state.Specifications = Specification,
+            state.translations =translations // !! fix 
+        },
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
             state.basicProduct = null;
@@ -52,19 +57,19 @@ const productForm = createSlice({
             if (!action.payload.language) return
             state.translations[action.payload.language] = undefined
         },
-        addSpecification: (state, action: PayloadAction<specificationDto>) => {
-            const exist = state.specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
+        addSpecification: (state, action: PayloadAction<SpecificationDto>) => {
+            const exist = state.Specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
             if (exist === -1) {
-                state.specifications?.push(action.payload)
-                state.specificationIndex += 1;
+                state.Specifications?.push(action.payload)
+                state.SpecificationIndex += 1;
             }
-            else state.specifications[exist] = action.payload
+            else state.Specifications[exist] = action.payload
         },
-        deleteSpecification: (state, action: PayloadAction<specificationDto>) => {
-            const exist = state.specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
+        deleteSpecification: (state, action: PayloadAction<SpecificationDto>) => {
+            const exist = state.Specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
             if (exist !== -1) {
-                state.specifications.splice(exist, 1)
-                state.specificationIndex -= 1
+                state.Specifications.splice(exist, 1)
+                state.SpecificationIndex -= 1
             }
         },
         setGoNext: (state, action: PayloadAction<boolean>) => {
@@ -86,7 +91,7 @@ const productForm = createSlice({
             const body:ProductDto =  {
                 ...state.basicProduct,
                 translations: state.translations,
-                specifications:state.specifications,
+                Specifications:state.Specifications,
             }
             
             

@@ -7,6 +7,8 @@ import { productFromDB } from '../../../../../interfaces';
 import CrudBtn from '../components/btns/CrudBtn';
 import { dateFormatter } from '../../../../../functions';
 import StatusBadge from '../../../../../components/Badges/StatusBadge';
+import { useAppDispatch } from '../../../../../features/hooks';
+
 
 ;
 
@@ -14,14 +16,14 @@ import StatusBadge from '../../../../../components/Badges/StatusBadge';
 interface ProductRowType {
 
     handleDeletClick: (arg: { id: string, name: string }) => void;
-    handleEditClick: (data:productFromDB) => void;
+    handleEditClick: () => void;
     onClick: () => void;
     data: productFromDB
 }
 
 const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: ProductRowType) => {
     const [editMode, setEditMode] = useState(false);
-
+    const dispatch = useAppDispatch();
     const {
         id,
         imgUrl,
@@ -29,10 +31,16 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
         categorys,
         brand,
         base_price,
-        supply,
         updatedAt,
         active
     } = data
+    let supply = 0;
+
+    data.Specification.forEach(item => supply += item.supply)
+
+    React.useEffect(() => {
+        console.log()
+    }, [])
 
 
     return (
@@ -75,27 +83,24 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
 
                 </div>
             </td>
-            <td dir='ltr' className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dateFormatter(updatedAt)}</td>
+            <td dir='ltr' className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dateFormatter(updatedAt ?? "N/A")}</td>
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
 
-                {editMode ?
-                    <div className='flex flex-row-reverse justify-evenly'>
-                        <CrudBtn color='red' onClick={() => setEditMode(false)}>
-                            <XMarkIcon className='h-[3vh] ' />
-                        </CrudBtn>
-                        <CrudBtn color='green'><CheckIcon className='h-[3vh] ' /></CrudBtn>
-                    </div>
-                    :
+                {
+
                     <div className='flex flex-row-reverse justify-evenly'>
                         <CrudBtn color='red' onClick={() => handleDeletClick({ id, name })}><TrashIcon className='h-[3vh] ' /></CrudBtn>
-                        <CrudBtn color='gray' onClick={()=>handleEditClick(data)
+                        <CrudBtn color='gray' onClick={() => {
+                            dispatch()
+                            handleEditClick()
+                        }
                         }><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>
                     </div>
                 }
 
 
 
-        </td>
+            </td>
         </tr >
     )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, FC, useState, useCallback } from 'react'
 import { ClassicInput } from '../../../../../../../components/inputs/ClassicInput'
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { BasicProduct, specificationDto } from '../../../../../../../interfaces';
+import { BasicProduct, SpecificationDto } from '../../../../../../../interfaces';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../../../../../../features/hooks';
 import { supplyValidator } from '../../../Validators/addProduct.validator';
@@ -20,9 +20,9 @@ interface props {
 const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
     const [color, setColor] = useState("#959C73")
     const dispatch = useAppDispatch()
-    const specification = useAppSelector((state) => state.productFrom.specifications[index] ?? null)
+    const specification = useAppSelector((state) => state.productFrom.Specifications[index] ?? null)
     const animatedComponents = makeAnimated();
-    const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<specificationDto>({
+    const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<SpecificationDto>({
         defaultValues: { color: "959C73" },
         values: { ...specification ?? undefined, }
     });
@@ -54,7 +54,7 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
         { value: '0.15', label: '0.15' }
     ]
 
-    const onSubmit: SubmitHandler<specificationDto> = data => {
+    const onSubmit: SubmitHandler<SpecificationDto> = data => {
         console.log(data);
         dispatch(addSpecification(data));
         toggleFinish()

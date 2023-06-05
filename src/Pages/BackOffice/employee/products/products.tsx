@@ -36,10 +36,9 @@ const Products = () => {
         setShowConfirmDel(false)
     }
 
-    const editProduct = (data: productFromDB) => {
+    const editProduct = () => {
         // console.log(data);
         setShowAddProduct(true);
-        setToEditProduct(data);
     }
     const deletClick = (arg: { id: string, name: string }) => {
         setToDel(arg);
