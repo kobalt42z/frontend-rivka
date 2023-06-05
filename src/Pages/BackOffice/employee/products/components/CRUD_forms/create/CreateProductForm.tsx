@@ -52,8 +52,9 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
     const creatProduct = async () => {
         try {
             dispatch(prepareToLaunch());
+            reqBody.forEach(item=>console.log(item))
             const resp = await createProductReq(reqBody).unwrap();
-            console.log(resp);//!debig only
+            console.log(resp);//!debug only
             next(toggleModal)
         } catch (error) {
             console.log(error);

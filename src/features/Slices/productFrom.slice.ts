@@ -34,6 +34,7 @@ const initialState: data = {
 const productForm = createSlice({
     name: "productFormSlice",
     initialState,
+    
     reducers: {
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
@@ -92,11 +93,13 @@ const productForm = createSlice({
             
             state.reqBody.append("json_body", JSON.stringify(body))
             state.reqBody.append("image",state.image)
+            console.log(state.image);
+            
         }
     }
 })
 
-export const { addBasicProduct,
+export const { addBasicProduct, 
     addSpecification,
     addTranslation,
     deleteSpecification,

@@ -16,7 +16,7 @@ export const store = configureStore({
         [MainAPI.reducerPath]: MainAPI.reducer,
         tokenReducer: TokenPayloadReducer,
         user: userSlice,
-        shop: shopSlice,
+        shop: shopSlice,    
         cart: cartSlice,
         productFrom: productFromSlice
     },
@@ -24,7 +24,10 @@ export const store = configureStore({
         getDefaultMiddleware({
             // Ignore these paths in the 
             serializableCheck: {
-                ignoredPaths: ['productFrom.image',"productFrom.reqBody"],
+                ignoredActions:["productFormSlice/setImage"],//!must specify both !!
+                ignoredActionPaths:["productFormSlice.setImage"],
+                ignoredPaths: ['productFrom.image',"productFrom.reqBody","productFrom.setImage"],
+                
             }
         })
             .concat(MainAPI.middleware)
