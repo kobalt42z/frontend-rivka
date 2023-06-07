@@ -7,7 +7,8 @@ import { multiStepFormOut, useMultiStepForm } from "../../Hooks/UseMultiStepForm
 
 interface data {
     basicProduct: BasicProduct | null, // ? can be  a product id to add 
-    translations: TranslationDto,
+    translations: LangueDto[],
+    translationsIndex:number
     Specifications: SpecificationDto[]
     SpecificationIndex: number
     basicProductId?: string
@@ -18,10 +19,8 @@ interface data {
 
 const initialState: data = {
     basicProduct: null,
-    translations: {
-        fr: undefined,
-        en: undefined,
-    },
+    translations: [],
+    translationsIndex: 0,
     Specifications: [],
     SpecificationIndex: 0,
     goNext: false,
@@ -36,11 +35,12 @@ const productForm = createSlice({
     initialState,
     
     reducers: {
-        editProduct:(state, {payload:{Specification,categorys,translations,...rest}}: PayloadAction<productFromDB>)=>{
-            state.basicProduct=rest,
-            state.Specifications = Specification,
-            state.translations =translations // !! fix 
-        },
+        // editProduct:(state, {payload:{Specification,categorys,translations,...rest}}: PayloadAction<productFromDB>)=>{
+        //     state.basicProduct=rest,
+        //     state.Specifications = Specification,
+        //     // state.translations =translations // !! fix 
+            
+        // },
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
             state.basicProduct = null;
@@ -48,14 +48,19 @@ const productForm = createSlice({
         addBasicProduct: (state, action: PayloadAction<BasicProduct>) => {
             state.basicProduct = action.payload;
         },
-        addTranslation: (state, action: PayloadAction<LangueDto>) => {
-
-            if (!action.payload.language) return
-            state.translations[action.payload.language] = action.payload
-        },
-        deleteTranslation: (state, action: PayloadAction<LangueDto>) => {
-            if (!action.payload.language) return
-            state.translations[action.payload.language] = undefined
+        addTranslation: ({translations, translationsIndex}, action: PayloadAction<LangueDto>) => {
+            const exist = translations.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
+            if (exist === -1) {
+            translations.push(action.payload)
+                translationsIndex += 1;
+            }
+            else translations[exist] = action.payload        },
+        deleteTranslation: ({translations,translationsIndex}, action: PayloadAction<LangueDto>) => {
+            const exist = translations.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
+            if (exist !== -1) {
+            translations.splice(exist, 1);
+                translationsIndex -= 1;
+            }
         },
         addSpecification: (state, action: PayloadAction<SpecificationDto>) => {
             const exist = state.Specifications?.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))

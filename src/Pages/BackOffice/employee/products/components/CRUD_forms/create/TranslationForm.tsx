@@ -16,7 +16,9 @@ interface props {
 const TranslationForm: FC<props> = ({ language }) => {
     const dispatch = useAppDispatch()
     const [Delete, setDelete] = useState(false)
-    const translation = useAppSelector((state) => state.productFrom.translations[language])
+    const translation = useAppSelector((state) => state.productFrom.translations.find(
+        item => item.language === language
+        ))
     const { setError, setValue, register, clearErrors, handleSubmit, getValues,resetField, formState: { errors, isValid } } = useForm<LangueDto>({
         values: translation ?? undefined,
         defaultValues: {

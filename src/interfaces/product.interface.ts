@@ -3,7 +3,7 @@ import { DBEntity } from "./global.interfaces";
 
 //  * Req section : 
 export interface ProductDto extends BasicProduct {
-  translations: TranslationDto
+  translations: LangueDto[]
   Specifications: SpecificationDto[]
 }
 
@@ -60,7 +60,7 @@ export interface ProductTranslation {
 
 //  ? from the db 
 export interface productFromDB extends Omit<ProductDto, 'translations' | 'Specifications'>, DBEntity {
-  translations: transletionFromDb[]
+  translations: transletionFromDb[] | TranslationDto
   categorys: { name: string }[]
   count: number
   imgUrl: string
@@ -69,7 +69,7 @@ export interface productFromDB extends Omit<ProductDto, 'translations' | 'Specif
 
 export interface transletionFromDb {
   id: string,
-  language: string,
+  language: languages,
   name: string,
   description: string,
   productId: string

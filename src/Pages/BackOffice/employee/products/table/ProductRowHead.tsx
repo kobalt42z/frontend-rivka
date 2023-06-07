@@ -39,7 +39,7 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
     data.Specification.forEach(item => supply += item.supply)
 
     React.useEffect(() => {
-        console.log()
+        console.log(data)
     }, [])
 
 
@@ -91,7 +91,7 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
                     <div className='flex flex-row-reverse justify-evenly'>
                         <CrudBtn color='red' onClick={() => handleDeletClick({ id, name })}><TrashIcon className='h-[3vh] ' /></CrudBtn>
                         <CrudBtn color='gray' onClick={() => {
-                            dispatch()
+                            
                             handleEditClick()
                         }
                         }><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>

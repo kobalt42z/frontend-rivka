@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_REST_API } from "../../constant";
-import { ProductDto, ProductResponse, categoryFromDb, productFromDB, productResponse, shopResponse } from "../../interfaces";
+import { ProductDto, ProductResponse, TranslationDto, categoryFromDb, languages, productFromDB, productResponse, shopResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 import { types } from "util";
 import { MainAPI } from "./Main.Api";
@@ -10,13 +10,23 @@ import { url } from "inspector";
 
 export const productApi = MainAPI.injectEndpoints({
     endpoints: (builder) => ({
-        findALlProduct: builder.query<ProductResponse, number>({
+        findALlProduct: builder.query<ProductResponse, number | undefined>({
             query: (page) => ({
 
-                url: `products/?page=${page}`,
+                url: `products/?page=${page ?? ''}`,
                 method: 'GET',
-
             }),
+            // transformResponse: (resp: productResponse) => {
+            //     resp.products.map(product => {
+            //         product.translations.forEach(translation => {
+            //             let newTrad:TranslationDto={};
+            //             newTrad[translation.language] = translation;
+            //             product.translations =newTrad
+            //         }
+            //     })
+
+            //     return response
+            // },
             providesTags: (result) =>
                 result
                     ? [
@@ -38,7 +48,7 @@ export const productApi = MainAPI.injectEndpoints({
                 method: 'GET',
             }),
         }),
-        
+
         findProductById: builder.query<productFromDB, string>({
             query: (id) => ({
 
@@ -50,14 +60,14 @@ export const productApi = MainAPI.injectEndpoints({
         }),
 
 
-// * CRUD :
+        // * CRUD :
 
         createProduct: builder.mutation({
             query: (_body: FormData) => ({
                 url: 'products',
                 method: 'POST',
                 body: _body,
-                
+
             }),
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
