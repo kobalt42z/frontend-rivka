@@ -8,13 +8,13 @@ import { multiStepFormOut, useMultiStepForm } from "../../Hooks/UseMultiStepForm
 interface data {
     basicProduct: BasicProduct | null, // ? can be  a product id to add 
     translations: LangueDto[],
-    translationsIndex:number
+    translationsIndex: number
     Specifications: SpecificationDto[]
     SpecificationIndex: number
     basicProductId?: string
     goNext: boolean
     image: File | null
-    reqBody :FormData
+    reqBody: FormData
 }
 
 const initialState: data = {
@@ -25,7 +25,7 @@ const initialState: data = {
     SpecificationIndex: 0,
     goNext: false,
     image: null,
-    reqBody:new FormData(),
+    reqBody: new FormData(),
 }
 
 
@@ -33,14 +33,14 @@ const initialState: data = {
 const productForm = createSlice({
     name: "productFormSlice",
     initialState,
-    
+
     reducers: {
-        // editProduct:(state, {payload:{Specification,categorys,translations,...rest}}: PayloadAction<productFromDB>)=>{
-        //     state.basicProduct=rest,
-        //     state.Specifications = Specification,
-        //     // state.translations =translations // !! fix 
-            
-        // },
+        editProduct: (state, { payload: { Specification, categorys, translations, ...rest } }: PayloadAction<productFromDB>) => {
+            state.basicProduct = rest,
+                state.Specifications = Specification,
+                state.translations = translations 
+
+        },
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
             state.basicProduct = null;
@@ -48,17 +48,18 @@ const productForm = createSlice({
         addBasicProduct: (state, action: PayloadAction<BasicProduct>) => {
             state.basicProduct = action.payload;
         },
-        addTranslation: ({translations, translationsIndex}, action: PayloadAction<LangueDto>) => {
-            const exist = translations.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
+        addTranslation: ({ translations, translationsIndex }, action: PayloadAction<LangueDto>) => {
+            const exist = translations.findIndex(t => t.language === action.payload.language)
             if (exist === -1) {
-            translations.push(action.payload)
+                translations.push(action.payload)
                 translationsIndex += 1;
             }
-            else translations[exist] = action.payload        },
-        deleteTranslation: ({translations,translationsIndex}, action: PayloadAction<LangueDto>) => {
-            const exist = translations.findIndex(t => JSON.stringify(t) === JSON.stringify(action.payload))
+            else translations[exist] = action.payload
+        },
+        deleteTranslation: ({ translations, translationsIndex }, action: PayloadAction<LangueDto>) => {
+            const exist = translations.findIndex(t => t.language === action.payload.language)
             if (exist !== -1) {
-            translations.splice(exist, 1);
+                translations.splice(exist, 1);
                 translationsIndex -= 1;
             }
         },
@@ -83,33 +84,33 @@ const productForm = createSlice({
         setImage: (state, action: PayloadAction<File>) => {
             state.image = action.payload
         },
-        deleteImage: (state)  => {
+        deleteImage: (state) => {
             state.image = null
         },
         init: (state) => {
             state = initialState
         },
-        prepareToLaunch:(state)=>{
+        prepareToLaunch: (state) => {
             state.reqBody = new FormData()
-            if(!state.basicProduct ) return console.warn("No basic product!")
-            if(!state.image ) return console.warn("No image !")
-            const body:ProductDto =  {
+            if (!state.basicProduct) return console.warn("No basic product!")
+            if (!state.image) return console.warn("No image !")
+            const body: ProductDto = {
                 ...state.basicProduct,
                 translations: state.translations,
-                Specifications:state.Specifications,
+                Specifications: state.Specifications,
             }
-            
-            
-            
+
+
+
             state.reqBody.append("json_body", JSON.stringify(body))
-            state.reqBody.append("image",state.image)
+            state.reqBody.append("image", state.image)
             console.log(state.image);
-            
+
         }
     }
 })
 
-export const { addBasicProduct, 
+export const { addBasicProduct,
     addSpecification,
     addTranslation,
     deleteSpecification,

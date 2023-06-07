@@ -60,7 +60,7 @@ export interface ProductTranslation {
 
 //  ? from the db 
 export interface productFromDB extends Omit<ProductDto, 'translations' | 'Specifications'>, DBEntity {
-  translations: transletionFromDb[] | TranslationDto
+  translations: transletionFromDb[] 
   categorys: { name: string }[]
   count: number
   imgUrl: string

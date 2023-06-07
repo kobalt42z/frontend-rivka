@@ -16,17 +16,7 @@ export const productApi = MainAPI.injectEndpoints({
                 url: `products/?page=${page ?? ''}`,
                 method: 'GET',
             }),
-            // transformResponse: (resp: productResponse) => {
-            //     resp.products.map(product => {
-            //         product.translations.forEach(translation => {
-            //             let newTrad:TranslationDto={};
-            //             newTrad[translation.language] = translation;
-            //             product.translations =newTrad
-            //         }
-            //     })
-
-            //     return response
-            // },
+         
             providesTags: (result) =>
                 result
                     ? [
