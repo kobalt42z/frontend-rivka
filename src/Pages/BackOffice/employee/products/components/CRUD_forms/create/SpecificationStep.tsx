@@ -8,7 +8,7 @@ import { IF } from '../../../../../../../components/special/if'
 import { Disclosure } from '@headlessui/react'
 import { deleteSpecification, setGoNext } from '../../../../../../../features/Slices/productFrom.slice'
 
-const SpecificationStep = () => {
+export const SpecificationStep = () => {
     const dispatch = useAppDispatch()
     const Specifications = useAppSelector(state => state.productFrom.Specifications)
     const index = useAppSelector((state) => state.productFrom.SpecificationIndex)
@@ -94,4 +94,3 @@ const SpecificationStep = () => {
     )
 }
 
-export default SpecificationStep

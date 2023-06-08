@@ -12,10 +12,13 @@ import BasicStep from './components/CRUD_forms/create/BasicStep'
 import TranslationForm from './components/CRUD_forms/create/TranslationForm'
 import SpecificationForm from './components/CRUD_forms/create/SpecificationForm'
 import { motion } from "framer-motion"
-import {CreateProductForm} from './components/CRUD_forms/create/CreateProductForm'
+import { CreateProductForm } from './components/CRUD_forms/create/CreateProductForm'
 import TranslationStep from './components/CRUD_forms/create/TranslationStep'
 import { languages } from '../../../../interfaces/product.interface'
-import SpecificationStep from './components/CRUD_forms/create/specificationStep'
+import { UseToggle } from 'sk-use-toggle/src'
+import { useAppDispatch } from '../../../../features/hooks'
+import { setEditProduct } from '../../../../features/Slices/productFrom.slice'
+import { ClickOutside } from '../../../../components/special/ClickOutside'
 
 
 
@@ -31,13 +34,16 @@ const Products = () => {
     const { isLoading, isFetching, isError, isSuccess, error, data } = useFindALlProductQuery(currentPage);
 
     const [deletProduct, { }] = useDeleteProductMutation()
+    const [editMode, toggleEdit] = UseToggle()
+    const dispatch = useAppDispatch()
 
     const cancel = () => {
         setShowConfirmDel(false)
     }
 
-    const editProduct = () => {
-        // console.log(data);
+    const editProduct = (data: productFromDB) => {
+        toggleEdit()
+        dispatch(setEditProduct(data))
         setShowAddProduct(true);
     }
     const deletClick = (arg: { id: string, name: string }) => {
@@ -73,11 +79,14 @@ const Products = () => {
         <>
             {!isLoading &&
                 <div >
-                    
+
                     <IF condition={showAddProduct}>
                         {/* <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /> */}
+                        {/* //! isolate darkvail from click outside  */}
                         <BasicModal title='הוספת מוצר' toggleClose={closeAddProduct}>
-                            <CreateProductForm toggleModal={closeAddProduct}/>
+                            <ClickOutside closeIt={closeAddProduct} open={showAddProduct} >
+                                <CreateProductForm edit={editMode} toggleModal={closeAddProduct} />
+                            </ClickOutside> 
                         </BasicModal>
                     </IF>
                     <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>

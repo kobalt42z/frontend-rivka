@@ -7,7 +7,7 @@ import BasicStep from "./BasicStep";
 
 import TranslationStep from "./TranslationStep";
 import { languages } from "../../../../../../../interfaces/product.interface";
-import SpecificationStep from "./specificationStep";
+
 import { useAppDispatch, useAppSelector } from "../../../../../../../features/hooks";
 import { Button, Tooltip } from "flowbite-react";
 import { Icon } from "@iconify/react";
@@ -15,12 +15,14 @@ import Summary from "./Summary";
 import { toggler } from "sk-use-toggle/src";
 import { prepareToLaunch } from "../../../../../../../features/Slices/productFrom.slice";
 import { useCreateProductMutation } from "../../../../../../../features/API/Products.Api";
+import { SpecificationStep } from "./SpecificationStep";
 
 interface props {
     toggleModal: toggler
+    edit: boolean // flag for edit mode
 }
 
-export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
+export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
     const [createProductReq, { isLoading, isSuccess, error }] = useCreateProductMutation()
     const reqBody = useAppSelector(state => state.productFrom.reqBody)
     const canGoNext = useAppSelector((state) => state.productFrom.goNext)
@@ -48,11 +50,26 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
         "פירוט מוצר",
         "סיכום",
     ]
+    const handleNextClick = () => {
+        // if its last step activate create or edit 
+        if (currentStep > steps.length - 2) {
+            if (edit) editProduct()
+            else createProduct()
+        } else next();
+    }
 
-    const creatProduct = async () => {
+    const editProduct = async () => {
+        try {
+            // edit logic 
+        } catch (error) {
+
+        }
+    }
+    const createProduct = async () => {
+
         try {
             dispatch(prepareToLaunch());
-            reqBody.forEach(item=>console.log(item))
+            reqBody.forEach(item => console.log(item))
             const resp = await createProductReq(reqBody).unwrap();
             console.log(resp);//!debug only
             next(toggleModal)
@@ -99,7 +116,7 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal }) => {
                     הקודם
                 </Button>
                 <Tooltip className={!canGoNext ? "block " : "hidden"} content={"יש לשמור שינויים על מנת להמשיך"}>
-                    <Button className=" disabled:opacity-70" disabled={!canGoNext} onClick={currentStep > steps.length - 2?creatProduct:()=>next(toggleModal)} >
+                    <Button className=" disabled:opacity-70" disabled={!canGoNext} onClick={handleNextClick} >
                         {currentStep > steps.length - 2 ? "סיום" : "הבא"}
                         <Icon className="mx-1" height={18} icon="mdi:arrow-left" />
                     </Button>

@@ -29,7 +29,7 @@ export const ClickOutside = ({ children, closeIt, open }:ClickOutsideProps) => {
 
     // if i show them the will change my layout that why i use null when its closed
     return (<>
-        <div className="absolute z-index-[-1]" ref={targetRef}>{children}</div>
+        <div className=" z-index-[-1]" ref={targetRef}>{children}</div>
     </>)
 
 

@@ -13,7 +13,7 @@ interface data {
     SpecificationIndex: number
     basicProductId?: string
     goNext: boolean
-    image: File | null
+    image: File | string | null
     reqBody: FormData
 }
 
@@ -35,11 +35,11 @@ const productForm = createSlice({
     initialState,
 
     reducers: {
-        editProduct: (state, { payload: { Specification, categorys, translations, ...rest } }: PayloadAction<productFromDB>) => {
-            state.basicProduct = rest,
-                state.Specifications = Specification,
-                state.translations = translations 
-
+        setEditProduct: (state, { payload: { Specification, categorys, translations, imgUrl, ...rest } }: PayloadAction<productFromDB>) => {
+            state.basicProduct = rest;
+            state.Specifications = Specification
+            state.translations = translations
+            state.image = imgUrl
         },
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
@@ -110,11 +110,13 @@ const productForm = createSlice({
     }
 })
 
-export const { addBasicProduct,
+export const {
+    addBasicProduct,
     addSpecification,
     addTranslation,
     deleteSpecification,
     deleteTranslation,
+    setEditProduct,
     addBasicProductId,
     init,
     setGoNext,

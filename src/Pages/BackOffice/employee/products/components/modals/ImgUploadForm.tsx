@@ -74,14 +74,14 @@ const img: CSSProperties = {
 
 interface previewFile extends File {
     previewURL: string
-  
+
 }
 interface props {
     clearError: UseFormClearErrors<any>
-    errors:FieldErrors<BasicProduct>
+    errors: FieldErrors<BasicProduct>
 }
 
-const ImgUploadForm: FC<props> = ({ clearError,errors  }) => {
+const ImgUploadForm: FC<props> = ({ clearError, errors }) => {
     const [imgPrevUrl, setImgPrevUrl] = useState<string | null>(null)
     const dispatch = useAppDispatch()
     const imgFile = useAppSelector((state) => state.productFrom.image)
@@ -116,20 +116,20 @@ const ImgUploadForm: FC<props> = ({ clearError,errors  }) => {
         ...baseStyle,
         ...(isFocused ? focusedStyle : {}),
         ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ||errors.root? rejectStyle : {})
+        ...(isDragReject || errors.root ? rejectStyle : {})
     }), [
         isFocused,
         isDragAccept,
         isDragReject
     ]);
     const thumbs = imgPrevUrl && imgFile &&
-        <div style={thumb} key={imgFile.name}>
+        <div style={thumb} key={'product-image'}>
             <div style={thumbInner}>
                 < img className=''
                     src={imgPrevUrl}
                     style={img}
-                    // Revoke data uri after image is loaded
-                    onLoad={() => { URL.revokeObjectURL(imgPrevUrl) }}
+                    // ?Revoke data uri after image is loaded ONLY! if its not an amazonUrl 
+                    onLoad={typeof imgFile !== 'string' ? (() => { URL.revokeObjectURL(imgPrevUrl) }) : undefined}
                 />
             </div>
         </div>
@@ -137,8 +137,8 @@ const ImgUploadForm: FC<props> = ({ clearError,errors  }) => {
 
 
     useEffect(() => {
-        
-        imgFile && setImgPrevUrl(URL.createObjectURL(imgFile))
+        if (typeof imgFile === 'string') setImgPrevUrl(imgFile)
+        else if (imgFile) setImgPrevUrl(URL.createObjectURL(imgFile))
     }, [])
 
     return (
@@ -155,7 +155,7 @@ const ImgUploadForm: FC<props> = ({ clearError,errors  }) => {
                             className='h-9 w-30' color={'failure'}>ביטול </Button> */}
                     </div>
                 </div>
-                <button className=' relative top-[-108px] -left-[10px]' onClick={()=>dispatch(deleteImage())} ><Icon icon="ph:x" height={20} /></button>
+                <button className=' relative top-[-108px] -left-[10px]' onClick={() => dispatch(deleteImage())} ><Icon icon="ph:x" height={20} /></button>
             </IF>
 
             <IF condition={!imgFile}>
