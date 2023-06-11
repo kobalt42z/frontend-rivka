@@ -16,7 +16,7 @@ export const productApi = MainAPI.injectEndpoints({
                 url: `products/?page=${page ?? ''}`,
                 method: 'GET',
             }),
-         
+
             providesTags: (result) =>
                 result
                     ? [
@@ -137,3 +137,4 @@ export const { useDeleteProductMutation } = productApi
 export const { useGetShopQuery } = productApi
 export const { useGetMaxPageShopQuery } = productApi
 export const { useFindProductByIdQuery } = productApi
+export const { useFindeByCategoryQuery } =productApi

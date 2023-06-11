@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_REST_API } from "../../constant";
 import { RootState } from "../Store/store";
-import { CategoryResponse, categoryFromDb } from "../../interfaces";
+import { CategoryResponse, Slist, categoryFromDb } from "../../interfaces";
 import { url } from "inspector";
 import { MainAPI } from "./Main.Api";
 
@@ -52,7 +52,7 @@ export const CategoryApi = MainAPI.injectEndpoints({
             }),
             invalidatesTags: [{ type: 'Category', id: 'LIST' }]
         }),
-        getCategoriesSlist: builder.query({
+        getCategoriesSlist: builder.query<Slist[],undefined>({
             query:()=>({
                 url:'categories/slist',
                 method:'GET',

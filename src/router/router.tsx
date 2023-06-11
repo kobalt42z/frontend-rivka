@@ -35,8 +35,8 @@ export const router = createBrowserRouter(
                 </UserGuard>
             } >
                 <Route index element={<Home />} />
-                <Route path="/shop/:category" element={<Shop />} >
-                    <Route index element={<ItemGrid />} />
+                <Route path="/shop/" element={<Shop />} >
+                    <Route path="/shop/:category" element={<ItemGrid />} />
                 </Route>
                 <Route path='/register' element={<Register loginUrl="/login" />} />
                 <Route path='/forgot' element={<Forgot loginUrl="/login" />} />

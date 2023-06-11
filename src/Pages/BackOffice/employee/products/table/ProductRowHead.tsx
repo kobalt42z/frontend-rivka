@@ -13,15 +13,15 @@ import { useAppDispatch } from '../../../../../features/hooks';
 ;
 
 
-interface ProductRowType {
+interface props {
 
     handleDeletClick: (arg: { id: string, name: string }) => void;
-    handleEditClick: () => void;
+    handleEditClick: (data:productFromDB) => void;
     onClick: () => void;
     data: productFromDB
 }
 
-const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: ProductRowType) => {
+const ProductRowHead:React.FC<props> = ({ handleDeletClick, handleEditClick, onClick, data }) => {
     const [editMode, setEditMode] = useState(false);
     const dispatch = useAppDispatch();
     const {
@@ -92,7 +92,7 @@ const ProductRowHead = ({ handleDeletClick, handleEditClick, onClick, data }: Pr
                         <CrudBtn color='red' onClick={() => handleDeletClick({ id, name })}><TrashIcon className='h-[3vh] ' /></CrudBtn>
                         <CrudBtn color='gray' onClick={() => {
                             
-                            handleEditClick()
+                            handleEditClick(data)
                         }
                         }><PencilSquareIcon className='h-[3vh] ' /></CrudBtn>
                     </div>

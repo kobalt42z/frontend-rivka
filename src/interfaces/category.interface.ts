@@ -3,12 +3,12 @@ import { productFromDB } from "./product.interface"
 export interface categoryFromDb {
     id: string
     name: string
-    createdAt:string
-    updatedAt:string
-    description:string
-    products?:productFromDB[]
-    productsIds:string[]
-    imgUrl:string
+    createdAt: string
+    updatedAt: string
+    description: string
+    products?: productFromDB[]
+    productsIds: string[]
+    imgUrl: string
     _count?: {
         products: 2
     }
@@ -20,14 +20,19 @@ export type CategoryResponse = {
 export interface categorysOptions {
     value: string, label: string
 }
-export interface categoryDto{
+export interface categoryDto {
     name: string
-    description:string
+    description: string
     // products?:productFromDB[]
-    productsIds:string[]
+    productsIds: string[]
 }
 
-export  interface shopResponse {
-    categoryAndItems:categoryFromDb[]
-    categoryCount:number
+export interface shopResponse {
+    categoryAndItems: categoryFromDb[]
+    categoryCount: number
+}
+export interface Slist {
+    id: string,
+    name:string,
+    imgUrl:string
 }

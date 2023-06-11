@@ -33,7 +33,7 @@ const Shop = () => {
     } = useGetShopQuery(currentPage)
 
 
-    const { isSuccess: maxPageFetched, data: MaxPage } = useGetMaxPageShopQuery(undefined)
+    // const { isSuccess: maxPageFetched, data: MaxPage } = useGetMaxPageShopQuery(undefined)
 
     const intersectionObserver = useRef<IntersectionObserver>()
     const lastProductRef = useCallback((product: HTMLDivElement) => {
@@ -47,56 +47,16 @@ const Shop = () => {
         if (product) intersectionObserver.current.observe(product)
     }, [isLoadingProducts])
 
-    useEffect(() => {
-        if (MaxPage) dispatch(setMaxPage(MaxPage))
+    // useEffect(() => {
+    //     if (MaxPage) dispatch(setMaxPage(MaxPage))
 
 
-    }, [maxPageFetched])
+    // }, [maxPageFetched])
 
 
 
 
 
-    const RenderProduct =
-        productsResp?.categoryAndItems?.map(category => {
-
-            return (
-                <>
-                    <ShopDelimiter key={category.id} imgUrl={category.imgUrl} title={category.name}>
-
-
-                        {category.products && category.products.map((product, i) => {
-                            if (category.products && category.products.length === i + 1) {
-                                return (
-                                    <ShopItem imgUrl={product.imgUrl}
-                                        title={product.name}
-                                        subtitle={product.brand}
-                                        price={product.selling_price}
-                                        sale={product.reduction_p}
-                                        addToCart={() => dispatch(addToCart(product))}
-                                        ref={lastProductRef}
-                                        key={product.id}
-                                        id={product.id}
-                                    />
-                                )
-                            } else return (
-                                <ShopItem imgUrl={product.imgUrl}
-                                    title={product.name}
-                                    subtitle={product.brand}
-                                    price={product.selling_price}
-                                    sale={product.reduction_p}
-                                    addToCart={() => dispatch(addToCart(product))}
-                                    key={product.id}
-                                    id={product.id}
-
-                                />
-                            )
-                        })
-                        }
-                    </ShopDelimiter >
-                </>
-            )
-        })
 
 
 

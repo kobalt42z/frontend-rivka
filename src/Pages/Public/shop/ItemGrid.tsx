@@ -1,9 +1,12 @@
 import React from 'react'
 import ShopItem from './components/ShopItem'
 import { useParams } from 'react-router-dom'
+import { useFindeByCategoryQuery } from '../../../features/API/Products.Api'
 
 const ItemGrid = () => {
+    //!!! ime here!!!!
     const params = useParams()
+    const { isError, isSuccess, isLoading, error, data } = useFindeByCategoryQuery(params.path ?? 'default')
     // bring item by query using category name 
     return (
         <div className='container flex flex-col items-center '>

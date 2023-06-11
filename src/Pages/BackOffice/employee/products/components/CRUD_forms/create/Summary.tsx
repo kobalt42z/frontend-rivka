@@ -8,7 +8,7 @@ const Summary = () => {
     const product = useAppSelector((state) => state.productFrom)
     const imgFile = useAppSelector((state) => state.productFrom.image)
 
-    const imgURL = imgFile ? URL.createObjectURL(imgFile) : ""
+    const imgURL = imgFile && typeof imgFile !== 'string' ? URL.createObjectURL(imgFile) : imgFile
 
     const gridTitles = [
 
@@ -29,16 +29,16 @@ const Summary = () => {
                     <p className='w-1/2'>{product.basicProduct?.description}</p>
                 </div>
 
-                <img src={imgURL}
-                    onLoad={() => URL.revokeObjectURL(imgURL)}
+                <img src={imgURL ?? ''}
+                    onLoad={imgURL && typeof imgFile !== 'string' ? (() => { URL.revokeObjectURL(imgURL) }) : undefined}
                     alt="" className='h-[200px] w-[290px]' />
             </div>
 
             <div>
                 <h4 className='text-base font-semibold'>שפות </h4>
                 <div dir="ltr" className='flex justify-end space-x-2'>
-                    {product.translations.fr && <Icon icon="flag:fr-4x3" />}
-                    {product.translations.en && <Icon icon="flag:us-4x3" />}
+                    {product.translations[0] && <Icon icon="flag:fr-4x3" />}
+                    {product.translations[1] && <Icon icon="flag:us-4x3" />}
 
                 </div>
             </div>
