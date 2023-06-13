@@ -23,6 +23,7 @@ import Comments from '../comments/comments';
 import { Icon } from '@iconify/react';
 import Star from '../../../../../components/ratings/Star';
 import Rating from '../../../../../components/ratings/Rating';
+import AddCommentForm from '../comments/addCommentForm';
 
 export const ProductPage = () => {
     const navigate = useNavigate()
@@ -146,7 +147,7 @@ export const ProductPage = () => {
             </div>
 
             <ClassicHr />
-            <div className='flex justify-start w-full px-3'>
+            <div className='flex justify-between w-full px-3'>
                 <button onClick={toggleComment} className='flex flex-row-reverse  items-center'>
                     {showComment ?
                         <ChevronDownIcon className='w-6 h-6 mx-2 text-shadow' />
@@ -156,11 +157,15 @@ export const ProductPage = () => {
                     <span className='text-shadow text-lg font-semibold'>תגובות</span>
 
                 </button>
-
+                <MainButtons custom=' flex items-center p-1 px-2'>
+                    הוסיפי תגובה
+                    <Icon icon="ic:baseline-plus" className='mx-1' />
+                </MainButtons>
             </div>
+            {showComment && <ClassicHr />}
             {showComment &&
                 <div className='w-full'>
-
+                    <AddCommentForm/>
                     <Comments />
                     <Comments />
                     <Comments />

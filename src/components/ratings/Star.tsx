@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 
 interface props {
     active?: boolean
+    
 }
 
 const Star:FC<props> = ({active }) => {
