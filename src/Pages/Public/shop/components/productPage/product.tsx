@@ -32,6 +32,7 @@ export const ProductPage = () => {
     const caruselRef = useRef<HTMLDivElement>(null);
     const caruselItemRef = useRef<HTMLDivElement>(null);
     const [showComment, toggleComment] = UseToggle();
+    const [showAddComment, toggleAddComment] = UseToggle();
 
     const [selectedColor, setSelectedColor] = useState(0);
 
@@ -145,7 +146,7 @@ export const ProductPage = () => {
 
                 </div>
             </div>
-
+            {showAddComment && <AddCommentForm  toggleClose={toggleAddComment}/>}
             <ClassicHr />
             <div className='flex justify-between w-full px-3'>
                 <button onClick={toggleComment} className='flex flex-row-reverse  items-center'>
@@ -157,15 +158,17 @@ export const ProductPage = () => {
                     <span className='text-shadow text-lg font-semibold'>תגובות</span>
 
                 </button>
-                <MainButtons custom=' flex items-center p-1 px-2'>
+                {!showAddComment &&
+                    <MainButtons ClickAction={toggleAddComment} custom=' flex items-center p-1 px-2'>
                     הוסיפי תגובה
                     <Icon icon="ic:baseline-plus" className='mx-1' />
                 </MainButtons>
+                }
             </div>
-            {showComment && <ClassicHr />}
-            {showComment &&
+            
+            {showComment && <>
+                <ClassicHr />
                 <div className='w-full'>
-                    <AddCommentForm/>
                     <Comments />
                     <Comments />
                     <Comments />
@@ -178,7 +181,7 @@ export const ProductPage = () => {
                         <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">4</div>
                     </div>
                 </div>
-            }
+            </>}
             <ClassicHr />
 
 

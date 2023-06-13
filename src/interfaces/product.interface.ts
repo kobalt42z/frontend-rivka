@@ -60,7 +60,7 @@ export interface ProductTranslation {
 
 //  ? from the db 
 export interface productFromDB extends Omit<ProductDto, 'translations' | 'Specifications'>, DBEntity {
-  translations: transletionFromDb[] 
+  translations: transletionFromDb[]
   categorys: { name: string }[]
   count: number
   imgUrl: string
@@ -79,15 +79,21 @@ export type ProductResponse = {
   products: productFromDB[],
 }
 export interface ByCategoryResponse extends DBEntity {
-  imgUrl:string;
-  name:string;
-  description:string;
-  products:productFromDB[];
-  _count:{
-    products:number;
+  imgUrl: string;
+  name: string;
+  description: string;
+  products: productFromDB[];
+  _count: {
+    products: number;
   }
 }
 export enum languages {
   fr = "fr",
   en = "en",
-} 
+}
+
+
+export interface CommentInput {
+  body: string
+  rating: number
+}
