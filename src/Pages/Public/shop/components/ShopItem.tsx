@@ -9,7 +9,7 @@ import { UseToggle } from "sk-use-toggle/src";
 import { Icon } from '@iconify/react';
 
 interface ShopItemProps {
-    id: string
+    item_id: string
     imgUrl: string;
     title: string;
     subtitle: string;
@@ -20,7 +20,7 @@ interface ShopItemProps {
     showItem?: boolean;
 }
 
-const ShopItem = React.forwardRef(({ id, imgUrl, title, subtitle, price, sale, addToCart, className }: ShopItemProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+const ShopItem = React.forwardRef(({ item_id, imgUrl, title, subtitle, price, sale, addToCart, className }: ShopItemProps, ref: React.ForwardedRef<HTMLDivElement>) => {
 
     const [showBlureMenu, toggleBlureMenu] = UseToggle()
     const [like, toggleLike] = UseToggle()
@@ -36,13 +36,13 @@ const ShopItem = React.forwardRef(({ id, imgUrl, title, subtitle, price, sale, a
             </IF>
             <div className="relative top-0">
                 <button onClick={() => {
-                    toggleLike(); toggleRotation(true); setTimeout(()=>toggleRotation(false)
+                    toggleLike(); toggleRotation(true); setTimeout(() => toggleRotation(false)
                         , 300);
                 }} className="absolute z-[2] right-1 bottom-3 ">
                     <Icon icon={`icon-park-${like ? "solid" : "outline"}:like`} height="25" className={`  ${rotate ? "rotate-12" : "rotate-0"} transition-all duration-75 ease-in-out  
                      `} />
                 </button>
-                <Link to={`/product/`} className="">
+                <Link to={`/product/${item_id}`} className="">
                     <img src={imgUrl} alt={title} className=" w-[170px] h-[160px] pb-2  drop-shadow-lg  " height={160} />
                 </Link>
             </div>

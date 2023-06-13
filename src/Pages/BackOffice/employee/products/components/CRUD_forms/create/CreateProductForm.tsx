@@ -32,8 +32,6 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
         <TranslationStep languages={[languages.fr, languages.en]} />,
         <SpecificationStep />,
         <Summary />,
-
-
     ]
 
     const {
@@ -50,6 +48,7 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
         "פירוט מוצר",
         "סיכום",
     ]
+
     const handleNextClick = () => {
         // if its last step activate create or edit 
         if (currentStep > steps.length - 2) {
@@ -65,11 +64,12 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
 
         }
     }
+
     const createProduct = async () => {
 
         try {
             dispatch(prepareToLaunch());
-            reqBody.forEach(item => console.log(item))
+            // reqBody.forEach(item => console.log(item)) //!debug
             const resp = await createProductReq(reqBody).unwrap();
             console.log(resp);//!debug only
             next(toggleModal)
@@ -110,6 +110,7 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
                     </motion.div>
                 </AnimatePresence>
             </main>
+            ``
             <div className="flex justify-between">
                 <Button outline onClick={prev}>
                     <Icon className="mx-1" height={18} icon="mdi:arrow-right" />

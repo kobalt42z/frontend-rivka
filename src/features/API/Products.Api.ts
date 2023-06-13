@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_REST_API } from "../../constant";
-import { ProductDto, ProductResponse, TranslationDto, categoryFromDb, languages, productFromDB, productResponse, shopResponse } from "../../interfaces";
+import { ByCategoryResponse, ProductDto, ProductResponse, TranslationDto, categoryFromDb, languages, productFromDB, productResponse, shopResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 import { types } from "util";
 import { MainAPI } from "./Main.Api";
@@ -17,6 +17,7 @@ export const productApi = MainAPI.injectEndpoints({
                 method: 'GET',
             }),
 
+            // attach tags to the data so it will be refreshed when data mutate
             providesTags: (result) =>
                 result
                     ? [
@@ -32,9 +33,9 @@ export const productApi = MainAPI.injectEndpoints({
 
 
         }),
-        findeByCategory: builder.query<productFromDB, string>({
+        findeByCategory: builder.query<ByCategoryResponse, string>({
             query: (categoryName) => ({
-                url: `product/byCategory/${categoryName}`,
+                url: `products/byCategory/${categoryName}`,
                 method: 'GET',
             }),
         }),
@@ -50,14 +51,14 @@ export const productApi = MainAPI.injectEndpoints({
         }),
 
 
-        // * CRUD :
+        // * mutations :
 
         createProduct: builder.mutation({
             query: (_body: FormData) => ({
                 url: 'products',
                 method: 'POST',
                 body: _body,
-
+                
             }),
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
@@ -137,4 +138,4 @@ export const { useDeleteProductMutation } = productApi
 export const { useGetShopQuery } = productApi
 export const { useGetMaxPageShopQuery } = productApi
 export const { useFindProductByIdQuery } = productApi
-export const { useFindeByCategoryQuery } =productApi
+export const { useFindeByCategoryQuery } = productApi

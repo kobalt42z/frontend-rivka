@@ -7,6 +7,7 @@ import { RootState } from '../Store/store'
 export const MainAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL_REST_API + '/',
+        //? attach token to the request 
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).tokenReducer.token    
             if (token) {

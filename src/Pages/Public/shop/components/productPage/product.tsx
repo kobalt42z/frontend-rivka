@@ -43,74 +43,67 @@ export const ProductPage = () => {
     interface input {
         sizes: string[]
     }
-    const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<input>({
-
-    });
-
     const params = useParams()
     // if (!params.id) return (<NotFound />)
-    const { isError, isFetching, isSuccess, data, error: e } = useFindProductByIdQuery(params.id)
+    const { isError, isFetching, isSuccess, data, error: e } = useFindProductByIdQuery(params.id ?? "")
     const error: any = e; // ! status not exist in type ? 
     // if (isError && error.status == 404) return (<><NotFound /> {params.id} </>)
 
-    // useEffect(() => {
-
-
-    // }, [])
-    // { value: '', label: 'ללא' },
-    const sizes = data?.sizes.map(size => ({ value: size, label: size }))
-    const curves = data?.curves.map(size => ({ value: size, label: size }))
-    const thinkness = data?.thickness.map(size => ({ value: size, label: size }))
-
     // if (isFetching) return (<LoadingScreen />);
-    if (true || data) return (
+    if (data) return (
         <div dir='rtl' className='container flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5 pb-0 md:pt-0'>
-            <img src={"https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"} alt="" className='w-full md:w-10/12 box-shadow' />
+            <img src={data?.imgUrl} alt="" className='w-full md:w-10/12 box-shadow' />
             <div className="w-full flex justify-between ">
                 <div className='text-right w-full'>
-                    <h2 className='text-lg capitalize font-semibold '>{'קרם לחות'}</h2>
-                    <h4 className='text-base capitalize font-normal '>{'nivea'}</h4>
+                    <h2 className='text-lg capitalize font-semibold '>{data.name}</h2>
+                    <h4 className='text-base capitalize font-normal '>{data.brand}</h4>
                 </div>
                 <div className='text-right w-full'>
-                    <h4 className='text-base capitalize font-normal text-left  '>{'134 ש"ח'}</h4>
+                    <h4 className='text-base capitalize font-normal text-left line-through  '>{data.selling_price + ' ש"ח'}</h4>
+                    <h4 className='text-base capitalize font-normal text-left  '>{data.selling_price - ((data.reduction_p / 100) * data.selling_price) + ' ש"ח'}</h4>
                 </div>
             </div>
             <p className='w-full md:w-10/12 text-right'>{' ואני טיפה יותר ארוך לבדיקה בוא נראה מה זה נותן אני תאור מוצר מעניין ביותר'}</p>
             <div className='w-full'>
                 <h3 className='font-semibold'>מידה</h3>
                 <div className='flex space-x-reverse space-x-2  '>
-                    <SizeSpan title='XL' />
-                    <SizeSpan title='XXl' />
-                    <SizeSpan title='XL' />
-                    <SizeSpan title='XL' />
+                    {
+                        data?.Specification && data.Specification.map(({ size }) => (
+                            <SizeSpan title={size} />
+                        ))
+                    }
+                </div>
+            </div>
+            <div className='w-full'>
+                <h3 className='font-semibold'>קיעור</h3>
+                <div className='flex space-x-reverse space-x-2  '>
+                    {
+                        data?.Specification && data.Specification.map(({ curve }) => (
+                            <SizeSpan title={curve} />
+                        ))
+                    }
                 </div>
             </div>
             <div className='w-full'>
                 <h3 className='font-semibold'>מידה</h3>
                 <div className='flex space-x-reverse space-x-2  '>
-                    <SizeSpan title='C' />
-                    <SizeSpan title='CC' />
-                    <SizeSpan title='H' />
-
-                </div>
-            </div>
-            <div className='w-full'>
-                <h3 className='font-semibold'>מידה</h3>
-                <div className='flex space-x-reverse space-x-2  '>
-                    <SizeSpan title='3.5' />
-                    <SizeSpan title='44.0' />
-                    <SizeSpan title='48' />
-                    <SizeSpan title='33' />
+                    {
+                        data?.Specification && data.Specification.map(({ thickness }) => (
+                            < SizeSpan title={thickness} />
+                        ))
+                    }
                 </div>
             </div>
             <div className='w-full'>
                 <h3 className='font-semibold'>צבעים</h3>
                 <div className='flex space-x-reverse space-x-2  '>
-                    <ColorSpan color='red' />
-                    <ColorSpan color='blue' />
-                    <ColorSpan color='yellow' />
-                    <ColorSpan color='purple' />
-                    <ColorSpan color='green' />
+                    {
+                        data?.Specification && data.Specification.map(({ color }) => (
+                            <ColorSpan color={color} />
+
+                        ))
+                    }
+
 
                 </div>
             </div>
@@ -147,7 +140,7 @@ export const ProductPage = () => {
             <div className='text right w-full'>
                 <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח (+{46})</h2>
                 <div dir='ltr' className='flex '>
-                <Rating avrage={5.07} />
+                    <Rating avrage={5.07} />
 
                 </div>
             </div>
@@ -245,5 +238,5 @@ export const ProductPage = () => {
 
         </div>
     )
-    // else return (<NotFound />)
+    else return (<NotFound />)
 }

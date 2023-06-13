@@ -30,6 +30,7 @@ const initialState: data = {
 
 
 
+
 const productForm = createSlice({
     name: "productFormSlice",
     initialState,
@@ -45,9 +46,11 @@ const productForm = createSlice({
             state.basicProductId = action.payload;
             state.basicProduct = null;
         },
-        addBasicProduct: (state, action: PayloadAction<BasicProduct>) => {
-            state.basicProduct = action.payload;
+        addBasicProduct: ({basicProduct}, action: PayloadAction<BasicProduct>) => {
+            basicProduct = action.payload;
         },
+
+        // addBasicProduct(product)
         addTranslation: ({ translations, translationsIndex }, action: PayloadAction<LangueDto>) => {
             const exist = translations.findIndex(t => t.language === action.payload.language)
             if (exist === -1) {
@@ -94,7 +97,7 @@ const productForm = createSlice({
             state.reqBody = new FormData()
             if (!state.basicProduct) return console.warn("No basic product!")
             if (!state.image) return console.warn("No image !")
-            const body: ProductDto = {
+            const body : ProductDto = {
                 ...state.basicProduct,
                 translations: state.translations,
                 Specifications: state.Specifications,

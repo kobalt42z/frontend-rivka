@@ -41,7 +41,7 @@ export const router = createBrowserRouter(
                 <Route path='/register' element={<Register loginUrl="/login" />} />
                 <Route path='/forgot' element={<Forgot loginUrl="/login" />} />
                 {/* <Route path='/product/:id' element={<ProductPage />} />   */}
-                <Route path='/product/' element={<ProductPage />} />
+                <Route path='/product/:id' element={<ProductPage />} />
                 <Route path="/myCart/" element={<UserGuard><CartStepper /></UserGuard>}>
                     <Route index element={<MyCart />} />
                     <Route path="/myCart/login/" element={<LoginPage registerUrl="/myCart/register" forgotUrl="/myCart/forgot/" />} />

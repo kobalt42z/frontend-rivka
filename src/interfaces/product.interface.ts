@@ -78,6 +78,15 @@ export interface transletionFromDb {
 export type ProductResponse = {
   products: productFromDB[],
 }
+export interface ByCategoryResponse extends DBEntity {
+  imgUrl:string;
+  name:string;
+  description:string;
+  products:productFromDB[];
+  _count:{
+    products:number;
+  }
+}
 export enum languages {
   fr = "fr",
   en = "en",
