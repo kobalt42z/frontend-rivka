@@ -11,6 +11,8 @@ import './index.css'
 import { router } from './router/router'
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './FireBase/FbConfig';
+import { getAuth } from 'firebase/auth';
+
 
 
 i18next
@@ -32,6 +34,8 @@ i18next
 
 
 const FBAPP = initializeApp(firebaseConfig);
+const auth = getAuth()
+auth.currentUser?.getIdToken(true);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
     <Provider store={store}>

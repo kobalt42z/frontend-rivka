@@ -9,24 +9,34 @@ import { currentDate } from '../../../../../functions/currentDate'
 import { toggler } from 'sk-use-toggle/src'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { CommentInput } from '../../../../../interfaces'
+import { useAddCommentMutation } from '../../../../../features/API/Products.Api'
 
 
 interface props {
   toggleClose: toggler
+  currentProduct: string
 }
-const AddCommentForm: React.FC<props> = ({ toggleClose }) => {
+const AddCommentForm: React.FC<props> = ({ toggleClose, currentProduct }) => {
   const [rate, setRate] = useState(0)
   const { register, clearErrors, setError, handleSubmit, setValue, formState: { errors } } = useForm<CommentInput>({
     defaultValues: {
       body: "",
       rating: 0
     },
-
-
   })
-  const onSubmit: SubmitHandler<CommentInput> = data => {
-    console.log(data);
+  const [addComment, { isError, isLoading, isSuccess }] = useAddCommentMutation()
+
+  const onSubmit: SubmitHandler<CommentInput> = async data => {
+    console.log(data,currentProduct,);
+    try {
+      const resp = await addComment({ productId: currentProduct, body: data }).unwrap()
+      console.log(resp);
+
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   React.useEffect(() => {
     setValue('rating', rate)
   }, [rate])

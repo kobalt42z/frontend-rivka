@@ -146,7 +146,7 @@ export const ProductPage = () => {
 
                 </div>
             </div>
-            {showAddComment && <AddCommentForm  toggleClose={toggleAddComment}/>}
+            {showAddComment && <AddCommentForm  currentProduct={data.id} toggleClose={toggleAddComment}/>}
             <ClassicHr />
             <div className='flex justify-between w-full px-3'>
                 <button onClick={toggleComment} className='flex flex-row-reverse  items-center'>

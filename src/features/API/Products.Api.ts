@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_REST_API } from "../../constant";
-import { ByCategoryResponse, ProductDto, ProductResponse, TranslationDto, categoryFromDb, languages, productFromDB, productResponse, shopResponse } from "../../interfaces";
+import { ByCategoryResponse, CommentInput, ProductDto, ProductResponse, TranslationDto, categoryFromDb, languages, productFromDB, productResponse, shopResponse } from "../../interfaces";
 import { RootState } from "../Store/store";
 import { types } from "util";
 import { MainAPI } from "./Main.Api";
@@ -58,7 +58,7 @@ export const productApi = MainAPI.injectEndpoints({
                 url: 'products',
                 method: 'POST',
                 body: _body,
-                
+
             }),
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
@@ -126,11 +126,23 @@ export const productApi = MainAPI.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
+        addComment: builder.mutation({
+            query: ({ productId, body }: addCommentArgs) => ({
+                url: `comments/${productId}/`,
+                method: 'POST',
+                body,
+            }),
+        }),
     }),
 
 
 })
 
+interface addCommentArgs {
+    productId: string,
+    body: CommentInput
+}
 export const { useLazyFindALlProductQuery, useFindALlProductQuery } = productApi
 export const { useCreateProductMutation } = productApi
 export const { useUpdateProductMutation } = productApi
@@ -139,3 +151,4 @@ export const { useGetShopQuery } = productApi
 export const { useGetMaxPageShopQuery } = productApi
 export const { useFindProductByIdQuery } = productApi
 export const { useFindeByCategoryQuery } = productApi
+export const { useAddCommentMutation } = productApi
