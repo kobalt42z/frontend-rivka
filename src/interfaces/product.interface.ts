@@ -65,6 +65,11 @@ export interface productFromDB extends Omit<ProductDto, 'translations' | 'Specif
   count: number
   imgUrl: string
   Specification: SpecificationDto[]
+  Comment: CommentFromDB[]
+  _count:{
+    Comment:number,
+    WishList: number
+  }
 }
 
 export interface transletionFromDb {
@@ -96,4 +101,12 @@ export enum languages {
 export interface CommentInput {
   body: string
   rating: number
+}
+export interface CommentFromDB extends DBEntity, CommentInput {
+  userId: string
+  productId: string
+  user: {
+    fullName: string,
+    imgUrl?: string
+  }
 }

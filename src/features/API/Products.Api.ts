@@ -46,8 +46,7 @@ export const productApi = MainAPI.injectEndpoints({
                 url: `products/${id}`,
                 method: 'GET',
             }),
-            // providesTags: (result) =>
-            //  [{ type: 'Product', id: "LIST" }]
+            providesTags: (res) => [{ type: 'Product', id: res?.id ?? "noneId" }]
         }),
 
 
@@ -133,6 +132,7 @@ export const productApi = MainAPI.injectEndpoints({
                 method: 'POST',
                 body,
             }),
+            invalidatesTags: (res, err, oargs) =>[{ type: 'Product', id: oargs.productId }]
         }),
     }),
 

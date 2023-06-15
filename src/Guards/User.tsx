@@ -41,25 +41,33 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
         }
     }
     const isRegistred = async () => {
-        const decodedToken = await auth.currentUser?.getIdTokenResult()
-        if (!(Object.values(role).includes(decodedToken?.claims.role))) navigate("/register")
+        try {
+            const decodedToken = await auth.currentUser?.getIdTokenResult()
+            if (!(Object.values(role).includes(decodedToken?.claims.role))) navigate("/register")
+            return decodedToken;
+        } catch (error) {
+            console.log(error)
+        }
     }
     // ?check if user is authenticated FB 
     // check if user is in DB 
     useEffect(() => {
         setLoading(true)
 
-        const observerUnsub = onAuthStateChanged(auth, (user) => {
+        const observerUnsub = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setLoading(false)
+                const decodedToken = await isRegistred();
+                console.log(decodedToken?.claims);
+                
                 dispatch(setUser({
                     uid: user.uid,
                     displayName: user.displayName ?? 'ללא שם ',
                     emailOrNumber: user.email ?? user.phoneNumber,
-                    photoURL: user.photoURL ?? 'url to basic avatar !'
+                    photoURL: user.photoURL ?? 'url to basic avatar !',
+                    role: decodedToken?.claims.role 
                 }))
                 dispacthToken()
-                isRegistred();
                 SetPass(true);
             }
             else if (!forceAuth) {

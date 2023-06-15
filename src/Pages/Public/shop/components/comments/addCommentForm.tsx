@@ -10,6 +10,7 @@ import { toggler } from 'sk-use-toggle/src'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { CommentInput } from '../../../../../interfaces'
 import { useAddCommentMutation } from '../../../../../features/API/Products.Api'
+import { useAppSelector } from '../../../../../features/hooks'
 
 
 interface props {
@@ -17,6 +18,7 @@ interface props {
   currentProduct: string
 }
 const AddCommentForm: React.FC<props> = ({ toggleClose, currentProduct }) => {
+  const user = useAppSelector(slices => slices.user.user)
   const [rate, setRate] = useState(0)
   const { register, clearErrors, setError, handleSubmit, setValue, formState: { errors } } = useForm<CommentInput>({
     defaultValues: {
@@ -27,7 +29,7 @@ const AddCommentForm: React.FC<props> = ({ toggleClose, currentProduct }) => {
   const [addComment, { isError, isLoading, isSuccess }] = useAddCommentMutation()
 
   const onSubmit: SubmitHandler<CommentInput> = async data => {
-    console.log(data,currentProduct,);
+    console.log(data, currentProduct,);
     try {
       const resp = await addComment({ productId: currentProduct, body: data }).unwrap()
       console.log(resp);
@@ -47,8 +49,8 @@ const AddCommentForm: React.FC<props> = ({ toggleClose, currentProduct }) => {
       <div className='flex justify-start w-full'>
         <div className='flex items-center space-x-3 space-x-reverse'>
 
-          <img className="rounded-full h-[50px] w-[50px] bg-gray-300  bg-contain p-1" src={avatarPlaceHolder} />
-          <h2 className="text-lg">נעמי לוי</h2>
+          <img className="rounded-full h-[50px] w-[50px] bg-gray-300  bg-contain p-1" src={user?.photoURL ?? avatarPlaceHolder} />
+          <h2 className="text-lg">{user?.displayName}</h2>
         </div>
 
 
@@ -66,7 +68,7 @@ const AddCommentForm: React.FC<props> = ({ toggleClose, currentProduct }) => {
           }
         })}
 
-      >ואוו פשוט מוש , מאז שאני מישתמשת בקרם יש לי עור חלק בטרוף!!!!!!!!!!</textarea>
+      ></textarea>
       <div dir='ltr' className='flex flex-row-reverse justify-between'>
         <div className="flex">
           <button type='button' onClick={() => setRate(1)}><Star active={rate >= 1} /></button>

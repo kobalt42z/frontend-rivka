@@ -24,8 +24,25 @@ import { Icon } from '@iconify/react';
 import Star from '../../../../../components/ratings/Star';
 import Rating from '../../../../../components/ratings/Rating';
 import AddCommentForm from '../comments/addCommentForm';
+import { usePagination } from "react-use-pagination";
 
 export const ProductPage = () => {
+    const [viewdElements, setViewdElements] = useState(0)
+    const perPage = 10
+    const maxPage = 50
+
+    const {
+        currentPage,
+        totalPages,
+        setNextPage,
+        setPreviousPage,
+        setPage,
+        nextEnabled,
+        previousEnabled,
+        startIndex,
+        endIndex,
+    } = usePagination({ totalItems: maxPage, initialPageSize: perPage })
+
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [currenPosition, setCurrentPosition] = useState<number>(0);
@@ -33,7 +50,6 @@ export const ProductPage = () => {
     const caruselItemRef = useRef<HTMLDivElement>(null);
     const [showComment, toggleComment] = UseToggle();
     const [showAddComment, toggleAddComment] = UseToggle();
-
     const [selectedColor, setSelectedColor] = useState(0);
 
 
@@ -46,6 +62,25 @@ export const ProductPage = () => {
         sizes: string[]
     }
     const params = useParams()
+    const buildPagination = (amount: number, commentPerPage: number = 10) => {
+
+        const paginationArr: React.ReactNode[] = [];
+        let i = 1;
+        while (amount > 0) {
+            const ii = i;
+            paginationArr.push(<div className="w-6 h-6 rounded-full  border-2 border-mainGreen  flex justify-center items-center"
+                onClick={() => setPage(ii)
+                }
+            >{i}</div>)
+            i++;
+            amount -= 10 ;
+        }
+        return paginationArr;
+
+    }
+    React.useEffect(() => {
+        console.log(viewdElements);
+    }, [viewdElements])
     // if (!params.id) return (<NotFound />)
     const { isError, isFetching, isSuccess, data, error: e } = useFindProductByIdQuery(params.id ?? "")
     const error: any = e; // ! status not exist in type ? 
@@ -146,7 +181,7 @@ export const ProductPage = () => {
 
                 </div>
             </div>
-            {showAddComment && <AddCommentForm  currentProduct={data.id} toggleClose={toggleAddComment}/>}
+            {showAddComment && <AddCommentForm currentProduct={data.id} toggleClose={toggleAddComment} />}
             <ClassicHr />
             <div className='flex justify-between w-full px-3'>
                 <button onClick={toggleComment} className='flex flex-row-reverse  items-center'>
@@ -160,25 +195,27 @@ export const ProductPage = () => {
                 </button>
                 {!showAddComment &&
                     <MainButtons ClickAction={toggleAddComment} custom=' flex items-center p-1 px-2'>
-                    הוסיפי תגובה
-                    <Icon icon="ic:baseline-plus" className='mx-1' />
-                </MainButtons>
+                        הוסיפי תגובה
+                        <Icon icon="ic:baseline-plus" className='mx-1' />
+                    </MainButtons>
                 }
             </div>
-            
+
             {showComment && <>
                 <ClassicHr />
                 <div className='w-full'>
-                    <Comments />
-                    <Comments />
-                    <Comments />
-                    <Comments />
-                    <Comments />
+                    {/* <Comments /> */}
+                    {data.Comment && data.Comment.slice(currenPosition, perPage).map(comment => {
+                        return (
+                            <Comments data={comment} />
+
+                        )
+                    })}
+                    {data.Comment.length === 0 && <p>אין תגובות עדיין </p>}
+
+
                     <div dir='ltr' className='py-3 flex justify-start space-x-2 '>
-                        <div className="w-6 h-6 rounded-full  border-2 border-mainGreen  flex justify-center items-center">1</div>
-                        <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">2</div>
-                        <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">3</div>
-                        <div className="w-6 h-6 rounded-full  border-2 flex justify-center items-center">4</div>
+                        {buildPagination(maxPage, perPage)}
                     </div>
                 </div>
             </>}
