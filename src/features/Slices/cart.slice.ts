@@ -1,18 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { productFromDB } from "../../interfaces";
+import { Cart, productFromDB } from "../../interfaces";
 import { PayloadAction } from "@reduxjs/toolkit/src";
 import { CART_COUNT_NAME, CART_NAME } from "../../constant";
 
-export interface cartSLiceInitState {
-    products: productFromDB[]
-    totalInCart: number
-    totalPrice: number
-}
 
-const initialState: cartSLiceInitState = {
-    products: [],
-    totalInCart: 0,
-    totalPrice: 0
+const initialState: Cart = {
+    products: []
 }
 
 
