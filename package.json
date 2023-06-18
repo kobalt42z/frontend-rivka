@@ -37,6 +37,7 @@
     "react-router-dom": "^6.8.2",
     "react-select": "^5.7.0",
     "react-use-pagination": "^2.0.1",
+    "redux-persist": "^6.0.0",
     "sk-use-toggle": "^1.0.0"
   },
   "devDependencies": {

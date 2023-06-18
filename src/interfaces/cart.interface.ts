@@ -1,7 +1,7 @@
 import { SpecificationDto } from "./product.interface"
 
 export interface Cart {
-    products: []
+    products: ProductInCart[]
 }
 export interface ProductInCart {
     product_id: string,

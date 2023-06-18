@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Cart, productFromDB } from "../../interfaces";
 import { PayloadAction } from "@reduxjs/toolkit/src";
-import { CART_COUNT_NAME, CART_NAME } from "../../constant";
+
 
 
 const initialState: Cart = {
@@ -34,11 +34,7 @@ const addToCartAction = (data: productFromDB[], product: productFromDB) => {
 
     return data;
 };
-const updateLocalStorage = (cartData: productFromDB[], totalCount?: number) => {
-    localStorage.setItem(CART_NAME, JSON.stringify(cartData))
-    localStorage.setItem(CART_COUNT_NAME, JSON.stringify(totalCount))
 
-}
 export const cartSlice = createSlice({
     name: 'cartSlice',
     initialState,

@@ -4,7 +4,7 @@ import { useGetMaxPageShopQuery, useGetShopQuery } from "../../../features/API/P
 import { incrementCurrentPage, setMaxPage } from "../../../features/Slices/shop.slice"
 import ShopDelimiter from "./components/ShopDelimiter"
 import ShopItem from "./components/ShopItem"
-import { addToCart } from "../../../features/Slices/cart.slice"
+// import { addToCart } from "../../../features/Slices/cart.slice"
 import LoadingScreen from "../../../components/Loading/LoadingScreen"
 import ErrorsAlerter from "../../../components/errors/ErrorsAlerter"
 import { IF } from "../../../components/special/if"

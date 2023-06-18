@@ -4,7 +4,7 @@ import { AWS_ACCESS_KEYWORD, CART_COUNT_NAME, CART_NAME, TOKEN_KEYWORD } from '.
 import { useAppDispatch } from '../../features/hooks'
 import { setPayload, setToken } from '../../features/Slices/Payload.slice'
 import { productFromDB, userTokenPayload } from '../../interfaces'
-import { clearCart, loadCart } from '../../features/Slices/cart.slice'
+
 interface props {
     children: React.ReactNode
 }
@@ -46,11 +46,11 @@ const Loader: FC<props> = ({ children }) => {
         if (StringifyedCart&&Stringifyedtotalcount) {
             const cart:productFromDB[] = JSON.parse(StringifyedCart)
             const totalInCart:number = JSON.parse(Stringifyedtotalcount)
-            dispatch(loadCart({product:cart, count:totalInCart}))
+            // dispatch(loadCart({product:cart, count:totalInCart}))
            
             
         }
-        else dispatch(clearCart())
+        // else dispatch(clearCart())
     }, [])
 
     return (

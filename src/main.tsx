@@ -6,12 +6,13 @@ import ReactDOM from 'react-dom/client'
 import { initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
-import { store } from './features/Store/store';
+import { persistor, store } from './features/Store/store';
 import './index.css'
 import { router } from './router/router'
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './FireBase/FbConfig';
 import { getAuth } from 'firebase/auth';
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 
@@ -39,7 +40,8 @@ auth.currentUser?.getIdToken(true);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
     <Provider store={store}>
-
-        <RouterProvider router={router} />
+        <PersistGate loading={null} persistor={persistor}>
+            <RouterProvider router={router} />
+        </PersistGate>
     </Provider>
 )
