@@ -40,10 +40,10 @@ export const productApi = MainAPI.injectEndpoints({
             }),
         }),
 
-        findProductById: builder.query<productFromDB, string>({
-            query: (id) => ({
+        findProductById: builder.query<productFromDB, { id: string, comment?: number }>({
+            query: ({ id, comment }) => ({
 
-                url: `products/${id}`,
+                url: `products/${id}?comment=${comment??0}`,
                 method: 'GET',
             }),
             providesTags: (res) => [{ type: 'Product', id: res?.id ?? "noneId" }]
@@ -132,7 +132,7 @@ export const productApi = MainAPI.injectEndpoints({
                 method: 'POST',
                 body,
             }),
-            invalidatesTags: (res, err, oargs) =>[{ type: 'Product', id: oargs.productId }]
+            invalidatesTags: (res, err, oargs) => [{ type: 'Product', id: oargs.productId }]
         }),
     }),
 
@@ -149,6 +149,6 @@ export const { useUpdateProductMutation } = productApi
 export const { useDeleteProductMutation } = productApi
 export const { useGetShopQuery } = productApi
 export const { useGetMaxPageShopQuery } = productApi
-export const { useFindProductByIdQuery } = productApi
+export const { useFindProductByIdQuery , useLazyFindProductByIdQuery } = productApi
 export const { useFindeByCategoryQuery } = productApi
 export const { useAddCommentMutation } = productApi

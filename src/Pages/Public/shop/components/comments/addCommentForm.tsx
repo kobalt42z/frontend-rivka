@@ -32,11 +32,11 @@ const AddCommentForm: React.FC<props> = ({ toggleClose, currentProduct }) => {
     console.log(data, currentProduct,);
     try {
       const resp = await addComment({ productId: currentProduct, body: data }).unwrap()
-      console.log(resp);
-
+      toggleClose()
     } catch (error) {
       console.log(error);
     }
+    
   }
 
   React.useEffect(() => {

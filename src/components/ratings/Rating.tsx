@@ -16,7 +16,7 @@ const Rating:FC<props>= ({avrage,}) => {
             <Star active={ avrage >= 5 } />
           
         </div>
-         
+        <h2 className='mx-3'> {avrage.toFixed(1)}</h2>
   </div>
     )
 }

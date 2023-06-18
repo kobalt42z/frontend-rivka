@@ -7,7 +7,7 @@ import ShopItem from '../ShopItem';
 import { Accordion, Button, Tooltip } from 'flowbite-react';
 import { ArrowUturnLeftIcon, BuildingStorefrontIcon, ChevronDoubleDownIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, MinusIcon, PlusIcon, ReceiptRefundIcon } from '@heroicons/react/24/outline';
 import Carusel from '../../../../../components/carusel/Carusel';
-import { useFindProductByIdQuery } from '../../../../../features/API/Products.Api';
+import { useFindALlProductQuery, useFindProductByIdQuery, useFindeByCategoryQuery } from '../../../../../features/API/Products.Api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NotFound } from '../../../../404/NotFound';
 import LoadingScreen from '../../../../../components/Loading/LoadingScreen';
@@ -29,19 +29,24 @@ import { usePagination } from "react-use-pagination";
 export const ProductPage = () => {
     const [viewdElements, setViewdElements] = useState(0)
     const perPage = 10
-    const maxPage = 50
+    const maxPage = 0
 
+    const params = useParams()
     const {
         currentPage,
         totalPages,
         setNextPage,
         setPreviousPage,
         setPage,
+        setPageSize,
         nextEnabled,
         previousEnabled,
         startIndex,
         endIndex,
-    } = usePagination({ totalItems: maxPage, initialPageSize: perPage })
+    } = usePagination({ totalItems: maxPage })
+    // !TOFIX:" pagination rendering for comments"
+    const { isError, isFetching, isSuccess, data, error: e, refetch } = useFindProductByIdQuery({ id: params.id ?? "" })
+
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -61,32 +66,30 @@ export const ProductPage = () => {
     interface input {
         sizes: string[]
     }
-    const params = useParams()
     const buildPagination = (amount: number, commentPerPage: number = 10) => {
 
         const paginationArr: React.ReactNode[] = [];
         let i = 1;
         while (amount > 0) {
             const ii = i;
-            paginationArr.push(<div className="w-6 h-6 rounded-full  border-2 border-mainGreen  flex justify-center items-center"
-                onClick={() => setPage(ii)
+            paginationArr.push(<button key={i * 10555} className="w-6 h-6 rounded-full  border-2 border-mainGreen  flex justify-center items-center"
+                onClick={() => setPage(ii - 1)
                 }
-            >{i}</div>)
+            >{i}</button>)
             i++;
-            amount -= 10 ;
+            amount -= 10;
         }
         return paginationArr;
 
     }
-    React.useEffect(() => {
-        console.log(viewdElements);
-    }, [viewdElements])
-    // if (!params.id) return (<NotFound />)
-    const { isError, isFetching, isSuccess, data, error: e } = useFindProductByIdQuery(params.id ?? "")
-    const error: any = e; // ! status not exist in type ? 
-    // if (isError && error.status == 404) return (<><NotFound /> {params.id} </>)
 
-    // if (isFetching) return (<LoadingScreen />);
+    if (!params.id) return (<NotFound />)
+
+
+    const error: any = e; // ! status not exist in type ? 
+    if (isError && error.status == 404) return (<><NotFound /> {params.id} </>)
+
+    if (isFetching) return (<LoadingScreen />);
     if (data) return (
         <div dir='rtl' className='container flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5 pb-0 md:pt-0'>
             <img src={data?.imgUrl} alt="" className='w-full md:w-10/12 box-shadow' />
@@ -175,26 +178,26 @@ export const ProductPage = () => {
             </div>
             <ClassicHr />
             <div className='text right w-full'>
-                <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח (+{46})</h2>
+                <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח  ( {data.Comment.length} )</h2>
                 <div dir='ltr' className='flex '>
-                    <Rating avrage={5.07} />
+                    <Rating avrage={data.Comment.reduce((acc, { rating }) => acc + rating, 0) / data.Comment.length} />
 
                 </div>
             </div>
             {showAddComment && <AddCommentForm currentProduct={data.id} toggleClose={toggleAddComment} />}
             <ClassicHr />
-            <div className='flex justify-between w-full px-3'>
-                <button onClick={toggleComment} className='flex flex-row-reverse  items-center'>
+            <div className='flex w-full justify-between px-3'>
+                <div  onClick={toggleComment} className='hover:cursor-pointer flex w-1/2 md:w-11/12  items-center'>
+                    <span className='text-shadow text-lg font-semibold'>תגובות</span>
                     {showComment ?
                         <ChevronDownIcon className='w-6 h-6 mx-2 text-shadow' />
                         :
                         <ChevronUpIcon className='w-6 h-6 mx-2 text-shadow' />
                     }
-                    <span className='text-shadow text-lg font-semibold'>תגובות</span>
 
-                </button>
+                </div>
                 {!showAddComment &&
-                    <MainButtons ClickAction={toggleAddComment} custom=' flex items-center p-1 px-2'>
+                    <MainButtons ClickAction={toggleAddComment} custom='w-1/2 md:w-1/12 flex items-center p-1 px-1'>
                         הוסיפי תגובה
                         <Icon icon="ic:baseline-plus" className='mx-1' />
                     </MainButtons>
@@ -220,67 +223,21 @@ export const ProductPage = () => {
                 </div>
             </>}
             <ClassicHr />
-
-
             <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
-                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
-                    title={'testotest'}
-                    subtitle={'miniTest'}
-                    price={50}
-                    sale={10}
-                    addToCart={() => console.log("yay he click me ")
-                    }
-                    key={0}
-                    id={"13542"}
+                {
+                    data.categorys[0].products.map(item => item.id !== params.id && <ShopItem imgUrl={item.imgUrl}
+                        title={item.name}
+                        subtitle={item.brand}
+                        price={item.selling_price}
+                        sale={item.reduction_p}
+                        addToCart={() => console.log("yay he click me ")
+                        }
+                        key={item.id}
+                        item_id={item.id}
 
-                />
-                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
-                    title={'testotest'}
-                    subtitle={'miniTest'}
-                    price={50}
-                    sale={10}
-                    addToCart={() => console.log("yay he click me ")
-                    }
-                    key={0}
-                    id={"13542"}
-
-                />
-                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
-                    title={'testotest'}
-                    subtitle={'miniTest'}
-                    price={50}
-                    sale={10}
-                    addToCart={() => console.log("yay he click me ")
-                    }
-                    key={0}
-                    id={"13542"}
-
-                />
-                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
-                    title={'testotest'}
-                    subtitle={'miniTest'}
-                    price={50}
-                    sale={10}
-                    addToCart={() => console.log("yay he click me ")
-                    }
-                    key={0}
-                    id={"13542"}
-
-                />
-                <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
-                    title={'testotest'}
-                    subtitle={'miniTest'}
-                    price={50}
-                    sale={10}
-                    addToCart={() => console.log("yay he click me ")
-                    }
-                    key={0}
-                    id={"13542"}
-
-                />
+                    />)
+                }
             </div>
-
-
         </div>
     )
     else return (<NotFound />)
