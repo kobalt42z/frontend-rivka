@@ -7,13 +7,19 @@ const ColorSpan: FC<props> = ({ chooseMe, color }) => {
     const [selected, setSelected] = useState<boolean>(false)
     return (
         <div
-            className={`w-6 h-6 rounded-full ${selected && "border-4 border-black "} `}
-            style={{ backgroundColor: color }}
+            className={`w-7 h-7 rounded-full flex items-center justify-center ${selected && "border-2 border-black "} `}
+           
             onClick={() => {
                 chooseMe(color)
                 setSelected(!selected)
             }}
-        ></div>
+        >
+            <div 
+            className='rounded-full  h-5 w-5  '
+             style={{ backgroundColor: color }}
+            ></div>
+        </div>
+        
     )
 }
 

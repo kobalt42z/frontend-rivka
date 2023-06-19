@@ -1,5 +1,5 @@
-import React,{useEffect} from "react"
-import { Link, useLocation } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../../../features/hooks"
 import { ClickOutside } from "../../../../../components/special/ClickOutside"
 import BasketDrawer from "../../../shop/components/basketDrawer/BasketDrawer"
@@ -17,11 +17,12 @@ import { getAuth, signOut } from "firebase/auth"
 
 const CnavBar = () => {
     const auth = getAuth()
+    const navigate = useNavigate()
     const [showSearch, setShowSearch] = React.useState(false)
     const [showDrawer, setShowDrawer] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
     const location = useLocation()
-    const {user} = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state) => state.user)
     const Cart = useAppSelector((state) => state.cart)
 
     const openIt = () => {
@@ -47,7 +48,7 @@ const CnavBar = () => {
         
         '>
             <div className="flex justify-between px-1 mb-3">
-                <button onClick={toggleMenu}><ChevronLeftIcon className="h-5  text-black " /></button>
+                <button onClick={() => navigate(-1)}><ChevronLeftIcon className="h-5  text-black " /></button>
                 <button onClick={toggleMenu}><Bars3Icon className="h-7  text-black " /></button>
             </div>
 
@@ -74,7 +75,7 @@ const CnavBar = () => {
 
                 {/* LOGO */}
                 <div className='  '>
-                    
+
                     <Link to={"/"} className='flex justify-center ' >
                         <img
                             src={Logo}
@@ -87,7 +88,7 @@ const CnavBar = () => {
 
                 <div className="flex space-x-3">
                     <button onClick={toggleDrawer} ><div className='relative'>
-                    <Icon icon="bytesize:cart"  width={20} height={20}/>
+                        <Icon icon="bytesize:cart" width={20} height={20} />
 
                         {/* <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-3 dark:border-gray-900">{Cart.totalInCart}</div> */}
 
@@ -96,8 +97,8 @@ const CnavBar = () => {
                     </button>
 
                     {user ?
-                        <DropDawnAvatar label={<img src={user?.photoURL??avatarPlaceHolder} className="rounded-full w-[30px] h-[30px] bg-mainGreen" /> } /> :
-                        <Link to={"/login"}><Icon icon="radix-icons:avatar" width={20} height={20}   /></Link>
+                        <DropDawnAvatar label={<img src={user?.photoURL ?? avatarPlaceHolder} className="rounded-full w-[30px] h-[30px] bg-mainGreen" />} /> :
+                        <Link to={"/login"}><Icon icon="radix-icons:avatar" width={20} height={20} /></Link>
                     }
 
 

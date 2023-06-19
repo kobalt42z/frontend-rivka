@@ -1,6 +1,6 @@
 export interface DBEntity {
     id: string;
-    createdAt: string;
+    createdAt?: string;
     updatedAt?: string;
     
 }

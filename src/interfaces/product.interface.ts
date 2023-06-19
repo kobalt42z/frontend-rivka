@@ -4,7 +4,7 @@ import { DBEntity } from "./global.interfaces";
 //  * Req section : 
 export interface ProductDto extends BasicProduct {
   translations: LangueDto[]
-  Specifications: SpecificationDto[]
+  Specifications: SpecificationFromDB[]
 }
 
 
@@ -27,6 +27,8 @@ export interface SpecificationDto {
   thickness: string
   supply: number
 }
+
+export interface SpecificationFromDB extends SpecificationDto, DBEntity { }
 
 
 export interface LangueDto {

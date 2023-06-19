@@ -1,6 +1,5 @@
 import React from 'react'
 import { ItemDrawer } from '../basketDrawer/ItemDrawer'
-import { addToCart, subItem } from '../../../../../features/Slices/cart.slice'
 import { useAppDispatch, useAppSelector } from '../../../../../features/hooks'
 import { productFromDB } from '../../../../../interfaces'
 import MainButtons from '../../../../../components/buttons/MainButtons'
@@ -13,7 +12,7 @@ export const MyCart = () => {
     const navigate = useNavigate()
     return (
         <div dir='rtl' className='container p-5 min-h-[80vh] flex flex-col items-center'>
-            <h1 className='text-xl font '>סל קניות ({Cart.totalInCart} מוצרים)</h1>
+            <h1 className='text-xl font '>סל קניות ({60} מוצרים)</h1>
             <p className='bg-[#F9F9F9] p-8 mb-2'>
                 ניתן להחזיר את המוצר בתוך 30 יום מזמן הקנייה באריזה המקורית
             </p>
@@ -28,8 +27,8 @@ export const MyCart = () => {
                         price={product.base_price}
                         key={product.id}
                         count={product.count || 1}
-                        addOne={() => dispatch(addToCart(product))}
-                        subOne={() => dispatch(subItem(product.id))}
+                        addOne={()=>true }
+                        subOne={() =>true }
 
                     />)
             })} */}
@@ -43,8 +42,8 @@ export const MyCart = () => {
                 price={355}
                 key={5}
                 count={3}
-                addOne={() => dispatch(addToCart(product))}
-                subOne={() => dispatch(subItem(product.id))}
+                addOne={()=>true}
+                subOne={() =>true }
 
             />
             <ItemDrawer
@@ -56,8 +55,8 @@ export const MyCart = () => {
                 price={355}
                 key={5}
                 count={3}
-                addOne={() => dispatch(addToCart(product))}
-                subOne={() => dispatch(subItem(product.id))}
+                addOne={()=>true }
+                subOne={() =>true }
 
             />
             <ItemDrawer
@@ -69,15 +68,15 @@ export const MyCart = () => {
                 price={355}
                 key={5}
                 count={3}
-                addOne={() => dispatch(addToCart(product))}
-                subOne={() => dispatch(subItem(product.id))}
+                addOne={()=>true }
+                subOne={() =>true }
 
             />
             <div className='  bg-[var(--main-bg)] w-full mt-5 '>
                 <ClassicHr />
                 <div className="flex mt-3 justify-between font-bold text-xl">
                     <h2 >סה"כ לתשלום :</h2>
-                    <h2>{Cart.totalPrice} ₪</h2>
+                    <h2>{60} ₪</h2>
                 </div>
                 <h5>כולל מע"מ</h5>
             </div>

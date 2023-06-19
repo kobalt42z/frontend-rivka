@@ -8,13 +8,13 @@ interface props {
 }
 const Counter: FC<props> = ({ counter, onClickMinus, onClickPlus }) => {
     return (
-        <div className='flex justify-between items-center w-[80px] border-2' >
+        <div className='flex justify-between items-center h-10 w-[80px] border-2' >
             <Button size={'xxs'} outline color={'light'} onClick={onClickPlus} className='rounded-none border-0'>
-                <PlusIcon className="h-6 w-4 text-gray-500" />
+                <PlusIcon className="h-7 w-4 text-gray-500" />
             </Button>
             {counter}
             <Button size={'xxs'} outline color={'light'} onClick={onClickMinus} className='rounded-none border-0' >
-                <MinusIcon className="h-6 w-4 text-gray-500" />
+                <MinusIcon className="h-7 w-4 text-gray-500" />
             </Button>
         </div>
     )

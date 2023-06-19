@@ -12,7 +12,7 @@ interface NewDrawerProps {
 const NewDrawer = ({ open, children ,toggle ,title ,icon}:NewDrawerProps) => {
     return (<>
     
-        <div className={` touch-pan-right fixed top-0 bottom-0 left-0 z-40 lg:w-1/4 w-[90%] min-[400px]:w-[80%] h-screens bg-[var(--main-beige-color)] p-5 ${!open && "translate-x-[-115%]"} overflow-y-auto duration-700 ease-in-out `}>
+        <div className={` fixed top-0 bottom-0 right-0  z-40 w-[90%] lg:w-1/4 min-[400px]:w-[95%] h-screens bg-[var(--main-beige-color)] p-5 ${!open && "translate-x-[115%]"} overflow-y-auto duration-700 ease-in-out `}>
             <h3 className='flex rtl:flex-row-reverse justify-between text-[var(--main-text-color)]'> {icon} {title}
                 <button onClick={toggle}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-black">

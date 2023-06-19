@@ -4,16 +4,17 @@ import TokenPayloadReducer from '../Slices/Payload.slice'
 import userSlice from "../Slices/user.slice";
 import { CategoryApi } from "../API/Category.Api";
 import shopSlice from "../Slices/shop.slice";
-// import cartSlice from "../Slices/cart.slice";
+
 import { MainAPI } from "../API/Main.Api";
 import productFromSlice from "../Slices/productFrom.slice";
 import { persistReducer, persistStore } from "redux-persist"
 import storage from 'redux-persist/lib/storage';
+import cartSlice from "../Slices/cart.slice";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart']
+    whitelist: ['']
 }
 const rootReducer = combineReducers({
     [MainAPI.reducerPath]: MainAPI.reducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     user: userSlice,
     shop: shopSlice,
     productFrom: productFromSlice,
+    cart: cartSlice
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({

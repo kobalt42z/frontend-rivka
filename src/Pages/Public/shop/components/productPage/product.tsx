@@ -13,7 +13,7 @@ import { NotFound } from '../../../../404/NotFound';
 import LoadingScreen from '../../../../../components/Loading/LoadingScreen';
 import { IF } from '../../../../../components/special/if';
 import MainButtons from '../../../../../components/buttons/MainButtons';
-import { addToCart } from '../../../../../features/Slices/cart.slice';
+
 import { useAppDispatch } from '../../../../../features/hooks';
 import SizeSpan from '../sizeSpan';
 import ColorSpan from '../colorSpan';
@@ -25,9 +25,12 @@ import Star from '../../../../../components/ratings/Star';
 import Rating from '../../../../../components/ratings/Rating';
 import AddCommentForm from '../comments/addCommentForm';
 import { usePagination } from "react-use-pagination";
+import { addProduct } from '../../../../../features/Slices/cart.slice';
+import { SpecificationDto, SpecificationFromDB } from '../../../../../interfaces';
 
 export const ProductPage = () => {
     const [viewdElements, setViewdElements] = useState(0)
+    const [selectedSpec, setSelectedSpec] = useState<SpecificationFromDB | null>(null)
     const perPage = 10
     const maxPage = 0
 
@@ -168,7 +171,7 @@ export const ProductPage = () => {
             </div>
             <div className="w-full flex  flex-col items-end space-y-3 pb-2">
                 <MainButtons
-                    ClickAction={() => dispatch(addToCart(data))}
+                    ClickAction={() => dispatch(addProduct({ baseProduct: data, spec:}))}
                     custom={" font-bold w-[171px]  h-[38px] "}>הוסף לסל
                 </MainButtons>
                 <MainButtons
@@ -187,7 +190,7 @@ export const ProductPage = () => {
             {showAddComment && <AddCommentForm currentProduct={data.id} toggleClose={toggleAddComment} />}
             <ClassicHr />
             <div className='flex w-full justify-between px-3'>
-                <div  onClick={toggleComment} className='hover:cursor-pointer flex w-1/2 md:w-11/12  items-center'>
+                <div onClick={toggleComment} className='hover:cursor-pointer flex w-1/2 md:w-11/12  items-center'>
                     <span className='text-shadow text-lg font-semibold'>תגובות</span>
                     {showComment ?
                         <ChevronDownIcon className='w-6 h-6 mx-2 text-shadow' />

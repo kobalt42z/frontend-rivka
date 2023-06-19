@@ -1,6 +1,5 @@
 
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import Loader from "../components/misc/Loader";
 import { SharedLayouts } from "../Pages/Public/SharedLayouts/SharedLayouts";
 import Home from "../Pages/Public/Home/Home";
 import Shop from "../Pages/Public/shop/Shop";
