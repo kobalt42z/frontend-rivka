@@ -27,6 +27,7 @@ import AddCommentForm from '../comments/addCommentForm';
 import { usePagination } from "react-use-pagination";
 import { addProduct } from '../../../../../features/Slices/cart.slice';
 import { SpecificationDto, SpecificationFromDB } from '../../../../../interfaces';
+import { title } from 'process';
 
 export const ProductPage = () => {
     const [viewdElements, setViewdElements] = useState(0)
@@ -60,18 +61,51 @@ export const ProductPage = () => {
     const [showAddComment, toggleAddComment] = UseToggle();
     const [selectedColor, setSelectedColor] = useState(0);
 
-
     const animatedComponents = makeAnimated();
     const [counter, setCounter] = useState(1)
+    const [selectedCurve, setSelectedCurve] = useState<string | null>(null)
+
+
+    const curves = data?.Specification && data.Specification.reduce((accumulator: any[], { curve }) => {
+        if (curve && accumulator.findIndex(item => item.props.title === curve) === -1) {
+            console.log(accumulator.findIndex(item => item.props.title === curve));
+            accumulator.push(<SizeSpan title={curve} onClick={() => setSelectedCurve(curve)} active={selectedCurve === curve} />);
+        }
+        return accumulator;
+    }, []);
+    const thickness = data?.Specification && data.Specification.reduce((accumulator: any[], { thickness ,curve }) => {
+        if (thickness && curve === selectedCurve ) {
+            accumulator.push(<SizeSpan title={thickness} />);
+        }
+        return accumulator;
+    }, []);
+
+
+    const sizes = data?.Specification && data.Specification.reduce((accumulator: any, { size }) => {
+        if (size) {
+            accumulator.push(<SizeSpan title={size} />);
+        }
+        return accumulator;
+    }, []);
+
+    const colors = data?.Specification && data.Specification.reduce((accumulator: any, { color }) => {
+        if (color) {
+            accumulator.push(<ColorSpan color={color} />);
+        }
+        return accumulator;
+    }, []);
 
 
 
-    interface input {
-        sizes: string[]
-    }
+    useEffect(() => {
+        console.log(selectedCurve);
+
+    }, [selectedCurve])
+
     const buildPagination = (amount: number, commentPerPage: number = 10) => {
 
         const paginationArr: React.ReactNode[] = [];
+
         let i = 1;
         while (amount > 0) {
             const ii = i;
@@ -87,6 +121,7 @@ export const ProductPage = () => {
     }
 
     if (!params.id) return (<NotFound />)
+
 
 
     const error: any = e; // ! status not exist in type ? 
@@ -107,49 +142,34 @@ export const ProductPage = () => {
                 </div>
             </div>
             <p className='w-full md:w-10/12 text-right'>{' ואני טיפה יותר ארוך לבדיקה בוא נראה מה זה נותן אני תאור מוצר מעניין ביותר'}</p>
-            <div className='w-full'>
+            {sizes.length > 0 && <div className='w-full'>
                 <h3 className='font-semibold'>מידה</h3>
                 <div className='flex space-x-reverse space-x-2  '>
-                    {
-                        data?.Specification && data.Specification.map(({ size }) => (
-                            <SizeSpan title={size} />
-                        ))
-                    }
+                    {sizes}
                 </div>
-            </div>
-            <div className='w-full'>
+            </div>}
+            {curves.length > 0 && <div className='w-full'>
                 <h3 className='font-semibold'>קיעור</h3>
                 <div className='flex space-x-reverse space-x-2  '>
-                    {
-                        data?.Specification && data.Specification.map(({ curve }) => (
-                            <SizeSpan title={curve} />
-                        ))
-                    }
+                    {curves}
                 </div>
-            </div>
-            <div className='w-full'>
-                <h3 className='font-semibold'>מידה</h3>
+            </div>}
+            {thickness.length > 0 && < div className='w-full'>
+                <h3 className='font-semibold'>עובי</h3>
                 <div className='flex space-x-reverse space-x-2  '>
-                    {
-                        data?.Specification && data.Specification.map(({ thickness }) => (
-                            < SizeSpan title={thickness} />
-                        ))
-                    }
+                    {thickness}
                 </div>
-            </div>
-            <div className='w-full'>
-                <h3 className='font-semibold'>צבעים</h3>
-                <div className='flex space-x-reverse space-x-2  '>
-                    {
-                        data?.Specification && data.Specification.map(({ color }) => (
-                            <ColorSpan color={color} />
+            </div>}
+            {
+                colors.length > 0 && <div className='w-full'>
+                    <h3 className='font-semibold'>צבעים</h3>
+                    <div className='flex space-x-reverse space-x-2  '>
 
-                        ))
-                    }
+                        {colors}
 
-
+                    </div>
                 </div>
-            </div>
+            }
             <div className='pt-5 w-full md:flex md:flex-row-reverse md:justify-around'>
                 <h3 className='font-semibold'>כמות</h3>
                 <div className="  md:w-2/5 pt-5">
@@ -171,7 +191,7 @@ export const ProductPage = () => {
             </div>
             <div className="w-full flex  flex-col items-end space-y-3 pb-2">
                 <MainButtons
-                    ClickAction={() => dispatch(addProduct({ baseProduct: data, spec:}))}
+                    ClickAction={() => true}
                     custom={" font-bold w-[171px]  h-[38px] "}>הוסף לסל
                 </MainButtons>
                 <MainButtons
@@ -183,7 +203,7 @@ export const ProductPage = () => {
             <div className='text right w-full'>
                 <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח  ( {data.Comment.length} )</h2>
                 <div dir='ltr' className='flex '>
-                    <Rating avrage={data.Comment.reduce((acc, { rating }) => acc + rating, 0) / data.Comment.length} />
+                    <Rating showAvrage avrage={data.Comment.reduce((acc, { rating }) => acc + rating, 0) / data.Comment.length} />
 
                 </div>
             </div>
@@ -207,24 +227,26 @@ export const ProductPage = () => {
                 }
             </div>
 
-            {showComment && <>
-                <ClassicHr />
-                <div className='w-full'>
-                    {/* <Comments /> */}
-                    {data.Comment && data.Comment.slice(currenPosition, perPage).map(comment => {
-                        return (
-                            <Comments data={comment} />
+            {
+                showComment && <>
+                    <ClassicHr />
+                    <div className='w-full'>
+                        {/* <Comments /> */}
+                        {data.Comment && data.Comment.slice(currenPosition, perPage).map(comment => {
+                            return (
+                                <Comments data={comment} />
 
-                        )
-                    })}
-                    {data.Comment.length === 0 && <p>אין תגובות עדיין </p>}
+                            )
+                        })}
+                        {data.Comment.length === 0 && <p>אין תגובות עדיין </p>}
 
 
-                    <div dir='ltr' className='py-3 flex justify-start space-x-2 '>
-                        {buildPagination(maxPage, perPage)}
+                        <div dir='ltr' className='py-3 flex justify-start space-x-2 '>
+                            {buildPagination(maxPage, perPage)}
+                        </div>
                     </div>
-                </div>
-            </>}
+                </>
+            }
             <ClassicHr />
             <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
                 {
@@ -241,7 +263,7 @@ export const ProductPage = () => {
                     />)
                 }
             </div>
-        </div>
+        </div >
     )
     else return (<NotFound />)
 }

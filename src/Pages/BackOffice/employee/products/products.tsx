@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { productFromDB } from '../../../../interfaces'
 import { useDeleteProductMutation, useFindALlProductQuery } from '../../../../features/API/Products.Api'
-import AddProductsModal from './components/modals/AddProductsModal'
 import { IF } from '../../../../components/special/if'
 import ProductsTable from './table/ProductsTable'
 import DelModal from './components/modals/DelModal'
@@ -84,9 +83,9 @@ const Products = () => {
                         {/* <AddProductsModal closeAddProduct={closeAddProduct} editValues={ToEditProduct} /> */}
                         {/* //! isolate darkvail from click outside  */}
                         <BasicModal title='הוספת מוצר' toggleClose={closeAddProduct}>
-                            <ClickOutside closeIt={closeAddProduct} open={showAddProduct} >
+                           
                                 <CreateProductForm edit={editMode} toggleModal={closeAddProduct} />
-                            </ClickOutside> 
+                      
                         </BasicModal>
                     </IF>
                     <IF condition={showConfirmDel}><DelModal closeF={cancel} OnAccept={deletItem} delName={ToDel?.name} /></IF>

@@ -50,6 +50,8 @@ const BasicStep = ({ }) => {
   })
 
   React.useEffect(() => {
+    console.log(basicProductState);
+    
     dispatch(setGoNext(false))
   }, [])
 

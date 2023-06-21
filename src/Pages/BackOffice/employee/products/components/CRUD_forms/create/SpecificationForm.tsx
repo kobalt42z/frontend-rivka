@@ -7,9 +7,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../../../../../../features/hooks';
 import { supplyValidator } from '../../../Validators/addProduct.validator';
 import { addSpecification } from '../../../../../../../features/Slices/productFrom.slice';
-import { Button } from 'flowbite-react';
+import { Button, Checkbox, Label } from 'flowbite-react';
 import { Icon } from '@iconify/react';
-import { toggler } from 'sk-use-toggle/src';
+import { UseToggle, toggler } from 'sk-use-toggle/src';
 import { RSelectFormatter } from '../../../../../../../functions';
 interface props {
     index: number;
@@ -18,10 +18,11 @@ interface props {
 
 //TODO: add error handling for selectors with red border on error
 const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
-    const [color, setColor] = useState("#959C73")
+    const [color, setColor] = useState<string | null>(null)
     const dispatch = useAppDispatch()
     const specification = useAppSelector((state) => state.productFrom.Specifications[index] ?? null)
     const animatedComponents = makeAnimated();
+    const [showColor, toggleColor] = UseToggle(specification?.color ? true : false)
     const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<SpecificationDto>({
         defaultValues: { color: "959C73" },
         values: { ...specification ?? undefined, }
@@ -107,17 +108,28 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
                 useFromsParams={register('supply', supplyValidator)}
                 errorMessage={errors.supply?.message}
             />
-            <div id="swatch" className='   '>
-                <input type="color" id="color" value={color}   {...register('color', {
-                    onBlur: () => setValue("color", color),
-                    onChange: handleColorChange,
-
-                })} />
-                <div className="info">
-                    <h1>לחץ לבחירת צבע</h1>
-                    <h2>{color}</h2>
+            {
+                <div className="flex items-center gap-2">
+                    <Checkbox id="remember" onChange={toggleColor} />
+                    <Label htmlFor="remember">
+                        צבע
+                    </Label>
                 </div>
-            </div>
+            }
+
+            {showColor &&
+                <div id="swatch" className='   '>
+                    <input type="color" id="color" value={color ?? "#FFFFF"}   {...register('color', {
+                        onBlur: () => color && setValue("color", color),
+                        onChange: handleColorChange,
+
+                    })} />
+                    <div className="info">
+                        <h1>לחץ לבחירת צבע</h1>
+                        <h2>{color}</h2>
+                    </div>
+                </div>
+            }
             <div className=" flex justify-between items-center flex-row-reverse">
 
                 <Button type='submit' className=''>שמור שינויים <Icon icon="material-symbols:check"

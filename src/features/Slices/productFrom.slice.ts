@@ -46,24 +46,27 @@ const productForm = createSlice({
             state.basicProductId = action.payload;
             state.basicProduct = null;
         },
-        addBasicProduct: ({basicProduct}, action: PayloadAction<BasicProduct>) => {
-            basicProduct = action.payload;
+        addBasicProduct: (state, action: PayloadAction<BasicProduct>) => {
+            console.log(action.payload);
+
+            state.basicProduct = action.payload
+
         },
 
         // addBasicProduct(product)
-        addTranslation: ({ translations, translationsIndex }, action: PayloadAction<LangueDto>) => {
-            const exist = translations.findIndex(t => t.language === action.payload.language)
+        addTranslation: (state, action: PayloadAction<LangueDto>) => {
+            const exist = state.translations.findIndex(t => t.language === action.payload.language)
             if (exist === -1) {
-                translations.push(action.payload)
-                translationsIndex += 1;
+                state.translations.push(action.payload)
+                state.translationsIndex += 1;
             }
-            else translations[exist] = action.payload
+            else state.translations[exist] = action.payload
         },
-        deleteTranslation: ({ translations, translationsIndex }, action: PayloadAction<LangueDto>) => {
-            const exist = translations.findIndex(t => t.language === action.payload.language)
+        deleteTranslation: (state, action: PayloadAction<LangueDto>) => {
+            const exist = state.translations.findIndex(t => t.language === action.payload.language)
             if (exist !== -1) {
-                translations.splice(exist, 1);
-                translationsIndex -= 1;
+                state.translations.splice(exist, 1);
+                state.translationsIndex -= 1;
             }
         },
         addSpecification: (state, action: PayloadAction<SpecificationDto>) => {
@@ -97,7 +100,7 @@ const productForm = createSlice({
             state.reqBody = new FormData()
             if (!state.basicProduct) return console.warn("No basic product!")
             if (!state.image) return console.warn("No image !")
-            const body : ProductDto = {
+            const body: ProductDto = {
                 ...state.basicProduct,
                 translations: state.translations,
                 Specifications: state.Specifications,

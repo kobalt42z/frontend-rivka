@@ -14,7 +14,7 @@ import cartSlice from "../Slices/cart.slice";
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['']
+    whitelist: ['cartt']
 }
 const rootReducer = combineReducers({
     [MainAPI.reducerPath]: MainAPI.reducer,
@@ -24,7 +24,9 @@ const rootReducer = combineReducers({
     productFrom: productFromSlice,
     cart: cartSlice
 })
+
 const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
