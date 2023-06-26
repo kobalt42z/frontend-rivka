@@ -6,6 +6,8 @@ interface initialState {
     curve: string | null
     thickness: string | null
     length: string | null
+    color: string | null
+    size: string | null
     supply: number
 }
 const initialState: initialState = {
@@ -13,6 +15,8 @@ const initialState: initialState = {
     curve: null,
     length: null,
     thickness: null,
+    color: null,
+    size: null,
     supply: 0,
 }
 const productFilterSlice = createSlice({
@@ -22,7 +26,7 @@ const productFilterSlice = createSlice({
         setCurve(state, { payload }: PayloadAction<string>) {
             console.log(payload);
 
-            state = {...initialState}
+            state = { ...initialState }
             state.curve = payload
             return state
         },
@@ -35,6 +39,14 @@ const productFilterSlice = createSlice({
             state.length = payload
             return state
         },
+        setColor(state, { payload }: PayloadAction<string>) {
+            state.color = payload
+            return state
+        },
+        setSize(state, { payload }: PayloadAction<string>) {
+            state.size = payload
+            return state
+        },
         setItem(state, { payload }: PayloadAction<{ id: string, count: number }>) {
             state.id = payload.id
             state.supply = payload.count
@@ -43,5 +55,5 @@ const productFilterSlice = createSlice({
     }
 })
 
-export const { setCurve, setItem, setThikness, setLength, } = productFilterSlice.actions
+export const { setCurve, setItem, setThikness, setLength,setColor,setSize, } = productFilterSlice.actions
 export default productFilterSlice.reducer

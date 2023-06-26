@@ -2,7 +2,8 @@ import React from 'react'
 import { SpecificationFromDB } from '../../../../../interfaces'
 import { useAppDispatch, useAppSelector } from '../../../../../features/hooks'
 import SizeSpan from '../sizeSpan'
-import { setCurve, setLength, setThikness } from '../../../../../features/Slices/specFilter.slice'
+import { setColor, setCurve, setLength, setSize, setThikness } from '../../../../../features/Slices/specFilter.slice'
+import ColorSpan from '../colorSpan'
 
 
 interface props {
@@ -79,11 +80,16 @@ const Filters: React.FC<props> = ({ data }) => {
                 </div>
             }
 
-            {/* {
+            {
                 <div className='w-full'>
                     <h3 className='font-semibold'>מידה</h3>
                     <div className='flex space-x-reverse space-x-2  '>
-
+                        {data.map(item => <SizeSpan
+                            key={`size-${item.size}`}
+                            title={item.size ?? ""}
+                            active={specFilter.size === item.size}
+                            onClick={()=>dispatch(setSize(item.size??''))}
+                            />)}
                     </div>
                 </div>
             }
@@ -91,12 +97,17 @@ const Filters: React.FC<props> = ({ data }) => {
                 <div className='w-full'>
                     <h3 className='font-semibold'>צבעים</h3>
                     <div className='flex space-x-reverse space-x-2  '>
-
+                    {data.map(item => <ColorSpan
+                            key={`color-${item.color}`}
+                            color={item.color ?? ""}
+                            active={specFilter.color === item.color}
+                            onClick={()=>dispatch(setColor(item.color??''))}
+                            />)}
 
 
                     </div>
                 </div>
-            } */}
+            }
         </div>
     )
 }
