@@ -10,6 +10,8 @@ import productFromSlice from "../Slices/productFrom.slice";
 import { persistReducer, persistStore } from "redux-persist"
 import storage from 'redux-persist/lib/storage';
 import cartSlice from "../Slices/cart.slice";
+import specFilterSlice from "../Slices/specFilter.slice";
+
 
 const persistConfig = {
     key: 'root',
@@ -22,7 +24,9 @@ const rootReducer = combineReducers({
     user: userSlice,
     shop: shopSlice,
     productFrom: productFromSlice,
-    cart: cartSlice
+    cart: cartSlice,
+    specFilter: specFilterSlice
+  
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

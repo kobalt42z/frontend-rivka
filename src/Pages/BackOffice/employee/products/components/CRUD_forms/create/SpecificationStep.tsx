@@ -58,7 +58,7 @@ export const SpecificationStep = () => {
                     <div className='space-y-3'>
                         {
                             Specifications.map((item, i) => {
-                                const { size, color, curve, supply, thickness } = item
+                                const { size, color, curve, supply, thickness ,length} = item
                                 return (
                                     <div className=''>
                                         <Disclosure>
@@ -70,6 +70,7 @@ export const SpecificationStep = () => {
                                                         <span>מידה: {size}</span>
                                                         <span>קיעור: {curve}</span>
                                                         <span>עובי: {thickness}</span>
+                                                        <span>אורך: {length}</span>
                                                         <span>כמות: {supply}</span>
                                                         <Icon icon={`ion:chevron-${open ? "up" : "down"}`} height={20} />
 

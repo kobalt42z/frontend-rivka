@@ -14,7 +14,7 @@ import LoadingScreen from '../../../../../components/Loading/LoadingScreen';
 import { IF } from '../../../../../components/special/if';
 import MainButtons from '../../../../../components/buttons/MainButtons';
 
-import { useAppDispatch } from '../../../../../features/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../../features/hooks';
 import SizeSpan from '../sizeSpan';
 import ColorSpan from '../colorSpan';
 import ClassicHr from '../../../../../components/HR/ClassicHr';
@@ -28,6 +28,8 @@ import { usePagination } from "react-use-pagination";
 import { addProduct } from '../../../../../features/Slices/cart.slice';
 import { SpecificationDto, SpecificationFromDB } from '../../../../../interfaces';
 import { title } from 'process';
+import Filters from './filters';
+
 
 export const ProductPage = () => {
     const [viewdElements, setViewdElements] = useState(0)
@@ -59,48 +61,17 @@ export const ProductPage = () => {
     const caruselItemRef = useRef<HTMLDivElement>(null);
     const [showComment, toggleComment] = UseToggle();
     const [showAddComment, toggleAddComment] = UseToggle();
-    const [selectedColor, setSelectedColor] = useState(0);
 
     const animatedComponents = makeAnimated();
     const [counter, setCounter] = useState(1)
-    const [selectedCurve, setSelectedCurve] = useState<string | null>(null)
-
-
-    const curves = data?.Specification && data.Specification.reduce((accumulator: any[], { curve }) => {
-        if (curve && accumulator.findIndex(item => item.props.title === curve) === -1) {
-            console.log(accumulator.findIndex(item => item.props.title === curve));
-            accumulator.push(<SizeSpan title={curve} onClick={() => setSelectedCurve(curve)} active={selectedCurve === curve} />);
-        }
-        return accumulator;
-    }, []);
-    const thickness = data?.Specification && data.Specification.reduce((accumulator: any[], { thickness ,curve }) => {
-        if (thickness && curve === selectedCurve ) {
-            accumulator.push(<SizeSpan title={thickness} />);
-        }
-        return accumulator;
-    }, []);
-
-
-    const sizes = data?.Specification && data.Specification.reduce((accumulator: any, { size }) => {
-        if (size) {
-            accumulator.push(<SizeSpan title={size} />);
-        }
-        return accumulator;
-    }, []);
-
-    const colors = data?.Specification && data.Specification.reduce((accumulator: any, { color }) => {
-        if (color) {
-            accumulator.push(<ColorSpan color={color} />);
-        }
-        return accumulator;
-    }, []);
 
 
 
-    useEffect(() => {
-        console.log(selectedCurve);
 
-    }, [selectedCurve])
+
+
+
+
 
     const buildPagination = (amount: number, commentPerPage: number = 10) => {
 
@@ -142,34 +113,8 @@ export const ProductPage = () => {
                 </div>
             </div>
             <p className='w-full md:w-10/12 text-right'>{' ואני טיפה יותר ארוך לבדיקה בוא נראה מה זה נותן אני תאור מוצר מעניין ביותר'}</p>
-            {sizes.length > 0 && <div className='w-full'>
-                <h3 className='font-semibold'>מידה</h3>
-                <div className='flex space-x-reverse space-x-2  '>
-                    {sizes}
-                </div>
-            </div>}
-            {curves.length > 0 && <div className='w-full'>
-                <h3 className='font-semibold'>קיעור</h3>
-                <div className='flex space-x-reverse space-x-2  '>
-                    {curves}
-                </div>
-            </div>}
-            {thickness.length > 0 && < div className='w-full'>
-                <h3 className='font-semibold'>עובי</h3>
-                <div className='flex space-x-reverse space-x-2  '>
-                    {thickness}
-                </div>
-            </div>}
-            {
-                colors.length > 0 && <div className='w-full'>
-                    <h3 className='font-semibold'>צבעים</h3>
-                    <div className='flex space-x-reverse space-x-2  '>
-
-                        {colors}
-
-                    </div>
-                </div>
-            }
+            {/* filters */}
+            {data.Specification && <Filters data={data.Specification} />}
             <div className='pt-5 w-full md:flex md:flex-row-reverse md:justify-around'>
                 <h3 className='font-semibold'>כמות</h3>
                 <div className="  md:w-2/5 pt-5">

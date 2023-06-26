@@ -21,10 +21,11 @@ export interface BasicProduct {
 }
 
 export interface SpecificationDto {
-  color: string
-  size: string
-  curve: string
-  thickness: string
+  color?: string
+  size?: string
+  curve?: string
+  thickness?: string
+  length?: string
   supply: number
 }
 
@@ -69,7 +70,7 @@ export interface productFromDB extends Omit<ProductDto, 'translations' | 'Specif
   }[]
   count: number
   imgUrl: string
-  Specification: SpecificationDto[]
+  Specification: SpecificationFromDB[]
   Comment: CommentFromDB[]
   _count: {
     Comment: number,

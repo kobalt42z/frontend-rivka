@@ -86,7 +86,7 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
                         <li
                             key={i}
                             className={`${i === currentStep ? "bg-mainGreen" : ""} w-full  h-8 flex items-center justify-center rounded-t-md `}
-                        // onClick={() => goTo(i)}
+                        onClick={() => goTo(i)} // for debuging purposes only
                         >
                             {` ${item}`}
                             {i === currentStep ? (

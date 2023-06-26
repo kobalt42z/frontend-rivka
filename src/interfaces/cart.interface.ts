@@ -3,6 +3,8 @@ import { SpecificationDto, SpecificationFromDB } from "./product.interface"
 export interface Cart {
     products: ProductInCart[]
     count: number
+
+    // specToPush:SpecificationDto
 }
 export interface ProductInCart {
     product_id: string,
@@ -12,5 +14,4 @@ export interface ProductInCart {
     spec: SpecificationFromDB
     count: number
 }
-
 

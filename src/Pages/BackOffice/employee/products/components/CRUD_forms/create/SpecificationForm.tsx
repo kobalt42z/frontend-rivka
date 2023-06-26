@@ -43,6 +43,11 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
         })))
 
 
+    const length = [
+        { value: '8', label: "8mm" },
+        { value: '10', label: "10mm" },
+        { value: '15', label: "15mm" }
+    ]
     const curves = [
         { value: 'C', label: "C" },
         { value: 'CC', label: "CC" },
@@ -78,7 +83,7 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
                 />
             </div >
             <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">קיעור</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">סילסול</label>
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
@@ -98,6 +103,18 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
                     isMulti={false}
                     options={thickness}
                     onChange={(c: any) => { setValue('thickness', c.value) }}
+                />
+
+            </div >
+            <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">אורך</label>
+                <Select
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    defaultValue={RSelectFormatter(specification?.length) ?? undefined}
+                    isMulti={false}
+                    options={length}
+                    onChange={(c: any) => { setValue('length', c.value) }}
                 />
 
             </div >
