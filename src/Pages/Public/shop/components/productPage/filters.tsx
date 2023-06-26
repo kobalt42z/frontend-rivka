@@ -13,6 +13,78 @@ const Filters: React.FC<props> = ({ data }) => {
     const dispatch = useAppDispatch()
     const specFilter = useAppSelector((state) => state.specFilter)
     const x = <SizeSpan title='x' active />
+
+    const curve = data.reduce((acc: JSX.Element[], curr) => {
+        const exist = acc.findIndex(item => item.key === `curve-${curr.curve}`)
+        if (exist == -1 && curr.curve) {
+            acc.push(<SizeSpan
+                key={`curve-${curr.curve}`}
+                title={curr.curve}
+                active={specFilter.curve === curr.curve}
+                onClick={() => dispatch(setCurve(curr.curve ?? ""))} />)
+        }
+        return acc
+    }, [])
+
+    const thickness = data.reduce((acc: JSX.Element[], curr) => {
+        if (curr.curve === specFilter.curve) {
+            const exist = acc.findIndex(item => item.key === `thickness-${curr.thickness}`)
+            if (exist == -1 && curr.thickness) {
+                acc.push(<SizeSpan
+                    key={`thickness-${curr.thickness}`}
+                    title={curr.thickness}
+                    active={specFilter.thickness === curr.thickness}
+                    onClick={() => dispatch(setThikness(curr.thickness ?? ""))} />)
+            }
+        }
+        return acc
+    }, [])
+
+    const length = data.reduce((acc: JSX.Element[], curr) => {
+        if (curr.thickness === specFilter.thickness) {
+            const exist = acc.findIndex(item => item.key === `length-${curr.length}`)
+            if (exist == -1 && curr.length) {
+                acc.push(<SizeSpan
+                    key={`length-${curr.length}`}
+                    title={curr.length}
+                    active={specFilter.length === curr.length}
+                    onClick={() => dispatch(setLength(curr.length ?? ""))} />)
+            }
+        }
+        return acc
+    }, [])
+
+
+    const size = data.reduce((acc: JSX.Element[], curr) => {
+        if (curr.size) {
+            console.log(curr);
+
+            acc.push(<SizeSpan
+                key={`size-${curr.size}`}
+                title={curr.size ?? ""}
+                active={specFilter.size === curr.size}
+                onClick={() => dispatch(setSize(curr.size ?? ''))}
+            />)
+        }
+        return acc
+    }, [])
+
+
+    const color = data.reduce(
+        (acc: JSX.Element[], curr) => {
+            if (curr.color) {
+                console.log(curr);
+
+                acc.push(<ColorSpan
+                    key={`color-${curr.color}`}
+                    color={curr.color ?? ""}
+                    active={specFilter.color === curr.color}
+                    onClick={() => dispatch(setColor(curr.color ?? ''))}
+                />)
+            }
+            return acc
+        }, [])
+
     return (
         <div className='w-full'>
 
@@ -23,86 +95,42 @@ const Filters: React.FC<props> = ({ data }) => {
                         <div className='w-full'>
                             <h3 className='font-semibold'>סלסול</h3>
                             <div className='flex space-x-reverse space-x-2  '>
-                                {data.reduce((acc: JSX.Element[], curr) => {
-                                    const exist = acc.findIndex(item => item.key === `curve-${curr.curve}`)
-                                    if (exist == -1 && curr.curve) {
-                                        acc.push(<SizeSpan
-                                            key={`curve-${curr.curve}`}
-                                            title={curr.curve}
-                                            active={specFilter.curve === curr.curve}
-                                            onClick={() => dispatch(setCurve(curr.curve ?? ""))} />)
-                                    }
-                                    return acc
-                                }, [])}
+                                {curve }
                             </div>
                         </div>
                     }
-                    {specFilter.curve &&
+                    {specFilter.curve && thickness.length > 0 &&
                         < div className='w-full'>
                             <h3 className='font-semibold'>עובי</h3>
                             <div className='flex space-x-reverse space-x-2  '>
-                                {data.reduce((acc: JSX.Element[], curr) => {
-                                    if (curr.curve === specFilter.curve) {
-                                        const exist = acc.findIndex(item => item.key === `thickness-${curr.thickness}`)
-                                        if (exist == -1 && curr.thickness) {
-                                            acc.push(<SizeSpan
-                                                key={`thickness-${curr.thickness}`}
-                                                title={curr.thickness}
-                                                active={specFilter.thickness === curr.thickness}
-                                                onClick={() => dispatch(setThikness(curr.thickness ?? ""))} />)
-                                        }
-                                    }
-                                    return acc
-                                }, [])}
+                                { thickness}
                             </div>
                         </div>
                     }
-                    {specFilter.thickness &&
+                    {specFilter.thickness && length.length > 0 && 
                         < div className='w-full'>
                             <h3 className='font-semibold'>אורך</h3>
                             <div className='flex space-x-reverse space-x-2  '>
-                                {data.reduce((acc: JSX.Element[], curr) => {
-                                    if (curr.thickness === specFilter.thickness) {
-                                        const exist = acc.findIndex(item => item.key === `length-${curr.length}`)
-                                        if (exist == -1 && curr.length) {
-                                            acc.push(<SizeSpan
-                                                key={`length-${curr.length}`}
-                                                title={curr.length}
-                                                active={specFilter.length === curr.length}
-                                                onClick={() => dispatch(setLength(curr.length ?? ""))} />)
-                                        }
-                                    }
-                                    return acc
-                                }, [])}
+                                {length }
                             </div>
                         </div>
                     }
                 </div>
             }
 
-            {
+            {size.length > 0 &&
                 <div className='w-full'>
                     <h3 className='font-semibold'>מידה</h3>
                     <div className='flex space-x-reverse space-x-2  '>
-                        {data.map(item => <SizeSpan
-                            key={`size-${item.size}`}
-                            title={item.size ?? ""}
-                            active={specFilter.size === item.size}
-                            onClick={()=>dispatch(setSize(item.size??''))}
-                            />)}
+                        { size}
                     </div>
                 </div>
             }
-            {
+            {color.length > 0 &&
                 <div className='w-full'>
                     <h3 className='font-semibold'>צבעים</h3>
                     <div className='flex space-x-reverse space-x-2  '>
-                    {data.map(item => <ColorSpan
-                            key={`color-${item.color}`}
-                            color={item.color ?? ""}
-                            active={specFilter.color === item.color}
-                            onClick={()=>dispatch(setColor(item.color??''))}
-                            />)}
+                        {color }
 
 
                     </div>
