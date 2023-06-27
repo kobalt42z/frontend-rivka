@@ -24,8 +24,6 @@ const productFilterSlice = createSlice({
     initialState,
     reducers: {
         setCurve(state, { payload }: PayloadAction<string>) {
-            console.log(payload);
-
             state = { ...initialState }
             state.curve = payload
             return state

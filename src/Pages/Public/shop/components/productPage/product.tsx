@@ -148,7 +148,11 @@ export const ProductPage = () => {
             <div className='text right w-full'>
                 <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח  ( {data.Comment.length} )</h2>
                 <div dir='ltr' className='flex '>
-                    <Rating showAvrage avrage={data.Comment.reduce((acc, { rating }) => acc + rating, 0) / data.Comment.length} />
+                    <Rating showAvrage avrage={data.Comment.length > 0 ?
+                        data.Comment.reduce((acc, { rating }) => acc + rating, 0) / data.Comment.length
+                        :
+                        0
+                    } />
 
                 </div>
             </div>
