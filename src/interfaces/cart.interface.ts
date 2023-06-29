@@ -15,3 +15,8 @@ export interface ProductInCart {
     count: number
 }
 
+export interface ProductInCartDto {
+    product_id: string,
+    count: number
+    specifications: string[] // array of specification id to connect with 
+}
