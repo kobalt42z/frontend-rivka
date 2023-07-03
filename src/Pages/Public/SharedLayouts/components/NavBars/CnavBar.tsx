@@ -23,7 +23,7 @@ const CnavBar = () => {
     const [showMenu, setShowMenu] = React.useState(false)
     const location = useLocation()
     const { user } = useAppSelector((state) => state.user)
-    const Cart = useAppSelector((state) => state.cart)
+    
 
     const openIt = () => {
         setShowSearch(true)

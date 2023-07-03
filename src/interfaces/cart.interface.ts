@@ -1,4 +1,5 @@
-import { SpecificationDto, SpecificationFromDB } from "./product.interface"
+import { specFilter } from "../features/Slices/specFilter.slice"
+import { SpecificationDto, SpecificationFromDB, productFromDB } from "./product.interface"
 
 export interface Cart {
     products: ProductInCart[]
@@ -7,11 +8,8 @@ export interface Cart {
     // specToPush:SpecificationDto
 }
 export interface ProductInCart {
-    product_id: string,
-    imgUrl: string
-    name: string
-    brand: string
-    specId: string
+    basicProduct: productFromDB
+    spec: specFilter
     count: number
 }
 

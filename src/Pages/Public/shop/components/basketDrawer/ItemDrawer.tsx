@@ -11,6 +11,7 @@ import Counter from '../../../../../components/counter/Counter';
 import DropDown from '../../../../../components/dropDown/DropDown';
 import ClassicHr from '../../../../../components/HR/ClassicHr';
 import { ProductInCart } from '../../../../../interfaces';
+import { decrement, increment, removeFromCart } from '../../../../../features/Slices/cart.slice';
 
 
 interface ItemDrawerProps {
@@ -18,9 +19,9 @@ interface ItemDrawerProps {
     className?: string;
 
 }
-export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { count, name, imgUrl, brand, spec }, className }) => {
+export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProduct: { name, imgUrl, brand, id, selling_price } }, className }) => {
     const [amount, setAmount] = React.useState(count)
-    const [counter, setCounter] = React.useState<number>(0)
+
 
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -44,8 +45,7 @@ export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { count, name, imgUrl, b
                         <h3>{brand}</h3>
 
                         <div className="flex items-center justify-between">
-                            <Rating avrage={4} />
-                            <h3 className='font-bold'>655 ש"ח</h3>
+                            <h3 className='font-bold'>{selling_price * count} ש"ח</h3>
                         </div>
 
 
@@ -57,19 +57,27 @@ export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { count, name, imgUrl, b
                 <div className='flex justify-around w-[80%]'>
 
                     <div className="flex items-center justify-center space-x-3">
-                        <h4 className=' p-3  underline'>L</h4>
-                        <h4 className=' p-3  underline'>XS</h4>
-                        <h4 className=' h-5 w-5 rounded-full border-2 underline bg-red-500 '></h4>
+                        <h4 className=' p-3  underline'>{spec.size}</h4>
+                        <h4 className=' p-3  underline'>{spec.curve}</h4>
+                        <h4 className=' p-3  underline'>{spec.thickness}</h4>
+                        <h4 className=' p-3  underline'>{spec.length}</h4>
+
+
+                        {spec.color &&
+                            <h4 className=' h-5 w-5 rounded-full border-2 underline ' style={{ background: spec.color ?? "#FFFF" }}></h4>
+                        }
                     </div>
 
-                    <Counter counter={counter}
-                        onClickMinus={() => setCounter(counter - 1)}
-                        onClickPlus={() => setCounter(counter + 1)}
+                    <Counter counter={count}
+                        onClickMinus={() => spec.id && dispatch(decrement(spec.id))}
+                        onClickPlus={() => spec.id && dispatch(increment(spec.id))}
                     />
                 </div>
 
                 <div className='flex items-center justify-center border-2 rounded-full h-8 w-8  mr-5'>
-                    <Icon icon="ph:trash" width={18} height={18} />
+                    <Icon icon="ph:trash" width={18} height={18}
+                    className='cursor-pointer'
+                    onClick={() => spec.id && dispatch(removeFromCart(spec.id))} />
                 </div>
             </div>
             <ClassicHr />
