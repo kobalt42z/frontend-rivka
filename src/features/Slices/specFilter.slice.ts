@@ -1,23 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SpecificationFromDB } from "../../interfaces";
 import { PayloadAction } from "@reduxjs/toolkit/src";
-interface initialState {
+export interface specFilter {
     id: string | null
     curve: string | null
     thickness: string | null
     length: string | null
     color: string | null
     size: string | null
-    supply: number
+    count: number
 }
-const initialState: initialState = {
-    id: null,
+const initialState: specFilter = {
+    id: null, //spcification id 
     curve: null,
     length: null,
     thickness: null,
     color: null,
     size: null,
-    supply: 0,
+    count: 1,
+
 }
 const productFilterSlice = createSlice({
     name: "productFilter",
@@ -30,6 +31,7 @@ const productFilterSlice = createSlice({
         },
         setThikness(state, { payload }: PayloadAction<string>) {
             state.length = null
+            state.id = null
             state.thickness = payload
             return state
         },
@@ -45,13 +47,21 @@ const productFilterSlice = createSlice({
             state.size = payload
             return state
         },
-        setItem(state, { payload }: PayloadAction<{ id: string, count: number }>) {
-            state.id = payload.id
-            state.supply = payload.count
+        setItem(state, { payload }: PayloadAction<string>) {
+            state.id = payload
             return state
+        },
+        incrementFilter(state) {
+            // TODO: give max value 
+            state.count += 1
+            return state
+        },
+        decrementFilter(state) {
+            if (state.count > 1) state.count -= 1;
         }
+
     }
 })
 
-export const { setCurve, setItem, setThikness, setLength,setColor,setSize, } = productFilterSlice.actions
+export const { setCurve, setItem, setThikness, setLength, setColor, setSize, decrementFilter, incrementFilter } = productFilterSlice.actions
 export default productFilterSlice.reducer

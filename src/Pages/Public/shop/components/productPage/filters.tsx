@@ -2,7 +2,7 @@ import React from 'react'
 import { SpecificationFromDB } from '../../../../../interfaces'
 import { useAppDispatch, useAppSelector } from '../../../../../features/hooks'
 import SizeSpan from '../sizeSpan'
-import { setColor, setCurve, setLength, setSize, setThikness } from '../../../../../features/Slices/specFilter.slice'
+import { setColor, setCurve, setItem, setLength, setSize, setThikness } from '../../../../../features/Slices/specFilter.slice'
 import ColorSpan from '../colorSpan'
 
 
@@ -12,7 +12,6 @@ interface props {
 const Filters: React.FC<props> = ({ data }) => {
     const dispatch = useAppDispatch()
     const specFilter = useAppSelector((state) => state.specFilter)
-    const x = <SizeSpan title='x' active />
 
     const curve = data.reduce((acc: JSX.Element[], curr) => {
         const exist = acc.findIndex(item => item.key === `curve-${curr.curve}`)
@@ -48,7 +47,11 @@ const Filters: React.FC<props> = ({ data }) => {
                     key={`length-${curr.length}`}
                     title={curr.length}
                     active={specFilter.length === curr.length}
-                    onClick={() => dispatch(setLength(curr.length ?? ""))} />)
+                    onClick={() => {
+                        dispatch(setLength(curr.length ?? ""))
+                        dispatch(setItem(curr.id))
+                    }
+                    } />)
             }
         }
         return acc
@@ -95,7 +98,7 @@ const Filters: React.FC<props> = ({ data }) => {
                         <div className='w-full'>
                             <h3 className='font-semibold'>סלסול</h3>
                             <div className='flex space-x-reverse space-x-2  '>
-                                {curve }
+                                {curve}
                             </div>
                         </div>
                     }
@@ -103,15 +106,15 @@ const Filters: React.FC<props> = ({ data }) => {
                         < div className='w-full'>
                             <h3 className='font-semibold'>עובי</h3>
                             <div className='flex space-x-reverse space-x-2  '>
-                                { thickness}
+                                {thickness}
                             </div>
                         </div>
                     }
-                    {specFilter.thickness && length.length > 0 && 
+                    {specFilter.thickness && length.length > 0 &&
                         < div className='w-full'>
                             <h3 className='font-semibold'>אורך</h3>
                             <div className='flex space-x-reverse space-x-2  '>
-                                {length }
+                                {length}
                             </div>
                         </div>
                     }
@@ -122,7 +125,7 @@ const Filters: React.FC<props> = ({ data }) => {
                 <div className='w-full'>
                     <h3 className='font-semibold'>מידה</h3>
                     <div className='flex space-x-reverse space-x-2  '>
-                        { size}
+                        {size}
                     </div>
                 </div>
             }
@@ -130,7 +133,7 @@ const Filters: React.FC<props> = ({ data }) => {
                 <div className='w-full'>
                     <h3 className='font-semibold'>צבעים</h3>
                     <div className='flex space-x-reverse space-x-2  '>
-                        {color }
+                        {color}
 
 
                     </div>

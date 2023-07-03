@@ -25,10 +25,11 @@ import Star from '../../../../../components/ratings/Star';
 import Rating from '../../../../../components/ratings/Rating';
 import AddCommentForm from '../comments/addCommentForm';
 import { usePagination } from "react-use-pagination";
-import { addProduct } from '../../../../../features/Slices/cart.slice';
 import { SpecificationDto, SpecificationFromDB } from '../../../../../interfaces';
 import { title } from 'process';
 import Filters from './filters';
+import { addToCart } from '../../../../../features/Slices/cart.slice';
+import { decrementFilter, incrementFilter } from '../../../../../features/Slices/specFilter.slice';
 
 
 export const ProductPage = () => {
@@ -61,9 +62,10 @@ export const ProductPage = () => {
     const caruselItemRef = useRef<HTMLDivElement>(null);
     const [showComment, toggleComment] = UseToggle();
     const [showAddComment, toggleAddComment] = UseToggle();
-
+    const specFilter = useAppSelector((state) => state.specFilter)
     const animatedComponents = makeAnimated();
-    const [counter, setCounter] = useState(1)
+    const counter = specFilter.count
+
 
 
 
@@ -114,16 +116,17 @@ export const ProductPage = () => {
             </div>
             <p className='w-full md:w-10/12 text-right'>{' ואני טיפה יותר ארוך לבדיקה בוא נראה מה זה נותן אני תאור מוצר מעניין ביותר'}</p>
             {/* filters */}
-            {data.Specification && <Filters data={data.Specification} />}
+            {data.Specification &&
+                <Filters data={data.Specification} />}
             <div className='pt-5 w-full md:flex md:flex-row-reverse md:justify-around'>
                 <h3 className='font-semibold'>כמות</h3>
                 <div className="  md:w-2/5 pt-5">
                     <div className='flex justify-between items-center w-1/4 border-2' >
-                        <Button size={'xxs'} outline color={'light'} onClick={() => setCounter(counter + 1)} className='rounded-none border-0'>
+                        <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(incrementFilter())} className='rounded-none border-0'>
                             <PlusIcon className="h-6 w-4 text-gray-500" />
                         </Button>
                         {counter}
-                        <Button size={'xxs'} outline color={'light'} onClick={() => setCounter(counter > 1 ? counter - 1 : counter)} className='rounded-none border-0' >
+                        <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(decrementFilter())} className='rounded-none border-0' >
                             <MinusIcon className="h-6 w-4 text-gray-500" />
                         </Button>
                     </div>
@@ -134,10 +137,13 @@ export const ProductPage = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex  flex-col items-end space-y-3 pb-2">
+            <div className="w-full flex disabled:opacity-70  flex-col items-end space-y-3 pb-2">
                 <MainButtons
-                    ClickAction={() => true}
-                    custom={" font-bold w-[171px]  h-[38px] "}>הוסף לסל
+                    ClickAction={() => specFilter.id && dispatch(addToCart({ data, spec: specFilter }))}
+                    custom={" font-bold w-[171px]  h-[38px] "}
+                    disabled={!specFilter.id}
+                >
+                    הוסף לסל
                 </MainButtons>
                 <MainButtons
                     // className='outline-red-300'
