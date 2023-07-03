@@ -114,7 +114,7 @@ export const ProductPage = () => {
                     <h4 className='text-base capitalize font-normal text-left  '>{data.selling_price - ((data.reduction_p / 100) * data.selling_price) + ' ש"ח'}</h4>
                 </div>
             </div>
-            <p className='w-full md:w-10/12 text-right'>{' ואני טיפה יותר ארוך לבדיקה בוא נראה מה זה נותן אני תאור מוצר מעניין ביותר'}</p>
+            <p className='w-full md:w-10/12 text-right'>{data.description}</p>
             {/* filters */}
             {data.Specification &&
                 <Filters data={data.Specification} />}

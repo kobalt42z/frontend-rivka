@@ -6,21 +6,24 @@ import { useAppDispatch } from '../../../../../features/hooks';
 import Rating from '../../../../../components/ratings/Rating';
 import { Dropdown } from 'flowbite-react';
 import { Icon } from '@iconify/react';
-import { UseToggle } from 'sk-use-toggle/src';
+import { UseToggle, toggler } from 'sk-use-toggle/src';
 import Counter from '../../../../../components/counter/Counter';
 import DropDown from '../../../../../components/dropDown/DropDown';
 import ClassicHr from '../../../../../components/HR/ClassicHr';
 import { ProductInCart } from '../../../../../interfaces';
 import { decrement, increment, removeFromCart } from '../../../../../features/Slices/cart.slice';
+import { useNavigate } from 'react-router-dom';
 
 
 interface ItemDrawerProps {
     data: ProductInCart
     className?: string;
+    toggle: toggler
 
 }
-export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProduct: { name, imgUrl, brand, id, selling_price } }, className }) => {
+export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProduct: { name, imgUrl, brand, id, selling_price } }, className, toggle }) => {
     const [amount, setAmount] = React.useState(count)
+    const navigate = useNavigate()
 
 
     const dispatch = useAppDispatch()
@@ -38,7 +41,10 @@ export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProd
     return (
         <div className='flex flex-col items-end'>
             <div dir='rtl' className='flex space-x-2 space-x-reverse w-full my-2'>
-                <img src={imgUrl} alt="" className='w-[90px] h-[90px]' />
+                <img src={imgUrl} alt="" className='w-[90px] h-[90px]' onClick={() => {
+                    navigate(`/product/${id}`)
+                    toggle()
+                }} />
                 <div className='w-full'>
                     <div className='flex flex-col '>
                         <h3>{name} </h3>
@@ -76,8 +82,8 @@ export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProd
 
                 <div className='flex items-center justify-center border-2 rounded-full h-8 w-8  mr-5'>
                     <Icon icon="ph:trash" width={18} height={18}
-                    className='cursor-pointer'
-                    onClick={() => spec.id && dispatch(removeFromCart(spec.id))} />
+                        className='cursor-pointer'
+                        onClick={() => spec.id && dispatch(removeFromCart(spec.id))} />
                 </div>
             </div>
             <ClassicHr />

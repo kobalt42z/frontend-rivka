@@ -35,6 +35,7 @@ const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
 
             {cart.products.map(product => <ItemDrawer
                 data={product}
+                toggle={toggle}
             />)}
             {currentCart.length > 0 ? <Link to={'/myCart/'}>< MainButtons custom={"w-[100%] mt-5 "}> מעבר לקופה </MainButtons></Link> : <p className='text-center italic text-sm'>
                 סל הקניות שלך ריק כרגע
