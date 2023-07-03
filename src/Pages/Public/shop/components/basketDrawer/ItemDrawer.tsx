@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 interface ItemDrawerProps {
     data: ProductInCart
     className?: string;
-    toggle: toggler
+    toggle?: toggler
 
 }
 export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProduct: { name, imgUrl, brand, id, selling_price } }, className, toggle }) => {
@@ -43,7 +43,7 @@ export const ItemDrawer: FC<ItemDrawerProps> = ({ data: { spec, count, basicProd
             <div dir='rtl' className='flex space-x-2 space-x-reverse w-full my-2'>
                 <img src={imgUrl} alt="" className='w-[90px] h-[90px]' onClick={() => {
                     navigate(`/product/${id}`)
-                    toggle()
+                    toggle && toggle()
                 }} />
                 <div className='w-full'>
                     <div className='flex flex-col '>

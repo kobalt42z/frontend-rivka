@@ -66,7 +66,10 @@ const Filters: React.FC<props> = ({ data }) => {
                 key={`size-${curr.size}`}
                 title={curr.size ?? ""}
                 active={specFilter.size === curr.size}
-                onClick={() => dispatch(setSize(curr.size ?? ''))}
+                onClick={() => {
+                    dispatch(setSize(curr.size ?? ''))
+                    dispatch(setItem(curr.id))
+                }}
             />)
         }
         return acc
@@ -82,7 +85,10 @@ const Filters: React.FC<props> = ({ data }) => {
                     key={`color-${curr.color}`}
                     color={curr.color ?? ""}
                     active={specFilter.color === curr.color}
-                    onClick={() => dispatch(setColor(curr.color ?? ''))}
+                    onClick={() => {
+                        dispatch(setColor(curr.color ?? ''))
+                        dispatch(setItem(curr.id ?? ''))
+                    }}
                 />)
             }
             return acc

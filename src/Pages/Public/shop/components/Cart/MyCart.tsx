@@ -10,75 +10,39 @@ export const MyCart = () => {
     const dispatch = useAppDispatch();
     const Cart = useAppSelector((state) => state.cart)
     const navigate = useNavigate()
+    const totalPrice = Cart.products.reduce(
+        (acc, curr) => {
+            acc += (curr.basicProduct.selling_price * curr.count)
+            return acc
+        }, 0)
     return (
         <div dir='rtl' className='container p-5 min-h-[80vh] flex flex-col items-center'>
-            <h1 className='text-xl font '>סל קניות ({60} מוצרים)</h1>
+            <h1 className='text-xl font '>סל קניות ({Cart.count} מוצרים)</h1>
             <p className='bg-[#F9F9F9] p-8 mb-2'>
-                ניתן להחזיר את המוצר בתוך 30 יום מזמן הקנייה באריזה המקורית
+                ניתן להחזיר את המוצר בתוך 30 יום מזמן הקנייה באריזתו המקורית
             </p>
-            {/* {Cart.products.map((product: productFromDB) => {
-                return (
-                    <ItemDrawer
-                        className='bg-[#ffffff] px-10 py-5'
-                        id={product.id}
-                        img={product.imgUrl}
-                        alt={product.name}
-                        title={product.name}
-                        price={product.base_price}
-                        key={product.id}
-                        count={product.count || 1}
-                        addOne={()=>true }
-                        subOne={() =>true }
+            <div className='space-y-5'>
+                {Cart.products.map((product) => {
+                    return (
+                        <ItemDrawer
+                            data={product}
+                        />)
+                })}
+            </div>
 
-                    />)
-            })} */}
 
-            <ItemDrawer
-                className='bg-[#ffffff] px-10 py-5'
-                id={"1234564"}
-                img={"https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"}
-                alt={"מוצר ניסיוני"}
-                title={"מוצר ניסיוני"}
-                price={355}
-                key={5}
-                count={3}
-                addOne={()=>true}
-                subOne={() =>true }
-
-            />
-            <ItemDrawer
-                className='bg-[#ffffff] px-10 py-5'
-                id={"1234564"}
-                img={"https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"}
-                alt={"מוצר ניסיוני"}
-                title={"מוצר ניסיוני"}
-                price={355}
-                key={5}
-                count={3}
-                addOne={()=>true }
-                subOne={() =>true }
-
-            />
-            <ItemDrawer
-                className='bg-[#ffffff] px-10 py-5'
-                id={"1234564"}
-                img={"https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"}
-                alt={"מוצר ניסיוני"}
-                title={"מוצר ניסיוני"}
-                price={355}
-                key={5}
-                count={3}
-                addOne={()=>true }
-                subOne={() =>true }
-
-            />
             <div className='  bg-[var(--main-bg)] w-full mt-5 '>
-                <ClassicHr />
-                <div className="flex mt-3 justify-between font-bold text-xl">
-                    <h2 >סה"כ לתשלום :</h2>
-                    <h2>{60} ₪</h2>
+                {/* <ClassicHr /> */}
+                <div className="flex mt-3 justify-between ">
+                    <h5>לפני מע"מ</h5>
+                    <h2>{totalPrice - totalPrice * 0.17} ₪</h2>
                 </div>
-                <h5>כולל מע"מ</h5>
+                <div className="flex  justify-between font-bold text-xl">
+                    <h2 >סה"כ לתשלום :</h2>
+                    <h2>{totalPrice} ₪</h2>
+
+                </div>
+
             </div>
             {/* <MainButtons
                 // ClickAction={() => dispatch(addToCart(data))}
@@ -91,7 +55,7 @@ export const MyCart = () => {
 
             <div className='flex justify-end w-full'>
                 <MainButtons
-                    ClickAction={() =>navigate('/myCart/login')}
+                    ClickAction={() => navigate('/myCart/login')}
                     custom={"w-[90px] h-[32px] text-black font-bold box-shadow mt-3  "}>הבא</MainButtons>
             </div>
         </div>
