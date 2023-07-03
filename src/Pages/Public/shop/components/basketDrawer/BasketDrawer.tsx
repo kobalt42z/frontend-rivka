@@ -8,10 +8,11 @@ import LoadingScreen from "../../../../../components/Loading/LoadingScreen";
 import MainButtons from "../../../../../components/buttons/MainButtons";
 import { Link } from "react-router-dom";
 import ClassicHr from "../../../../../components/HR/ClassicHr";
+import { toggler } from "sk-use-toggle/src";
 
 interface BasketDrawerProps {
     open: boolean;
-    toggle: MouseEventHandler<HTMLButtonElement>;
+    toggle: toggler;
 }
 const BasketDrawer = ({ open, toggle }: BasketDrawerProps) => {
     const cart = useAppSelector(state => state.cart)
