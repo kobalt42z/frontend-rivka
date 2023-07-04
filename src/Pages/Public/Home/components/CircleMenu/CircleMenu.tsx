@@ -5,7 +5,7 @@ import { AcademicCapIcon, CalendarIcon, ShoppingCartIcon } from '@heroicons/reac
 const CircleMenu = () => {
   return (
     <>
-      <div className="container flex justify-center py-10 px-3">
+      <div className="md:hidden container flex justify-center py-10 px-3">
         <div className=' flex w-[90%] justify-between text-center'>
 
           <Link to={'/shop'}>

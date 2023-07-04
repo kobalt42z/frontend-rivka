@@ -23,7 +23,7 @@ const CnavBar = () => {
     const [showMenu, setShowMenu] = React.useState(false)
     const location = useLocation()
     const { user } = useAppSelector((state) => state.user)
-    
+
 
     const openIt = () => {
         setShowSearch(true)
@@ -49,22 +49,35 @@ const CnavBar = () => {
         '>
             <div className="flex justify-between px-1 mb-3">
                 <button onClick={() => navigate(-1)}><ChevronLeftIcon className="h-5  text-black " /></button>
+                {/* LOGO */}
+                <div className='   '>
+
+                    <Link to={"/"} className='flex justify-center ' >
+                        <img
+                            src={Logo}
+                            className=" h-[]  z-[10] max-md:top-[50px] max-md:left-[20%]  relative drop-shadow-xl "
+                            alt="Rivka's logo"
+                        />
+                    </Link>
+                </div>
                 <button onClick={toggleMenu}><Bars3Icon className="h-7  text-black " /></button>
             </div>
 
-            <div className=" flex  justify-between items-center px-3 h-[50px]
-        bg-[var(--main-green-color)]">
+            <div className=" flex justify-between items-center px-3 h-[50px]
+        bg-mainGreen w-full">
 
+                <div className="absolute">
 
-                <ClickOutside open={showDrawer} closeIt={toggleDrawer} >
-                    <BasketDrawer open={showDrawer} toggle={toggleDrawer} ></BasketDrawer>
-                </ClickOutside>
+                    <ClickOutside open={showDrawer} closeIt={toggleDrawer} >
+                        <BasketDrawer open={showDrawer} toggle={toggleDrawer} ></BasketDrawer>
+                    </ClickOutside>
 
-                <ClickOutside open={showMenu} closeIt={toggleMenu}>
-                    <MenuDrawer open={showMenu} toggle={toggleMenu} title={"תפריט"}>
-                        <MenuUl closeMenuOnclick={toggleMenu} />
-                    </MenuDrawer>
-                </ClickOutside>
+                    <ClickOutside open={showMenu} closeIt={toggleMenu}>
+                        <MenuDrawer open={showMenu} toggle={toggleMenu} title={"תפריט"}>
+                            <MenuUl closeMenuOnclick={toggleMenu} />
+                        </MenuDrawer>
+                    </ClickOutside>
+                </div>
 
 
 
@@ -73,22 +86,20 @@ const CnavBar = () => {
                     <input dir="rtl" type="text" className="bg-[#d9d9d926] border-none w-[110px] h-[20px] text black placeholder:text-[gray]" placeholder="חיפוש" />
                 </div>
 
-                {/* LOGO */}
-                <div className='  '>
-
-                    <Link to={"/"} className='flex justify-center ' >
-                        <img
-                            src={Logo}
-                            className=" h-[]  z-[10] relative bottom-[40px] drop-shadow-xl "
-                            alt="Rivka's logo"
-                        />
-                    </Link>
+                <div className="min-md:hidden w-[50%] px-5 text-white">
+                    <ul className="flex justify-between">
+                       <Link to={'/shop'}> <li>חנות און ליין</li></Link>
+                       <Link to={'/'}> <li>אקדמיה </li></Link>
+                       <Link to={'/'}> <li>לקביעת תור</li></Link>
+                       <Link to={'/'}> <li>אודות</li></Link>
+                      
+                    </ul>
                 </div>
 
 
                 <div className="flex space-x-3">
                     <button onClick={toggleDrawer} ><div className='relative'>
-                        <Icon icon="bytesize:cart" width={20} height={20} />
+                        <Icon icon="bytesize:cart" color="#FFFF" width={20} height={20} />
 
                         {/* <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-3 dark:border-gray-900">{Cart.totalInCart}</div> */}
 
@@ -98,7 +109,7 @@ const CnavBar = () => {
 
                     {user ?
                         <DropDawnAvatar label={<img src={user?.photoURL ?? avatarPlaceHolder} className="rounded-full w-[30px] h-[30px] bg-mainGreen" />} /> :
-                        <Link to={"/login"}><Icon icon="radix-icons:avatar" width={20} height={20} /></Link>
+                        <Link to={"/login"}><Icon icon="radix-icons:avatar" color="#FFFF" width={20} height={20} /></Link>
                     }
 
 

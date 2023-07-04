@@ -22,10 +22,12 @@ const CategoryCarusel = () => {
                     
                     if (i == 1) return (<CaruselItem
                         title={cat.name}
+                        itemId={cat.id}
                         imageUrl={cat.imgUrl}
                         ref={carusel} />)
                     else return (<CaruselItem
                         title={cat.name}
+                        itemId={cat.id}
                         imageUrl={cat.imgUrl}
                      />)
                 })

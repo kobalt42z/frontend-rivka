@@ -11,14 +11,14 @@ import CategoryCarusel from "./categoryCarusel/CategoryCarusel"
 import MiniBannerAds from "./miniBannerAds/miniBannerAds"
 import { Icon } from "@iconify/react"
 import SortBy from "./sortBy/SortBy"
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation, useParams, useSearchParams } from "react-router-dom"
 
 
 const Shop = () => {
     const [counter, setCounter] = useState<number>(0)
     const currentPage = useAppSelector((state) => state.shop.currentPage)
     const dispatch = useAppDispatch()
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const {
         isLoading: isLoadingProducts,
         isSuccess: isProductSuccess,
@@ -70,13 +70,13 @@ const Shop = () => {
                     {/* {RenderProduct} */}
                     <CategoryCarusel />
                     <MiniBannerAds />
-                    <hr className="h-[2px] box-shadow w-[95%] mx-auto bg-mainGreen border-0 dark:bg-gray-700" />
+                    <hr className="md:mb-5 h-[2px] box-shadow w-[95%] mx-auto bg-mainGreen border-0 dark:bg-gray-700" />
                     <div dir="rtl" className="flex w-full px-2 space-x-reverse space-x-2 pb-2 items-center">
-                        <h2 className="text-shadow text-xl">המומלצים שלנו:</h2> <Icon icon="icon-park-outline:like" width={20} color="gray" className="" />
+                        <h2 className="text-shadow text-xl">{searchParams.get("categoryName")??"המומלצים שלנו"}:</h2>
                     </div>
-                    <SortBy/>
+                    <SortBy />
 
-                    <Outlet/>
+                    <Outlet />
                 </div >
             </IF>
         </>

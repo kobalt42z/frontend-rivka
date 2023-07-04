@@ -31,7 +31,7 @@ const ShopItem = React.forwardRef(({ item_id, imgUrl, title, subtitle, price, sa
             <IF condition={showBlureMenu}><DropDownBlure toggleBlurMenu={toggleBlureMenu} /></IF>
             <IF condition={sale}>
                 <div className=' w-full z-[1] '>
-                    <div className='absolute w-[37px] h-[21px] bg-[#474A49]  text-white bg-center bg-cover top-[5px] left-[-10px] md:left-[-28px] md:top-[-21px] text-center flex items-center justify-center text-[14px]  uppercase font-normal drop-shadow-xl'>{sale + '%'}</div>
+                    <div className='absolute w-[37px] h-[21px] bg-[#474A49]  text-white bg-center bg-cover top-[5px] left-[-10px] ]  text-center flex items-center justify-center text-[14px]  uppercase font-normal drop-shadow-xl'>{sale + '%'}</div>
                 </div>
             </IF>
             <div className="relative top-0">

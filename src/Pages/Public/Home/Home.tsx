@@ -13,6 +13,7 @@ const Home = () => {
 
      
       <CircleMenu />
+
       <OurOffreCarusel />
       <div className="flex justify-center items-center">
         <MainButtons custom="w-[171px] h-[36px] text-base text-black box-shadow" >לקביעת תור </MainButtons>
@@ -23,7 +24,7 @@ const Home = () => {
       <div className='container flex justify-center items-center space-x-4  p-5'>
         {/* shop */}
 
-        <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
+        <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 grid-flow-row gap-x-3 md:gap-x-10 gap-y-10'>
                             <ShopItem imgUrl="https://plus.unsplash.com/premium_photo-1675896041816-4154315d12e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=935&q=80"
                                 title={'testotest'}
                                 subtitle={'miniTest'}

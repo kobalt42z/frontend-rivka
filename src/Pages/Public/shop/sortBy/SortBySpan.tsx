@@ -8,9 +8,9 @@ interface props {
 const SortBySpan: FC<props> = ({ children }) => {
     const [status, toggleStatus] = UseToggle()
     return (
-        <button
+        <div
             onClick={toggleStatus}
-            className={` flex flex-row-reverse justify-around items-center capitalize rounded-md box-shadow min-w-[95px] h-[18px]${status ? " bg-mainGreen " : " bg-[#DFE2CF] "}`}>
+            className={` hover:cursor-pointer flex flex-row-reverse justify-around items-center capitalize rounded-md box-shadow min-w-[95px] h-[18px]${status ? " bg-mainGreen " : " bg-[#DFE2CF] "}`}>
             {children}
             {
                 status && 
@@ -19,7 +19,7 @@ const SortBySpan: FC<props> = ({ children }) => {
                 </div>
             }
 
-        </button>
+        </div>
     )
 }
 

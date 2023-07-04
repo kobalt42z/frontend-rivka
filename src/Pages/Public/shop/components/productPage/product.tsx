@@ -102,19 +102,22 @@ export const ProductPage = () => {
 
     if (isFetching) return (<LoadingScreen />);
     if (data) return (
-        <div dir='rtl' className='container flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5 pb-0 md:pt-0'>
-            <img src={data?.imgUrl} alt="" className='w-full md:w-10/12 box-shadow' />
-            <div className="w-full flex justify-between ">
-                <div className='text-right w-full'>
-                    <h2 className='text-lg capitalize font-semibold '>{data.name}</h2>
-                    <h4 className='text-base capitalize font-normal '>{data.brand}</h4>
-                </div>
-                <div className='text-right w-full'>
-                    <h4 className='text-base capitalize font-normal text-left line-through  '>{data.selling_price + ' ש"ח'}</h4>
-                    <h4 className='text-base capitalize font-normal text-left  '>{data.selling_price - ((data.reduction_p / 100) * data.selling_price) + ' ש"ח'}</h4>
+        <div dir='rtl' className='container flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5  pb-0 md:pt-10'>
+            <div className='flex justify-around w-full'>
+                <img src={data?.imgUrl} alt="" className='w-full md:w-[400px] box-shadow' />
+
+                <div className="w-full flex md:flex-col max-md:justify-between  pr-5 ">
+                    <div className='text-right pt-5 w-full'>
+                        <h2 className='text-lg capitalize font-semibold '>{data.name}</h2>
+                        <h4 className='text-base capitalize font-normal '>{data.brand}</h4>
+                    </div>
+                    <p className='w-full md:w-10/12 text-right '>{data.description}</p>
+                    <div className='text-left md:text-right w-full mt-10'>
+                        <h4 className='text-base capitalize font-normal  line-through  '>{data.selling_price + ' ש"ח'}</h4>
+                        <h4 className='text-base capitalize font-normal   '>{data.selling_price - ((data.reduction_p / 100) * data.selling_price) + ' ש"ח'}</h4>
+                    </div>
                 </div>
             </div>
-            <p className='w-full md:w-10/12 text-right'>{data.description}</p>
             {/* filters */}
             {data.Specification &&
                 <Filters data={data.Specification} />}

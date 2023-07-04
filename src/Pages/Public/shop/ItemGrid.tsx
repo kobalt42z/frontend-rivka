@@ -7,14 +7,14 @@ const ItemGrid = () => {
     //!!! ime here!!!!
     const params = useParams()
     const { isError, isSuccess, isLoading, error, data } = useFindeByCategoryQuery(params.category ?? 'Misc')
-    // bring item by query using category name 
+    // bring item by query using category id 
     React.useEffect(() => {
         console.log(params);
     }, [])
 
     return (
         <div className='container flex flex-col items-center '>
-            <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
+            <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 grid-flow-row gap-x-3 gap-y-10'>
 
                 {
                     data && data.products.map(({

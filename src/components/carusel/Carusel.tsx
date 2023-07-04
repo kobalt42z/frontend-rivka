@@ -15,16 +15,16 @@ const Carusel: FC<props> = ({ children, firstObjectRef: caruselItemRef, dealay, 
     const nextElement = () => {
         if (!caruselRef.current || !caruselItemRef.current) return;
         const caruSize = caruselRef.current.scrollWidth, itemSize = caruselItemRef.current.offsetWidth
-        const newPosition = currenPosition < (caruSize - itemSize) ? currenPosition + itemSize :itemSize
+        const newPosition = currenPosition < (caruSize - itemSize) ? currenPosition + itemSize : itemSize
         setCurrentPosition(newPosition)
-       
+
     }
     const prevElement = () => {
         if (!caruselRef.current || !caruselItemRef.current) return;
         const caruSize = caruselRef.current.scrollWidth, itemSize = caruselItemRef.current.offsetWidth
         const newPosition = currenPosition > 0 ? currenPosition - itemSize : (caruSize - itemSize);
         setCurrentPosition(newPosition)
-       ;
+            ;
     }
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const Carusel: FC<props> = ({ children, firstObjectRef: caruselItemRef, dealay, 
     }, [currenPosition])
 
     useEffect(() => {
-        if (!dealay ) return;
+        if (!dealay) return;
         const interval = setInterval(nextElement, dealay)
         return () => clearInterval(interval);
     }, [currenPosition])
@@ -51,16 +51,30 @@ const Carusel: FC<props> = ({ children, firstObjectRef: caruselItemRef, dealay, 
     }, [])
 
     return (
-        <div className="w-full ">
-            {/* <h3  dir='rtl' className="text-base capitalize font-semibold w-full">המוצרים שלנו :</h3> */}
-             <div className="md:hidden flex relative w-[95%] justify-between z-[10] top-[60px] mx-auto ">
-                <button onClick={prevElement}><ChevronLeftIcon className="h-6 w-6 text-black drop-shadow-lg backdrop-blur-md rounded-full" /></button>
-                <button onClick={nextElement}><ChevronRightIcon className="h-6 w-6 text-black drop-shadow-lg backdrop-blur-md rounded-full" /></button>
-            </div>
-            <div className=" flex mb-5 space-x-3 overflow-x-scroll scroll-px-6 snap-proximity snap-x " ref={caruselRef}>
+
+
+        // <div className=" flex w-full justify-around ">
+        //     <button onClick={prevElement}><ChevronLeftIcon className="h-6 w-6 text-black drop-shadow-lg backdrop-blur-md rounded-full" /></button>
+        //     <div className=" flex mb-5 md:px-10 space-x-3 overflow-x-scroll scroll-px-6 snap-proximity snap-x " ref={caruselRef}>
+        //         {children}
+        //     </div>
+        //     <button onClick={nextElement}><ChevronRightIcon className="h-6 w-6 text-black drop-shadow-lg backdrop-blur-md rounded-full" /></button>
+        // </div>
+
+        <div className="flex w-full">
+            <button onClick={prevElement}>
+                <ChevronLeftIcon className="h-6 w-6 text-black drop-shadow-lg backdrop-blur-md rounded-full" />
+            </button>
+            <div className="flex mb-5 md:px-10 space-x-3 overflow-x-scroll md:overflow-hidden scroll-px-6 snap-proximity snap-x mr-auto" ref={caruselRef} >
                 {children}
             </div>
+            <button onClick={nextElement}>
+                <ChevronRightIcon className="h-6 w-6 text-black drop-shadow-lg backdrop-blur-md rounded-full" />
+            </button>
         </div>
+
+
+
     )
 }
 
