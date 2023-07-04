@@ -1,11 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginInputs } from "../../../interfaces";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LoginCredentials from "../../../interfaces/auth.interface";
 import { AWS_ACCESS_KEYWORD, TOKEN_KEYWORD } from "../../../constant";
-import { setPayload, setToken } from "../../../features/Slices/Payload.slice";
+import { setToken } from "../../../features/Slices/Payload.slice";
 import jwt_decode from 'jwt-decode'
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import LoadingScreen from "../../../components/Loading/LoadingScreen";
@@ -72,7 +72,7 @@ export const LoginPage: React.FC<props> = ({ forgotUrl, registerUrl }) => {
   const classicSignIn = async (email: string, password: string) => {
     try {
       setAuthing(true);
-      const resp = await signInWithEmailAndPassword(auth,email,password)
+      const resp = await signInWithEmailAndPassword(auth, email, password)
     } catch (error) {
       setAuthing(true);
     }

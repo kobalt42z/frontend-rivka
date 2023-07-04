@@ -18,6 +18,7 @@ import CartStepper from "../Pages/Public/shop/components/Cart/components/CartSte
 import PaymentPage from "../Pages/Public/shop/paymentPage/PaymentPage";
 import UserGuard from "../Guards/User";
 import ItemGrid from "../Pages/Public/shop/ItemGrid";
+import GoNext from "../Guards/goNext";
 
 
 export const router = createBrowserRouter(
@@ -43,7 +44,7 @@ export const router = createBrowserRouter(
                 <Route path='/product/:id' element={<ProductPage />} />
                 <Route path="/myCart/" element={<UserGuard><CartStepper /></UserGuard>}>
                     <Route index element={<MyCart />} />
-                    <Route path="/myCart/login/" element={<LoginPage registerUrl="/myCart/register" forgotUrl="/myCart/forgot/" />} />
+                    <Route path="/myCart/login/" element={<GoNext next="/myCart/payment/"><LoginPage registerUrl="/myCart/register" forgotUrl="/myCart/forgot/" /></GoNext>} />
                     <Route path="/myCart/register/" element={<Register loginUrl="/myCart/login" />} />
                     <Route path="/myCart/forgot/" element={<Forgot loginUrl="/myCart/login" />} />
                     <Route path="/myCart/payment/" element={<PaymentPage />} />
