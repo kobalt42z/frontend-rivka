@@ -29,7 +29,7 @@ const ShopItem = React.forwardRef(({ item_id, imgUrl, title, subtitle, price, sa
     return (
         <div className={`container relative flex flex-col items-center justify-between flex-none min-h-[150px] border-[0.5px] border-[#656565] drop-shadow-lg  ${className}`} ref={ref}>
             <IF condition={showBlureMenu}><DropDownBlure toggleBlurMenu={toggleBlureMenu} /></IF>
-            <IF condition={sale}>
+            <IF condition={sale && sale>0}>
                 <div className=' w-full z-[1] '>
                     <div className='absolute w-[37px] h-[21px] bg-[#474A49]  text-white bg-center bg-cover top-[5px] left-[-10px] ]  text-center flex items-center justify-center text-[14px]  uppercase font-normal drop-shadow-xl'>{sale + '%'}</div>
                 </div>
@@ -51,7 +51,7 @@ const ShopItem = React.forwardRef(({ item_id, imgUrl, title, subtitle, price, sa
                 <h5 className=' font-normal'>{title}</h5>
                 {/* <h6 className=' font-thin'>{subtitle}</h6> */}
                 {/* <h6 className='font-bold'>{price}₪</h6> */}
-                {sale ?
+                {sale && sale > 0 ?
                     <div className='  '>
                         <h6 className='font-normal line-through'>{price}₪</h6>
                         <h6 className='font-normal '>{price - ((sale / 100) * price)}₪</h6>

@@ -102,44 +102,55 @@ export const ProductPage = () => {
 
     if (isFetching) return (<LoadingScreen />);
     if (data) return (
-        <div dir='rtl' className='container lg:px-20 flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5  pb-0 md:pt-10'>
-            <div className='flex justify-around w-full'>
-                <img src={data?.imgUrl} alt="" className='w-full md:w-[400px] box-shadow' />
+        <div dir='rtl' className='container relative lg:px-20 flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5  pb-0 md:pt-10'>
+            <div className='flex max-md:flex-col justify-around w-full'>
+                <IF condition={data.reduction_p && data.reduction_p > 0}>
 
-                <div className="w-full flex md:flex-col max-md:justify-between  pr-5 ">
+                    <div className='absolute w-[37px] h-[21px] md:w-[50px] md:h-[25px]  bg-[#474A49]  text-white bg-center bg-cover top-[30px] md:top-[50px] left-[10px]  md:right-[470px] text-center flex items-center justify-center text-[14px]  uppercase font-normal drop-shadow-xl'>{data.reduction_p + '%'}</div>
+
+                </IF>
+                <img src={data?.imgUrl} alt="" className='w-full md:w-[420px] md:h-[520px] box-shadow' />
+
+                <div className="w-full flex flex-col max-md:justify-between  md:pr-16 space-y-5 ">
                     <div className='text-right pt-5 w-full'>
                         <h2 className='text-lg capitalize font-semibold '>{data.name}</h2>
                         <h4 className='text-base capitalize font-normal '>{data.brand}</h4>
                     </div>
                     <p className='w-full md:w-10/12 text-right '>{data.description}</p>
-                    <div className='text-left md:text-right w-full mt-10'>
-                        <h4 className='text-base capitalize font-normal  line-through  '>{data.selling_price + ' ש"ח'}</h4>
-                        <h4 className='text-base capitalize font-normal   '>{data.selling_price - ((data.reduction_p / 100) * data.selling_price) + ' ש"ח'}</h4>
+
+                    {/* filters */}
+                    {data.Specification &&
+                        <Filters data={data.Specification} />}
+                    <h3 className='font-semibold text-right w-full '>כמות :</h3>
+                    {/* counter  */}
+                    <div className='w-full  md:justify-around'>
+                        <div className="  md:w-2/5 ">
+                            <div className='flex justify-between items-center w-1/4 border-2' >
+                                <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(incrementFilter())} className='rounded-none border-0'>
+                                    <PlusIcon className="h-6 w-4 text-gray-500" />
+                                </Button>
+                                {counter}
+                                <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(decrementFilter())} className='rounded-none border-0' >
+                                    <MinusIcon className="h-6 w-4 text-gray-500" />
+                                </Button>
+                            </div>
+                            <div dir='ltr'>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className='flex '>
+                        <h3 className="font-semibold text-right mx">סך הכל : </h3>
+                        <div className='flex  mx-2 space-x-2 space-x-reverse'>
+                            <h4 className={`text-base capitalize font-normal ${data.reduction_p > 0 && "line-through "}   `}>{(data.selling_price * counter) + ' ש"ח'}</h4>
+                            {
+                                data.reduction_p > 0 && <h4 className='text-base capitalize font-normal   '>{(data.selling_price - ((data.reduction_p / 100) * data.selling_price)) * counter + ' ש"ח'}</h4>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-            {/* filters */}
-            {data.Specification &&
-                <Filters data={data.Specification} />}
-                <h3 className='font-semibold text-right w-full '>כמות :</h3>
-            <div className='pt-5 w-full  md:justify-around'>
-                <div className="  md:w-2/5 ">
-                    <div className='flex justify-between items-center w-1/4 border-2' >
-                        <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(incrementFilter())} className='rounded-none border-0'>
-                            <PlusIcon className="h-6 w-4 text-gray-500" />
-                        </Button>
-                        {counter}
-                        <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(decrementFilter())} className='rounded-none border-0' >
-                            <MinusIcon className="h-6 w-4 text-gray-500" />
-                        </Button>
-                    </div>
-                    <div dir='ltr'>
-                        <p dir='rtl' className='capitalize font-semibold w-1/2 text-right '>
-                            מחיר : {counter * 150} ₪
-                        </p>
-                    </div>
-                </div>
-            </div>
+
             <div className="w-full flex disabled:opacity-70  flex-col items-end space-y-3 pb-2">
                 <MainButtons
                     ClickAction={() => specFilter.id && dispatch(addToCart({ data, spec: specFilter }))}
@@ -178,7 +189,7 @@ export const ProductPage = () => {
 
                 </div>
                 {!showAddComment &&
-                    <MainButtons ClickAction={toggleAddComment} custom='w-1/2 md:w-1/12 flex items-center p-1 px-1'>
+                    <MainButtons ClickAction={toggleAddComment} custom='w-1/2 md:w-[150px] flex items-center p-1 px-1'>
                         הוסיפי תגובה
                         <Icon icon="ic:baseline-plus" className='mx-1' />
                     </MainButtons>
@@ -206,7 +217,7 @@ export const ProductPage = () => {
                 </>
             }
             <ClassicHr />
-            <div className='grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-x-3 gap-y-10'>
+            <div className='grid grid-cols-2 md:grid-cols-5 grid-flow-row gap-x-3 gap-y-10'>
                 {
                     data.categorys[0].products.map(item => item.id !== params.id && <ShopItem imgUrl={item.imgUrl}
                         title={item.name}

@@ -95,31 +95,31 @@ const Filters: React.FC<props> = ({ data }) => {
         }, [])
 
     return (
-        <div className='w-full'>
+        <div className='w-full  '>
 
             {/* if its true meens that the product is a lash and he have to display relevant sizeSpanSelection */}
             {data[0].curve &&
-                <div>
+                <div className='space-y-3'>
                     {
-                        <div className='w-full'>
-                            <h3 className='font-semibold'>סלסול</h3>
-                            <div className='flex space-x-reverse space-x-2  '>
+                        <div className='w-full '>
+                            <h3 className='font-semibold'>סלסול :</h3>
+                            <div className='flex space-x-reverse space-x-2  pr-10'>
                                 {curve}
                             </div>
                         </div>
                     }
                     {specFilter.curve && thickness.length > 0 &&
                         < div className='w-full'>
-                            <h3 className='font-semibold'>עובי</h3>
-                            <div className='flex space-x-reverse space-x-2  '>
+                            <h3 className='font-semibold'>עובי :</h3>
+                            <div className='flex space-x-reverse space-x-2 pr-10 '>
                                 {thickness}
                             </div>
                         </div>
                     }
                     {specFilter.thickness && length.length > 0 &&
                         < div className='w-full'>
-                            <h3 className='font-semibold'>אורך</h3>
-                            <div className='flex space-x-reverse space-x-2  '>
+                            <h3 className='font-semibold'>אורך :</h3>
+                            <div className='flex space-x-reverse space-x-2 pr-10 '>
                                 {length}
                             </div>
                         </div>

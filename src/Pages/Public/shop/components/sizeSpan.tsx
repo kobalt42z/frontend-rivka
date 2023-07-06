@@ -9,10 +9,10 @@ const SizeSpan: FC<props> = ({ active, title,onClick }) => {
 
     return (
         <div
-            className={`w-[45px] h-[30px] rounded-full cursor-pointer  flex justify-center  box-shadow items-center ${active ? " border-2 border-black " : " border-2 border-gray-400 "}} `}
+            className={`min-w-[20px] h-[30px]  cursor-pointer  flex justify-center   items-center ${active ? " border-b-2 border-mainGreen drop-shadow-xl " : "  "}} `}
             onClick={onClick}
         >
-            <h4 className="text-base font-bold text-center uppercase">{title}</h4>
+            <h4 className={`text-base font-[Gisha]   ${active && "font-semibold"} text-center uppercase`}>{title}</h4>
         </div>
     )
 }

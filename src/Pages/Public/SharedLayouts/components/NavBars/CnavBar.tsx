@@ -86,7 +86,7 @@ const CnavBar = () => {
                     <input dir="rtl" type="text" className="bg-[#d9d9d926] border-none w-[110px] h-[20px] text black placeholder:text-[gray]" placeholder="חיפוש" />
                 </div>
 
-                <div className="min-md:hidden w-[50%] px-5 text-white">
+                <div className="max-md:hidden w-[50%] px-5 text-white">
                     <ul className="flex justify-between">
                        <Link to={'/shop'}> <li>חנות און ליין</li></Link>
                        <Link to={'/'}> <li>אקדמיה </li></Link>
