@@ -102,7 +102,7 @@ export const ProductPage = () => {
 
     if (isFetching) return (<LoadingScreen />);
     if (data) return (
-        <div dir='rtl' className='container flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5  pb-0 md:pt-10'>
+        <div dir='rtl' className='container lg:px-20 flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5  pb-0 md:pt-10'>
             <div className='flex justify-around w-full'>
                 <img src={data?.imgUrl} alt="" className='w-full md:w-[400px] box-shadow' />
 
@@ -121,9 +121,9 @@ export const ProductPage = () => {
             {/* filters */}
             {data.Specification &&
                 <Filters data={data.Specification} />}
-            <div className='pt-5 w-full md:flex md:flex-row-reverse md:justify-around'>
-                <h3 className='font-semibold'>כמות</h3>
-                <div className="  md:w-2/5 pt-5">
+                <h3 className='font-semibold text-right w-full '>כמות :</h3>
+            <div className='pt-5 w-full  md:justify-around'>
+                <div className="  md:w-2/5 ">
                     <div className='flex justify-between items-center w-1/4 border-2' >
                         <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(incrementFilter())} className='rounded-none border-0'>
                             <PlusIcon className="h-6 w-4 text-gray-500" />
