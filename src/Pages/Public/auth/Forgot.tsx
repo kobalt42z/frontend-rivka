@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import MainButtons from '../../../components/buttons/MainButtons'
 
-interface props{
-    loginUrl: string
+interface props {
+    nested?: string
 }
-export const Forgot:React.FC<props> = ({loginUrl}) => {
+export const Forgot: React.FC<props> = ({ nested }) => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<{ email: string }>();
     const onsubmit = () => {
         // forgot password form logic here !
@@ -38,7 +38,7 @@ export const Forgot:React.FC<props> = ({loginUrl}) => {
                     )} />
                         {errors.email && <p role={"alert"} className="text-red-600 capitalize">{errors.email?.message}</p>}</div>
                     <div className="">
-                        <Link to={loginUrl} className='capitalize underline text-base'   >חזרה לדף ההתחברות </Link>
+                        <Link to={nested ? "login" : "/login"} className='capitalize underline text-base'   >חזרה לדף ההתחברות </Link>
                         <br />
                         <Link to={'/policy'} className='capitalize text-xs '>קראי עוד <span className="underline"> Privacy Policy </span> for further information</Link>
                     </div>

@@ -27,26 +27,26 @@ export const router = createBrowserRouter(
             {/* PUBLIC ROUTES */}
 
 
-            <Route path='/login' element={<LoginPage registerUrl="/register" forgotUrl="/forgot" />} />
 
             <Route path="/" element={
                 <UserGuard >
                     <SharedLayouts />
                 </UserGuard>
             } >
+                <Route path='/login' element={<LoginPage  />} />
                 <Route index element={<Home />} />
                 <Route path="/shop/" element={<Shop />} >
                     <Route path="/shop/:category" element={<ItemGrid />} />
                 </Route>
-                <Route path='/register' element={<Register loginUrl="/login" />} />
-                <Route path='/forgot' element={<Forgot loginUrl="/login" />} />
+                <Route path='/register' element={<Register />} />
+                <Route path='/forgot' element={<Forgot  />} />
                 {/* <Route path='/product/:id' element={<ProductPage />} />   */}
                 <Route path='/product/:id' element={<ProductPage />} />
                 <Route path="/myCart/" element={<UserGuard><CartStepper /></UserGuard>}>
                     <Route index element={<MyCart />} />
-                    <Route path="/myCart/login/" element={<GoNext next="/myCart/payment/"><LoginPage registerUrl="/myCart/register" forgotUrl="/myCart/forgot/" /></GoNext>} />
-                    <Route path="/myCart/register/" element={<Register loginUrl="/myCart/login" />} />
-                    <Route path="/myCart/forgot/" element={<Forgot loginUrl="/myCart/login" />} />
+                    <Route path="/myCart/login/" element={<GoNext next="/myCart/payment/"><LoginPage nested /></GoNext>} />
+                    <Route path="/myCart/register/" element={<Register  />} />
+                    <Route path="/myCart/forgot/" element={<Forgot />} />
                     <Route path="/myCart/payment/" element={<PaymentPage />} />
                     <Route path="/myCart/inovice/" element={<MyCart />} />
                 </Route>

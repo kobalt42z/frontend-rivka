@@ -6,7 +6,6 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import ErrorsAlerter from "../../../components/errors/ErrorsAlerter";
 import { acceptTermsValidator, apartment, city, emailValidator, entrance, fullName, phoneValidator, postalCode, street, streetNumber } from "./Validators";
 import FormError from "../../../components/misc/formError";
-import SelectLanguage from "../../../components/misc/SelectLanguage";
 import MainButtons from "../../../components/buttons/MainButtons";
 import ClassicHr from "../../../components/HR/ClassicHr";
 import { getAuth } from "firebase/auth";
@@ -15,10 +14,10 @@ import { useRegisterUserMutation } from "../../../features/API/user.Api";
 // * complete you registeration page *
 
 interface props {
-    loginUrl: string;
+    
 
 }
-const Register: React.FC<props> = ({ loginUrl }) => {
+const Register: React.FC<props> = ({  }) => {
     // TODO: add edit mode for edit account 
     const auth = getAuth();
     const { currentUser } = auth
