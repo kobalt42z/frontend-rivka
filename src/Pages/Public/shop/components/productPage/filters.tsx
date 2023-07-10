@@ -9,6 +9,7 @@ import ColorSpan from '../colorSpan'
 interface props {
     data: SpecificationFromDB[]
 }
+
 const Filters: React.FC<props> = ({ data }) => {
     const dispatch = useAppDispatch()
     const specFilter = useAppSelector((state) => state.specFilter)
@@ -102,7 +103,7 @@ const Filters: React.FC<props> = ({ data }) => {
                 <div className='space-y-3'>
                     {
                         <div className='w-full '>
-                            <h3 className='font-semibold'>סלסול :</h3>
+                            <h3 className=''>סלסול :</h3>
                             <div className='flex space-x-reverse space-x-2  pr-10'>
                                 {curve}
                             </div>
@@ -110,7 +111,7 @@ const Filters: React.FC<props> = ({ data }) => {
                     }
                     {specFilter.curve && thickness.length > 0 &&
                         < div className='w-full'>
-                            <h3 className='font-semibold'>עובי :</h3>
+                            <h3 className=''>עובי :</h3>
                             <div className='flex space-x-reverse space-x-2 pr-10 '>
                                 {thickness}
                             </div>
@@ -118,7 +119,7 @@ const Filters: React.FC<props> = ({ data }) => {
                     }
                     {specFilter.thickness && length.length > 0 &&
                         < div className='w-full'>
-                            <h3 className='font-semibold'>אורך :</h3>
+                            <h3 className=''>אורך :</h3>
                             <div className='flex space-x-reverse space-x-2 pr-10 '>
                                 {length}
                             </div>
@@ -129,7 +130,7 @@ const Filters: React.FC<props> = ({ data }) => {
 
             {size.length > 0 &&
                 <div className='w-full'>
-                    <h3 className='font-semibold'>מידה</h3>
+                    <h3 className=''>מידה</h3>
                     <div className='flex space-x-reverse space-x-2  '>
                         {size}
                     </div>
@@ -137,7 +138,7 @@ const Filters: React.FC<props> = ({ data }) => {
             }
             {color.length > 0 &&
                 <div className='w-full'>
-                    <h3 className='font-semibold'>צבעים</h3>
+                    <h3 className=''>צבעים</h3>
                     <div className='flex space-x-reverse space-x-2  '>
                         {color}
 

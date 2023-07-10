@@ -106,12 +106,12 @@ export const ProductPage = () => {
             <div className='flex max-md:flex-col justify-around w-full'>
                 <IF condition={data.reduction_p && data.reduction_p > 0}>
 
-                    <div className='absolute w-[37px] h-[21px] md:w-[50px] md:h-[25px]  bg-[#474A49]  text-white bg-center bg-cover top-[30px] md:top-[50px] left-[10px]  md:right-[470px] text-center flex items-center justify-center text-[14px]  uppercase font-normal drop-shadow-xl'>{data.reduction_p + '%'}</div>
+                    <div className='absolute w-[37px] h-[21px] md:w-[50px] md:h-[25px]  bg-[#474A49]  text-white bg-center bg-cover top-[30px] md:top-[50px] left-[10px]  md:right-[450px] text-center flex items-center justify-center text-[14px]  uppercase font-normal drop-shadow-xl'>{data.reduction_p + '%'}</div>
 
                 </IF>
-                <img src={data?.imgUrl} alt="" className='w-full md:w-[420px] md:h-[520px] box-shadow' />
+                <img src={data?.imgUrl} alt="" className='w-full md:w-[400px] md:h-[500px] box-shadow' />
 
-                <div className="w-full flex flex-col max-md:justify-between  md:pr-16 space-y-5 ">
+                <div className="w-full flex flex-col max-md:justify-between  md:pr-7 space-y-5 ">
                     <div className='text-right pt-5 w-full'>
                         <h2 className='text-lg capitalize font-semibold '>{data.name}</h2>
                         <h4 className='text-base capitalize font-normal '>{data.brand}</h4>
@@ -124,7 +124,7 @@ export const ProductPage = () => {
                     <h3 className='font-semibold text-right w-full '>כמות :</h3>
                     {/* counter  */}
                     <div className='w-full  md:justify-around'>
-                        <div className="  md:w-2/5 ">
+                        <div className="  ">
                             <div className='flex justify-between items-center w-1/4 border-2' >
                                 <Button size={'xxs'} outline color={'light'} onClick={() => dispatch(incrementFilter())} className='rounded-none border-0'>
                                     <PlusIcon className="h-6 w-4 text-gray-500" />
@@ -148,22 +148,23 @@ export const ProductPage = () => {
                             }
                         </div>
                     </div>
+                    <div className="w-full  flex disabled:opacity-70  max-md:flex-col items-end space-y-3 space-x-3 space-x-reverse md:justify-end pb-2">
+                        <MainButtons
+                            ClickAction={() => specFilter.id && dispatch(addToCart({ data, spec: specFilter }))}
+                            custom={" font-bold w-[171px]  h-[38px] "}
+                            disabled={!specFilter.id}
+                        >
+                            הוסף לסל
+                        </MainButtons>
+                        <MainButtons
+                            // className='outline-red-300'
+                            ClickAction={() => navigate("/mycart")}
+                            custom={"w-[170px]  h-[38px]  font-bold    bg-white border-[2px] border-mainGreen  "}>מעבר לקופה</MainButtons>
+                    </div>
                 </div>
             </div>
 
-            <div className="w-full flex disabled:opacity-70  flex-col items-end space-y-3 pb-2">
-                <MainButtons
-                    ClickAction={() => specFilter.id && dispatch(addToCart({ data, spec: specFilter }))}
-                    custom={" font-bold w-[171px]  h-[38px] "}
-                    disabled={!specFilter.id}
-                >
-                    הוסף לסל
-                </MainButtons>
-                <MainButtons
-                    // className='outline-red-300'
-                    ClickAction={() => navigate("/mycart")}
-                    custom={"w-[170px]  h-[38px]  font-bold    bg-white border-[2px] border-mainGreen  "}>מעבר לקופה</MainButtons>
-            </div>
+
             <ClassicHr />
             <div className='text right w-full'>
                 <h2 className='font-semibold text-shadow text-lg'>ביקורת הלקוח  ( {data.Comment.length} )</h2>
