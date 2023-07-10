@@ -9,7 +9,7 @@ import { ClassicInput } from '../../../../../../components/inputs/ClassicInput'
 import { TextArea } from '../../../../../../components/inputs/TextArea'
 import ImgUploadForm from '../../../products/components/modals/ImgUploadForm'
 import { CheckIcon } from '@heroicons/react/24/outline'
-import { CategoryDescriptionValidator, CategoryNameValidator }from '../../Validators/AddCategory.validator'
+import { CategoryDescriptionValidator, CategoryNameValidator } from '../../Validators/AddCategory.validator'
 
 interface props {
     toggleModal: () => void
@@ -107,7 +107,7 @@ const AddCategoryformUI: FC<props> = ({ toggleModal, editTarget, ClearEdit }) =>
 
                                 <div className="col-span-full">
                                     <div className='w-full'>
-                                        <ImgUploadForm clearError={clearErrors} setImage={setImage} editImageName={editTarget?.name} editImageUrl={editTarget?.imgUrl} />
+                                        <ImgUploadForm clearError={clearErrors} errors={errors}  />
                                         {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
 
                                     </div>

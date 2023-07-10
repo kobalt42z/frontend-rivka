@@ -79,6 +79,7 @@ interface previewFile extends File {
 interface props {
     clearError: UseFormClearErrors<any>
     errors: FieldErrors<BasicProduct>
+    
 }
 
 const ImgUploadForm: FC<props> = ({ clearError, errors }) => {
