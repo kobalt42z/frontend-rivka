@@ -3,6 +3,7 @@ import { Badge, Tooltip } from 'flowbite-react'
 import React, { FC, useState } from 'react'
 import { productFromDB } from '../../../../../interfaces'
 import StatusBadge from '../../../../../components/Badges/StatusBadge'
+import { Link } from 'react-router-dom'
 
 
 
@@ -23,30 +24,31 @@ const ProductRowBody: FC<props> = ({ data }) => {
         active,
         id
     } = data
-    let sizes = "";
-    let curves = "";
-    let thickness = "";
-    
-    data.Specification.forEach(spec=>{
-        sizes += spec.size + ", " 
+    let sizes: string = "";
+    let curves: string;
+    let thickness: string;
+    let colors = ""
+
+    data.Specification.forEach(spec => {
+        sizes += spec.size ?? spec.curve + ", "
         curves += spec.curve + ", "
         thickness += spec.thickness + ", "
     })
-    const lang = ["עברית ", "Francais", "English"]
-    
-    const title = [
-        name,
-        translations[0]&&translations[0].name,
-        translations[1]&&translations[1].name 
+    let lang = ["he"]
 
-    ]
-    const descriptions = [
-        description,
-        translations[0]?.description,
-        translations[1]?.description
-    ]
-    const colorBoxes = data.Specification.map(({color}, i) => {
-        return (
+    let titles = [name]
+    let descriptions = [description]
+
+    translations.forEach(item => {
+        lang.push(item.language)
+        titles.push(item.name)
+        descriptions.push(item.description)
+    });
+    const colorBoxes = data.Specification.map(({ color }, i) => {
+
+
+
+        if (color) return (
             <Tooltip dir='ltr' content={color}>
                 <div className='w-5 h-5 rounded-full '
                     style={{ backgroundColor: `${color}` }} >
@@ -62,17 +64,21 @@ const ProductRowBody: FC<props> = ({ data }) => {
         { title: "מחיר קנייה", value: base_price + "₪" },
         { title: "מחיר בחנות", value: selling_price + "₪" },
         { title: "סטטוס", value: <StatusBadge active={active} /> },
-        { title: "מזהה מוצר", value: id },
+        { title: "מזהה מוצר", value: <Tooltip content=" לצפייה במוצר"> <Link target='_blank' to={`/product/${id}`} className='text-blue-600 underline'>{id}</Link></Tooltip> },
     ]
     const [current, setCurrent] = useState(0)
 
     const increment = () => {
-        if (current < 2) setCurrent(current + 1);
+        if (current < translations.length) setCurrent(current + 1);
     }
     const decrement = () => {
         if (current > 0) setCurrent(current - 1);
     }
 
+    React.useEffect(() => {
+        console.log(sizes, typeof sizes);
+
+    }, [])
 
     return (
         <>
@@ -82,7 +88,7 @@ const ProductRowBody: FC<props> = ({ data }) => {
                         <div className='w-5/12'>
                             <div className='text-start'>
                                 <h2 className='text-lg font-bold'>
-                                    <span className=' capitalize text-lg font-semibold'>{title[current]}</span>
+                                    <span className=' capitalize text-lg font-semibold'>{titles[current]}</span>
                                 </h2>
                                 <div className="flex min-h-[10vh]">
 
@@ -102,7 +108,7 @@ const ProductRowBody: FC<props> = ({ data }) => {
                     <div dir='rtl' className='pt-5 w-full flex flex-row-reverse justify-center space-x-10'>
                         <button className='' onClick={increment}><ChevronLeftIcon className="h-6 w-6 text-gray-500" />
                         </button>
-                        <p>{lang[current]}</p>
+                        <p className='uppercase'>{lang[current]}</p>
                         <button className='' onClick={decrement}><ChevronRightIcon className="h-6 w-6 text-gray-500" /></button>
 
                     </div>
@@ -110,18 +116,18 @@ const ProductRowBody: FC<props> = ({ data }) => {
                         {gridTitles.map((item, i) => {
                             return (<div key={i + 158} className="rounded-md bg-gray-100 h-16 px-3 ">
                                 <h3 className='text-lg font-bold'>{item.title}</h3>
-                                <div className='text-lg semi-bold flex capitalize '>{item.value}</div>
+                                <div className='text-lg semi-bold flex capitalize truncate '>{item.value}</div>
                             </div>)
                         })}
                     </div>
 
-                    <div className='flex py-2'>
+                    <div className='flex items-center py-2'>
                         <h3 className='text-lg font-bold' >קטגוריות:</h3>
                         {
                             categorys.map((item, i) => {
 
                                 return (
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">{item.name}</span>
+                                    <span className="bg-gray-100 text-gray-800 text-xs text-center font-medium mr-2 w-[40px] h-[20px] rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">{item.name}</span>
                                 )
                             })
                         }

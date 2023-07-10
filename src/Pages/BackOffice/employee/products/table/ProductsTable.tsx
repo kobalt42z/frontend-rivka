@@ -16,7 +16,7 @@ const ProductsTable = ({ children, toggleAddProducts }: ProductsTableTypes) => {
         <div dir='rtl' className=" px-4 mx-auto max-w-screen-2xl lg:px-12 ">
             <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
 
-                <SuppThead />
+                {/* <SuppThead />    */}
                 <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
 
                     <div className="w-full md:w-1/2">
@@ -35,7 +35,7 @@ const ProductsTable = ({ children, toggleAddProducts }: ProductsTableTypes) => {
                     </div>
 
 
-                    <div className="lg:w-[50%] xl:w-[40%] flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-around md:space-y-0 md: ">
+                    <div className="lg:w-[60%] xl:w-[40%] flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-around md:space-y-0 md: ">
                         <ActionsButton  title='ייצא לטבלה' icon={<ArrowUpTrayIcon className="h-4 w-4 text-gray-500" />} />
                         <ActionsButton title='מיון' icon={<ArrowsUpDownIcon   className="h-4 w-4 text-gray-500" />} />
                         <ActionsButton title='סינון' icon={<FunnelIcon className="h-4 w-4 text-gray-500" />} />
