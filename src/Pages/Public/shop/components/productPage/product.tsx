@@ -69,12 +69,6 @@ export const ProductPage = () => {
 
 
 
-
-
-
-
-
-
     const buildPagination = (amount: number, commentPerPage: number = 10) => {
 
         const paginationArr: React.ReactNode[] = [];
@@ -102,7 +96,7 @@ export const ProductPage = () => {
 
     if (isFetching) return (<LoadingScreen />);
     if (data) return (
-        <div dir='rtl' className='container relative lg:px-20 flex flex-col items-center space-y-3 min-h-[80vh] justify-center p-5  pb-0 md:pt-10'>
+        <div dir='rtl' className='container  relative lg:px-20 flex flex-col items-center space-y-3 min-h-[80vh] justify-center   pb-0 md:pt-10'>
             <div className='flex max-md:flex-col justify-around w-full'>
                 <IF condition={data.reduction_p && data.reduction_p > 0}>
 
