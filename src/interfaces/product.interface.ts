@@ -18,7 +18,7 @@ export interface BasicProduct {
   supply?: number;
   active: boolean;
   categoryIds: string[]
-  ImgUrl?: string
+  image?: File | Blob 
 }
 
 export interface SpecificationDto {

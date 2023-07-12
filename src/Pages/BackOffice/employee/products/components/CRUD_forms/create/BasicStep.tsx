@@ -132,8 +132,8 @@ const BasicStep = ({ }) => {
           />
         </div>
         <div className='w-full '>
-          <ImgUploadForm register={register} />
-          {errors.ImgUrl && <p className='text-red-500'>{errors.ImgUrl.message}</p>}
+          <ImgUploadForm register={register} setValue={setValue} />
+          {errors.image && <p className='text-red-500'>{errors.image.message}</p>}
         </div>
 
       </div>

@@ -7,9 +7,9 @@ interface props {
     register: UseFormRegister<BasicProduct>
     setValue: UseFormSetValue<BasicProduct>
 }
-const ImgUploadForm: FC<props> = ({ register,setValue }) => {
+const ImgUploadForm: FC<props> = ({ register, setValue }) => {
     const [prevUrl, setPrevUrl] = useState<string | null>(null)
-    const { ref, onBlur, onChange, name } = register("ImgUrl", {
+    const { ref, onBlur, onChange, name } = register("image", {
         required: {
             value: true,
             message: "required!!!"
@@ -42,10 +42,16 @@ const ImgUploadForm: FC<props> = ({ register,setValue }) => {
                 {prevUrl && <img className="group h-[120px] max-w-xs w-[200px] bg-no-repeat bg-cover " src={prevUrl}
 
                 />}
-                <div className='   flex h-[120px] justify-end   '>
-                    <Icon icon="ph:x" 
-                    onClick={()=>setValue('Img',null)} // fix interface
-                    className='relative -left-7 bg-gray-900 bg-opacity-50 cursor-pointer' height={30} color='white' /></div>
+                {prevUrl &&
+                    <div className='   flex h-[120px] justify-end   '>
+                    <Icon icon="ph:x"
+                        onClick={() => {
+                            setValue('image', undefined)
+                            setPrevUrl(null)
+                        }}
+                        className='relative -left-7 bg-gray-900 bg-opacity-50 cursor-pointer' height={30} color='white' />
+                </div>
+                }
 
             </div>
         </div>
