@@ -18,6 +18,7 @@ export interface BasicProduct {
   supply?: number;
   active: boolean;
   categoryIds: string[]
+  ImgUrl?: string
 }
 
 export interface SpecificationDto {

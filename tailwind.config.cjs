@@ -7,7 +7,6 @@ module.exports = {
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
 
   ],
-  plugins: [ require('flowbite/plugin'),require("daisyui")],
   theme: {
     container: {
       center: true,

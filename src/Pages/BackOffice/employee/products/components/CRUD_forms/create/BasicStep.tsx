@@ -27,15 +27,15 @@ const BasicStep = ({ }) => {
   ]
   const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<BasicProduct>({
     values: basicProductState ?? undefined,
-    defaultValues:{
-      active:true,
+    defaultValues: {
+      active: true,
     }
   });
 
 
   const onSubmit: SubmitHandler<BasicProduct> = data => {
-    if(!image) setError('root',{
-      message:"נדרשת תמונה לתיאור המוצר"
+    if (!image) setError('root', {
+      message: "נדרשת תמונה לתיאור המוצר"
     })
     console.log(data);
     dispatch(addBasicProduct(data));
@@ -51,7 +51,7 @@ const BasicStep = ({ }) => {
 
   React.useEffect(() => {
     console.log(basicProductState);
-    
+
     dispatch(setGoNext(false))
   }, [])
 
@@ -124,7 +124,7 @@ const BasicStep = ({ }) => {
         />
         {errors.categoryIds && <p className='text-red-500'>{errors.categoryIds.message}</p>}
       </div >
-      <div dir='ltr' id="fileUpload" className='text-right py-2 '>
+      <div dir='ltr' id="fileUpload" className='text-right col-span-full '>
         <div className="mb-2 block text-right">
           <Label
             htmlFor="file"
@@ -132,10 +132,10 @@ const BasicStep = ({ }) => {
           />
         </div>
         <div className='w-full '>
-          <ImgUploadForm clearError={clearErrors}  errors={errors} />
+          <ImgUploadForm register={register} />
+          {errors.ImgUrl && <p className='text-red-500'>{errors.ImgUrl.message}</p>}
         </div>
 
-        {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
       </div>
       <div className="col-span-2 flex justify-between items-center flex-row-reverse">
 
