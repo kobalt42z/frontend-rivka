@@ -24,7 +24,8 @@ interface props {
 
 export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
     const [createProductReq, { isLoading, isSuccess, error }] = useCreateProductMutation()
-    const reqBody = useAppSelector(state => state.productFrom.reqBody)
+    const ProductBody = useAppSelector(state => state.productFrom.body)
+    const ProductImgUrl = useAppSelector(state => state.productFrom.imageUrl)
     const canGoNext = useAppSelector((state) => state.productFrom.goNext)
     const dispatch = useAppDispatch()
     const steps: React.ReactNode[] = [
@@ -66,11 +67,13 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
     }
 
     const createProduct = async () => {
-
+        if (!ProductBody || !ProductImgUrl) throw new Error("Product body is missing ")
+        const reqBody = JSON.stringify(ProductBody)
+        const image = await (await fetch(ProductImgUrl)).blob()
         try {
             dispatch(prepareToLaunch());
             // reqBody.forEach(item => console.log(item)) //!debug
-            const resp = await createProductReq(reqBody).unwrap();
+            const resp = await createProductReq({ stringifyedBody:reqBody,image:image}).unwrap();
             console.log(resp);//!debug only
             next(toggleModal)
         } catch (error) {
@@ -80,13 +83,13 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
 
     return (
         <div className="window">
-            <nav className=" px-[5px]   border-b-2 border-mainGreen ">
+            <nav className=" px-[5px]   border-b-2 border-mainGreen  ">
                 <ul className="w-full flex list-none p-0 m-0 justify-around">
                     {tabsHeader.map((item, i) => (
                         <li
                             key={i}
                             className={`${i === currentStep ? "bg-mainGreen" : ""} w-full  h-8 flex items-center justify-center rounded-t-md `}
-                        onClick={() => goTo(i)} // for debuging purposes only
+                            onClick={() => goTo(i)} // for debuging purposes only
                         >
                             {` ${item}`}
                             {i === currentStep ? (

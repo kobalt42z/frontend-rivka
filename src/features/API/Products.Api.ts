@@ -43,7 +43,7 @@ export const productApi = MainAPI.injectEndpoints({
         findProductById: builder.query<productFromDB, { id: string, comment?: number }>({
             query: ({ id, comment }) => ({
 
-                url: `products/${id}?comment=${comment??0}`,
+                url: `products/${id}?comment=${comment ?? 0}`,
                 method: 'GET',
             }),
             providesTags: (res) => [{ type: 'Product', id: res?.id ?? "noneId" }]
@@ -53,14 +53,19 @@ export const productApi = MainAPI.injectEndpoints({
         // * mutations :
 
         createProduct: builder.mutation({
-            query: (_body: FormData) => ({
-                url: 'products',
-                method: 'POST',
-                body: _body,
-
-            }),
+            query: (arg: { stringifyedBody: string, image: File | Blob }) => {
+                const fromBody = new FormData();
+                fromBody.append("json_body", arg.stringifyedBody)
+                fromBody.append("image", arg.image)
+                return {
+                    url: 'products',
+                    method: 'POST',
+                    body: fromBody,
+                }
+            },
             invalidatesTags: [{ type: "Product", id: "LIST" }],
         }),
+
 
         updateProduct: builder.mutation({
             query: (arg: { _body?: FormData, id: string }) => ({
@@ -113,10 +118,6 @@ export const productApi = MainAPI.injectEndpoints({
                 arg
             ) => response.status,
 
-
-
-
-
         }),
 
         getMaxPageShop: builder.query({
@@ -149,6 +150,6 @@ export const { useUpdateProductMutation } = productApi
 export const { useDeleteProductMutation } = productApi
 export const { useGetShopQuery } = productApi
 export const { useGetMaxPageShopQuery } = productApi
-export const { useFindProductByIdQuery , useLazyFindProductByIdQuery } = productApi
+export const { useFindProductByIdQuery, useLazyFindProductByIdQuery } = productApi
 export const { useFindeByCategoryQuery } = productApi
 export const { useAddCommentMutation } = productApi

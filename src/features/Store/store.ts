@@ -13,6 +13,7 @@ import cartSlice from "../Slices/cart.slice";
 import specFilterSlice from "../Slices/specFilter.slice";
 
 
+
 const persistConfig = {
     key: 'root',
     storage,
@@ -25,8 +26,9 @@ const rootReducer = combineReducers({
     shop: shopSlice,
     productFrom: productFromSlice,
     cart: cartSlice,
-    specFilter: specFilterSlice
-  
+    specFilter: specFilterSlice,
+    
+
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

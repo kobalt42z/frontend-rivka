@@ -4,8 +4,10 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
 
   ],
+  plugins: [ require('flowbite/plugin'),require("daisyui")],
   theme: {
     container: {
       center: true,
@@ -14,6 +16,7 @@ module.exports = {
       colors: {
         mainGreen: '#959c73'
       },
+      
     },
 
     fontFamily: {
@@ -21,4 +24,5 @@ module.exports = {
     },
 
   },
+ 
 }

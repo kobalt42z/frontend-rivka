@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit/src";
 import { BasicProduct, LangueDto, ProductDto, TranslationDto, SpecificationDto } from "../../interfaces";
-import { PayloadAction } from "@reduxjs/toolkit";
+import { Action, PayloadAction } from "@reduxjs/toolkit";
 import { languages, productFromDB } from "../../interfaces/product.interface";
 import { multiStepFormOut, useMultiStepForm } from "../../Hooks/UseMultiStepForm";
 
@@ -12,9 +12,10 @@ interface data {
     Specifications: SpecificationDto[]
     SpecificationIndex: number
     basicProductId?: string
-    goNext: boolean
-    image: File | string | null
-    reqBody: FormData
+    goNext: boolean,
+    imageUrl?: string,
+    body?: ProductDto
+
 }
 
 const initialState: data = {
@@ -24,8 +25,6 @@ const initialState: data = {
     Specifications: [],
     SpecificationIndex: 0,
     goNext: false,
-    image: null,
-    reqBody: new FormData(),
 }
 
 
@@ -40,7 +39,6 @@ const productForm = createSlice({
             state.basicProduct = rest;
             state.Specifications = Specification
             state.translations = translations
-            state.image = imgUrl
         },
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
@@ -87,30 +85,21 @@ const productForm = createSlice({
         setGoNext: (state, action: PayloadAction<boolean>) => {
             state.goNext = action.payload
         },
-        setImage: (state, action: PayloadAction<File>) => {
-            state.image = action.payload
+        setProductImage(state, { payload }: PayloadAction<string>) {
+            state.imageUrl = payload
+            return state
         },
-        deleteImage: (state) => {
-            state.image = null
-        },
+
         init: (state) => {
             state = initialState
         },
         prepareToLaunch: (state) => {
-            state.reqBody = new FormData()
             if (!state.basicProduct) return console.warn("No basic product!")
-            if (!state.image) return console.warn("No image !")
-            const body: ProductDto = {
+            state.body = {
                 ...state.basicProduct,
                 translations: state.translations,
                 Specifications: state.Specifications,
             }
-
-
-
-            state.reqBody.append("json_body", JSON.stringify(body))
-            state.reqBody.append("image", state.image)
-            console.log(state.image);
 
         }
     }
@@ -126,9 +115,8 @@ export const {
     addBasicProductId,
     init,
     setGoNext,
-    deleteImage,
-    setImage,
-    prepareToLaunch
+    prepareToLaunch,
+    setProductImage,
 } = productForm.actions
 
 export default productForm.reducer
