@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, useEffect, useState } from 'react'
-import { categoryDto, categoryFromDb } from '../../../../../../interfaces'
+import { categoryDto, categoryFromDb, categoryInput } from '../../../../../../interfaces'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useCreateCategoryMutation } from '../../../../../../features/API/Category.Api'
 import { FormReqBuilder } from '../../../../../../functions/builders/reqBuilders'
@@ -18,18 +18,26 @@ interface props {
 }
 
 const AddCategoryformUI: FC<props> = ({ toggleModal, editTarget, ClearEdit }) => {
-    const [image, setImage] = useState<File | null>(null)
-    const { register, clearErrors, setError, handleSubmit, setValue, formState: { errors } } = useForm<categoryDto>()
+
+    const { register, getValues, setError, handleSubmit, setValue, formState: { errors } } = useForm<categoryInput>({
+        defaultValues: {
+            image: editTarget?.imgUrl,
+            description: editTarget?.description,
+            name: editTarget?.name,
+        }
+    })
+
+
     const [createCategory, { isLoading, isError, error }] = useCreateCategoryMutation()
 
-    const creatCategory: SubmitHandler<categoryDto> = async (data) => {
+    const creatCategory: SubmitHandler<categoryInput> = async ({ image, ...rest }) => {
         try {
             if (!image) {
                 setError('root', { message: "נדרשת תמונה תקינה" })
                 throw new Error("image is missing");
             }
-            const reqPayload = FormReqBuilder(JSON.stringify(data), image)
-            console.log(data, image)
+
+            const reqPayload = FormReqBuilder(JSON.stringify(rest), image[0])
             const resp = await createCategory(reqPayload)
             if (isError) throw error
             toggleModal()
@@ -39,7 +47,7 @@ const AddCategoryformUI: FC<props> = ({ toggleModal, editTarget, ClearEdit }) =>
         }
     }
 
-    const editCategory: SubmitHandler<Partial<categoryDto>> = () => {
+    const editCategory: SubmitHandler<Partial<categoryInput>> = () => {
         try {
 
         } catch (error) {
@@ -47,14 +55,14 @@ const AddCategoryformUI: FC<props> = ({ toggleModal, editTarget, ClearEdit }) =>
         }
     }
 
-    const switcher: SubmitHandler<categoryDto> = (data) => {
+    const switcher: SubmitHandler<categoryInput> = (data) => {
         if (editTarget) editCategory(data)
         else creatCategory(data)
     }
     useEffect(() => {
         if (editTarget) {
-            setValue('name', editTarget.name)
-            setValue('description', editTarget.description)
+
+
         }
 
 
@@ -106,8 +114,8 @@ const AddCategoryformUI: FC<props> = ({ toggleModal, editTarget, ClearEdit }) =>
 
 
                                 <div className="col-span-full">
-                                    <div className='w-full'>
-                                        <ImgUploadForm clearError={clearErrors} errors={errors}  />
+                                    <div className='w-full' dir='ltr'>
+                                        <ImgUploadForm getValues={getValues} register={register} setValue={setValue} />
                                         {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
 
                                     </div>

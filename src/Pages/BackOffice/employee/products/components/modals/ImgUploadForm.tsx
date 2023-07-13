@@ -5,22 +5,24 @@ import { BasicProduct, categoryDto } from '../../../../../../interfaces'
 import { Icon } from '@iconify/react'
 import { UseToggle } from 'sk-use-toggle/src'
 interface props {
-    register: UseFormRegister<BasicProduct>
-    setValue: UseFormSetValue<BasicProduct>
-    getValues: UseFormGetValues<BasicProduct>
+    register: UseFormRegister<any> 
+    setValue: UseFormSetValue<any> 
+    getValues: UseFormGetValues<any> 
 }
 const ImgUploadForm: FC<props> = ({ register, setValue, getValues }) => {
     const [prevUrl, setPrevUrl] = useState<string | null>(null)
     const [inactive, toggleInactive] = useState(false)
     const { ref, onBlur, onChange, name } = register("image", {
         validate(v) {
-            if(typeof v  === 'string') return true
+            if (typeof v === 'string') return true
             else if (typeof v === 'object') return true
             else return "נא לספק תמונה תקינה"
         }
     })
     useEffect(() => {
         const image = getValues('image')
+        console.log(image);
+        
         if (typeof image === "string") {
             setPrevUrl(image);
             toggleInactive(true)

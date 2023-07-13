@@ -25,6 +25,10 @@ export interface categoryDto {
     description: string
     // products?:productFromDB[]
     productsIds: string[]
+
+}
+export interface categoryInput extends categoryDto {
+    image: Blob[] | File[] | string
 }
 
 export interface shopResponse {
@@ -33,6 +37,6 @@ export interface shopResponse {
 }
 export interface Slist {
     id: string,
-    name:string,
-    imgUrl:string
+    name: string,
+    imgUrl: string
 }
