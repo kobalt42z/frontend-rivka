@@ -17,8 +17,10 @@ export interface BasicProduct {
   reduction_p: number;
   active: boolean;
   categoryIds: string[]
-  image?: File[] | Blob[]
+  image?: File[] | Blob[] | string
 }
+
+
 
 export interface SpecificationDto {
   color?: string

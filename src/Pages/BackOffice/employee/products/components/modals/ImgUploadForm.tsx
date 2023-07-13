@@ -1,20 +1,32 @@
 import { FileInput, Label } from 'flowbite-react'
-import React, { FC, useState } from 'react'
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import React, { FC, useEffect, useState } from 'react'
+import { UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { BasicProduct, categoryDto } from '../../../../../../interfaces'
 import { Icon } from '@iconify/react'
+import { UseToggle } from 'sk-use-toggle/src'
 interface props {
     register: UseFormRegister<BasicProduct>
     setValue: UseFormSetValue<BasicProduct>
+    getValues: UseFormGetValues<BasicProduct>
 }
-const ImgUploadForm: FC<props> = ({ register, setValue }) => {
+const ImgUploadForm: FC<props> = ({ register, setValue, getValues }) => {
     const [prevUrl, setPrevUrl] = useState<string | null>(null)
+    const [inactive, toggleInactive] = useState(false)
     const { ref, onBlur, onChange, name } = register("image", {
-        required: {
-            value: true,
-            message: "required!!!"
-        },
+        validate(v) {
+            if(typeof v  === 'string') return true
+            else if (typeof v === 'object') return true
+            else return "נא לספק תמונה תקינה"
+        }
     })
+    useEffect(() => {
+        const image = getValues('image')
+        if (typeof image === "string") {
+            setPrevUrl(image);
+            toggleInactive(true)
+        }
+
+    }, [])
     return (
         <div
             className=""
@@ -23,13 +35,15 @@ const ImgUploadForm: FC<props> = ({ register, setValue }) => {
             <div className='flex  justify-center items-center '>
 
                 <FileInput
-                    className='w-[98%]'
+                    className='w-[98%] disabled:opacity-70'
                     onChange={(e) => {
                         if (e.target.files) {
                             if (prevUrl) URL.revokeObjectURL(prevUrl)
                             setPrevUrl(URL.createObjectURL(e.target.files[0]))
+                            // toggleInactive()
                         }
                     }}
+                    disabled={inactive}
                     name={name}
                     onBlur={onBlur}
                     ref={ref}
@@ -44,13 +58,14 @@ const ImgUploadForm: FC<props> = ({ register, setValue }) => {
                 />}
                 {prevUrl &&
                     <div className='   flex h-[120px] justify-end   '>
-                    <Icon icon="ph:x"
-                        onClick={() => {
-                            setValue('image', undefined)
-                            setPrevUrl(null)
-                        }}
-                        className='relative -left-7 bg-gray-900 bg-opacity-50 cursor-pointer' height={30} color='white' />
-                </div>
+                        <Icon icon="ph:x"
+                            onClick={() => {
+                                setValue('image', undefined)
+                                setPrevUrl(null)
+                                toggleInactive(false)
+                            }}
+                            className='relative -left-7 bg-gray-900 bg-opacity-50 cursor-pointer' height={30} color='white' />
+                    </div>
                 }
 
             </div>

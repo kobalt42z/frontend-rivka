@@ -1,19 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit/src";
 import { BasicProduct, LangueDto, ProductDto, TranslationDto, SpecificationDto } from "../../interfaces";
 import { Action, PayloadAction } from "@reduxjs/toolkit";
-import { languages, productFromDB } from "../../interfaces/product.interface";
+import {  languages, productFromDB } from "../../interfaces/product.interface";
 import { multiStepFormOut, useMultiStepForm } from "../../Hooks/UseMultiStepForm";
 
 
 interface data {
-    basicProduct: Omit<BasicProduct, 'image'> | null, // ? can be  a product id to add 
+    basicProduct: BasicProduct| null, // ? can be  a product id to add 
     translations: LangueDto[],
     translationsIndex: number
     Specifications: SpecificationDto[]
     SpecificationIndex: number
     basicProductId?: string
     goNext: boolean,
-    imageUrl?: string,
     body?: ProductDto
     step: 1 | 2 | 3 | 4
 }
@@ -88,10 +87,6 @@ const productForm = createSlice({
         setGoNext: (state, action: PayloadAction<boolean>) => {
             state.goNext = action.payload
         },
-        setProductImage(state, { payload }: PayloadAction<string>) {
-            state.imageUrl = payload
-            return state
-        },
 
         init: (state) => {
             state = initialState
@@ -119,7 +114,6 @@ export const {
     init,
     setGoNext,
     prepareToLaunch,
-    setProductImage,
 } = productForm.actions
 
 export default productForm.reducer

@@ -14,31 +14,49 @@ import { Switch } from '@headlessui/react';
 import { addBasicProduct, setGoNext } from '../../../../../../../features/Slices/productFrom.slice';
 import ImgUploadForm from '../../modals/ImgUploadForm';
 
+
+// * is the basic product step in creat product form 
 const BasicStep = ({ }) => {
+
+  //ReactSelect hooks :
   const animatedComponents = makeAnimated();
+
+  //active or incativ btn 
   const [active, toggleActive] = UseToggle(true)
+
+  //redux interaction
   const dispatch = useAppDispatch()
   const basicProductState = useAppSelector((state) => state.productFrom.basicProduct)
 
 
-  // TODO: make a function that build option from idarray in global function folder
+  // catogry option for react select field 
   const categorysOptions: categorysOptions[] = [
     { label: "default", value: "646ba62e4bf2d430be37d5e1" }
   ]
+
+  // use form init hook 
   const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<BasicProduct>({
-    values: basicProductState ?? undefined,
-    defaultValues: {
-      active: true,
-    }
+    // init the form with default values from actual state in redux, for edit mode !
+    defaultValues: basicProductState ?? undefined,
   });
 
 
+
+  // call back to execute when saving the first step data 
   const onSubmit: SubmitHandler<BasicProduct> = ({ image, ...rest }) => {
-    const data = {
-      imageUrl:Url.imag
+    let data = { image, ...rest };
+    
+    // check if data is exist and if its a file |blob  in that case create URl and dispatch it 
+    if (image && typeof image != "string") {
+      console.log(image);
+      data = {
+        image: URL.createObjectURL(image[0]),
+        ...rest
+      }
     }
+    // else dispatch the actual url and update the rest 
     dispatch(addBasicProduct(data));
-    dispatch(setGoNext(true))9
+    dispatch(setGoNext(true))
   }
 
   const { ref: categoryRef, } = register("categoryIds", {
@@ -48,11 +66,7 @@ const BasicStep = ({ }) => {
     }
   })
 
-  React.useEffect(() => {
-    console.log(basicProductState);
 
-    dispatch(setGoNext(false))
-  }, [])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-2 gap-5'>
@@ -131,7 +145,7 @@ const BasicStep = ({ }) => {
           />
         </div>
         <div className='w-full '>
-          <ImgUploadForm register={register} setValue={setValue} />
+          <ImgUploadForm register={register} setValue={setValue} getValues={getValues} />
           {errors.image && <p className='text-red-500'>{errors.image.message}</p>}
         </div>
 
