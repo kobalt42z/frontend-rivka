@@ -38,7 +38,7 @@ const ImgUploadForm: FC<props> = ({ register, setValue }) => {
                 />
 
             </div>
-            <div className='flex w-full justify-end mt-5  '>
+            <div className='flex w-full  mt-5  '>
                 {prevUrl && <img className="group h-[120px] max-w-xs w-[200px] bg-no-repeat bg-cover " src={prevUrl}
 
                 />}

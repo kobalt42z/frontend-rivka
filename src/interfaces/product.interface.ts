@@ -15,10 +15,9 @@ export interface BasicProduct {
   base_price: number;
   selling_price: number;
   reduction_p: number;
-  supply?: number;
   active: boolean;
   categoryIds: string[]
-  image?: File | Blob 
+  image?: File[] | Blob[]
 }
 
 export interface SpecificationDto {

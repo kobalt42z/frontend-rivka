@@ -19,7 +19,7 @@ const BasicStep = ({ }) => {
   const [active, toggleActive] = UseToggle(true)
   const dispatch = useAppDispatch()
   const basicProductState = useAppSelector((state) => state.productFrom.basicProduct)
-  const image = useAppSelector((state) => state.productFrom.image)
+
 
   // TODO: make a function that build option from idarray in global function folder
   const categorysOptions: categorysOptions[] = [
@@ -33,13 +33,12 @@ const BasicStep = ({ }) => {
   });
 
 
-  const onSubmit: SubmitHandler<BasicProduct> = data => {
-    if (!image) setError('root', {
-      message: "נדרשת תמונה לתיאור המוצר"
-    })
-    console.log(data);
+  const onSubmit: SubmitHandler<BasicProduct> = ({ image, ...rest }) => {
+    const data = {
+      imageUrl:Url.imag
+    }
     dispatch(addBasicProduct(data));
-    dispatch(setGoNext(true))
+    dispatch(setGoNext(true))9
   }
 
   const { ref: categoryRef, } = register("categoryIds", {
@@ -124,7 +123,7 @@ const BasicStep = ({ }) => {
         />
         {errors.categoryIds && <p className='text-red-500'>{errors.categoryIds.message}</p>}
       </div >
-      <div dir='ltr' id="fileUpload" className='text-right col-span-full '>
+      <div dir='ltr' id="fileUpload" className='text-right  '>
         <div className="mb-2 block text-right">
           <Label
             htmlFor="file"

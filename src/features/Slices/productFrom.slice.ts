@@ -6,7 +6,7 @@ import { multiStepFormOut, useMultiStepForm } from "../../Hooks/UseMultiStepForm
 
 
 interface data {
-    basicProduct: BasicProduct | null, // ? can be  a product id to add 
+    basicProduct: Omit<BasicProduct, 'image'> | null, // ? can be  a product id to add 
     translations: LangueDto[],
     translationsIndex: number
     Specifications: SpecificationDto[]
@@ -15,7 +15,7 @@ interface data {
     goNext: boolean,
     imageUrl?: string,
     body?: ProductDto
-
+    step: 1 | 2 | 3 | 4
 }
 
 const initialState: data = {
@@ -25,6 +25,7 @@ const initialState: data = {
     Specifications: [],
     SpecificationIndex: 0,
     goNext: false,
+    step: 1
 }
 
 
@@ -44,11 +45,13 @@ const productForm = createSlice({
             state.basicProductId = action.payload;
             state.basicProduct = null;
         },
-        addBasicProduct: (state, action: PayloadAction<BasicProduct>) => {
-            console.log(action.payload);
-
-            state.basicProduct = action.payload
-
+        addBasicProduct(state, { payload }: PayloadAction<BasicProduct>) {
+            console.log(payload);
+            
+        
+            state.basicProduct = payload
+            state.step = 2;
+            return state
         },
 
         // addBasicProduct(product)
