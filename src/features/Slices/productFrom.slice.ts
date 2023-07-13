@@ -38,7 +38,8 @@ const productForm = createSlice({
         setEditProduct: (state, { payload: { Specification, categorys, translations, imgUrl, ...rest } }: PayloadAction<productFromDB>) => {
             state.basicProduct = rest;
             state.Specifications = Specification
-            state.translations = translations
+            state.translations = translations,
+            state.basicProduct.image = imgUrl
         },
         addBasicProductId: (state, action: PayloadAction<string>) => {
             state.basicProductId = action.payload;
