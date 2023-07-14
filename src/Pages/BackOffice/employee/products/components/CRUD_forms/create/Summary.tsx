@@ -6,9 +6,9 @@ import { useAppSelector } from '../../../../../../../features/hooks'
 
 const Summary = () => {
     const product = useAppSelector((state) => state.productFrom)
-    const imgFile = useAppSelector((state) => state.productFrom.image)
+    const imgFile = useAppSelector((state) => state.productFrom.basicProduct?.image)
+    const imgURL = imgFile && typeof imgFile === 'string' ? imgFile : 'N/A'
 
-    const imgURL = imgFile && typeof imgFile !== 'string' ? URL.createObjectURL(imgFile) : imgFile
 
     const gridTitles = [
 

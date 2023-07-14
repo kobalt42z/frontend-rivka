@@ -12,6 +12,7 @@ export interface multiStepFormOut {
 }
 export const useMultiStepForm = ({ steps }: props): multiStepFormOut => {
     const [currentStep, setCurrentStep] = useState(0)
+    
 
 
     function next(onFinish?: toggler) {
@@ -29,6 +30,7 @@ export const useMultiStepForm = ({ steps }: props): multiStepFormOut => {
             setCurrentStep(target)
     }
     const renderStep = steps[currentStep]
+    
     return {
         currentStep,
         renderStep,

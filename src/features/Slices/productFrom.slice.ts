@@ -39,6 +39,8 @@ const productForm = createSlice({
             state.basicProduct = rest;
             state.Specifications = Specification
             state.translations = translations,
+            state.translationsIndex = translations.length
+            state.SpecificationIndex = Specification.length
             state.basicProduct.image = imgUrl
         },
         addBasicProductId: (state, action: PayloadAction<string>) => {

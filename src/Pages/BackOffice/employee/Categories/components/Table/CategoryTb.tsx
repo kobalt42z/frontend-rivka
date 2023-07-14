@@ -50,7 +50,7 @@ const CategoryTb:FC<props> = ({setEdit,showAddCategory}) => {
                     id={category.id}
                     categoryName={category.name}
                     description={category.description}
-                    amountOfProducts={category._count?.products??5}
+                    amountOfProducts={category._count?.products??-1}
                     createdAt={dateFormatter(category.createdAt)}
                     lastUpdate={dateFormatter(category.updatedAt)}
                     imgURl={category.imgUrl}

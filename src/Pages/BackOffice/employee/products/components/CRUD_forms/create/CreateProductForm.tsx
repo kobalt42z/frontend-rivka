@@ -25,7 +25,7 @@ interface props {
 export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
     const [createProductReq, { isLoading, isSuccess, error }] = useCreateProductMutation()
     const ProductBody = useAppSelector(state => state.productFrom.body)
-    const ProductImgUrl = useAppSelector(state => state.productFrom.imageUrl)
+    const ProductImgUrl = useAppSelector(state => state.productFrom.basicProduct)
     const canGoNext = useAppSelector((state) => state.productFrom.goNext)
     const dispatch = useAppDispatch()
     const steps: React.ReactNode[] = [

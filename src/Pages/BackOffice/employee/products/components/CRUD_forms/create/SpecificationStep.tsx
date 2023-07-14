@@ -16,9 +16,9 @@ export const SpecificationStep = () => {
 
 
     React.useEffect(() => {
-      if(index>0) dispatch(setGoNext(true))
-      else dispatch(setGoNext(false))
-      }, [index])
+        if (index > 0) dispatch(setGoNext(true))
+        else dispatch(setGoNext(false))
+    }, [index])
 
     return (
         <div>
@@ -58,7 +58,7 @@ export const SpecificationStep = () => {
                     <div className='space-y-3'>
                         {
                             Specifications.map((item, i) => {
-                                const { size, color, curve, supply, thickness ,length} = item
+                                const { size, color, curve, supply, thickness, length } = item
                                 return (
                                     <div className=''>
                                         <Disclosure>
