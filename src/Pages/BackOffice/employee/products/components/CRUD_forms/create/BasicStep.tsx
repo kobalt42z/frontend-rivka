@@ -21,12 +21,12 @@ const BasicStep = ({ }) => {
   //ReactSelect hooks :
   const animatedComponents = makeAnimated();
 
-  //active or incativ btn 
-  const [active, toggleActive] = UseToggle(true)
 
   //redux interaction
   const dispatch = useAppDispatch()
   const basicProductState = useAppSelector((state) => state.productFrom.basicProduct)
+
+  const [active, setActive] = useState<boolean>(false);
 
 
   // catogry option for react select field 
@@ -45,13 +45,14 @@ const BasicStep = ({ }) => {
   // call back to execute when saving the first step data 
   const onSubmit: SubmitHandler<BasicProduct> = ({ image, ...rest }) => {
     let data = { image, ...rest };
-    
+
     // check if data is exist and if its a file |blob  in that case create URl and dispatch it 
     if (image && typeof image != "string") {
       console.log(image);
       data = {
         image: URL.createObjectURL(image[0]),
-        ...rest
+        active: active, // active is registred and conflict with local state you have to register the toggler ui like an input field
+        ...rest,
       }
     }
     // else dispatch the actual url and update the rest 
@@ -157,8 +158,9 @@ const BasicStep = ({ }) => {
           <label className='font-semibold  '> סטטוס: <span className={active ? "text-green-500" : "text-gray-500"}>{active ? "פעיל" : "לא זמין"}</span></label>
           <div dir='ltr' className="mx-auto">
             <Switch
+              // have to be registred manualy  or use Flowbite def componenet for this usage ! its seems mor aprorpeate 
               checked={active}
-              onChange={toggleActive}
+
               className={`${active ? 'bg-teal-600' : 'bg-gray-500'}
           relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >

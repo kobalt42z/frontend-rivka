@@ -13,7 +13,6 @@ interface data {
     SpecificationIndex: number
     basicProductId?: string
     goNext: boolean,
-    body?: ProductDto
     step: 1 | 2 | 3 | 4
 }
 
@@ -94,15 +93,7 @@ const productForm = createSlice({
         init: (state) => {
             state = initialState
         },
-        prepareToLaunch: (state) => {
-            if (!state.basicProduct) return console.warn("No basic product!")
-            state.body = {
-                ...state.basicProduct,
-                translations: state.translations,
-                Specifications: state.Specifications,
-            }
-
-        }
+        
     }
 })
 
@@ -116,7 +107,7 @@ export const {
     addBasicProductId,
     init,
     setGoNext,
-    prepareToLaunch,
+  
 } = productForm.actions
 
 export default productForm.reducer

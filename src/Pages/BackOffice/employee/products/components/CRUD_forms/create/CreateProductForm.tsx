@@ -6,16 +6,16 @@ import { current } from "@reduxjs/toolkit";
 import BasicStep from "./BasicStep";
 
 import TranslationStep from "./TranslationStep";
-import { languages } from "../../../../../../../interfaces/product.interface";
+import { ProductDto, languages } from "../../../../../../../interfaces/product.interface";
 
 import { useAppDispatch, useAppSelector } from "../../../../../../../features/hooks";
 import { Button, Tooltip } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import Summary from "./Summary";
 import { toggler } from "sk-use-toggle/src";
-import { prepareToLaunch } from "../../../../../../../features/Slices/productFrom.slice";
 import { useCreateProductMutation } from "../../../../../../../features/API/Products.Api";
 import { SpecificationStep } from "./SpecificationStep";
+import { FormReqBuilder } from "../../../../../../../functions/builders/reqBuilders";
 
 interface props {
     toggleModal: toggler
@@ -24,7 +24,7 @@ interface props {
 
 export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
     const [createProductReq, { isLoading, isSuccess, error }] = useCreateProductMutation()
-    const ProductBody = useAppSelector(state => state.productFrom.body)
+    const productForm = useAppSelector(state => state.productFrom)
     const ProductImgUrl = useAppSelector(state => state.productFrom.basicProduct)
     const canGoNext = useAppSelector((state) => state.productFrom.goNext)
     const dispatch = useAppDispatch()
@@ -67,18 +67,22 @@ export const CreateProductForm: React.FC<props> = ({ toggleModal, edit }) => {
     }
 
     const createProduct = async () => {
-        if (!ProductBody || !ProductImgUrl) throw new Error("Product body is missing ")
-        const reqBody = JSON.stringify(ProductBody)
-        const image = await (await fetch(ProductImgUrl)).blob()
         try {
-            dispatch(prepareToLaunch());
-            // reqBody.forEach(item => console.log(item)) //!debug
-            const resp = await createProductReq({ stringifyedBody:reqBody,image:image}).unwrap();
-            console.log(resp);//!debug only
-            next(toggleModal)
+            if (!productForm.basicProduct) throw new Error("body is missing ")
+            const { image: imageUrl, ...basicProduct } = productForm.basicProduct
+            const body: ProductDto = {
+                ...basicProduct,
+                translations: productForm.translations,
+                Specifications: productForm.Specifications
+            }
+            if (!imageUrl || typeof imageUrl !== "string") throw new Error("imageUrl is missing")
+            const resp = await fetch(imageUrl)
+            const image = await resp.blob()
+            await createProductReq({ stringifyedBody: JSON.stringify(body), image })
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
+
     }
 
     return (
