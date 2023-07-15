@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
-import { Accordion, Button } from 'flowbite-react'
-import React, { useEffect } from 'react'
+import { Accordion, Button, Label, Radio } from 'flowbite-react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../../../features/hooks'
 import SpecificationForm from './SpecificationForm'
 import { UseToggle } from 'sk-use-toggle/src'
@@ -14,6 +14,11 @@ export const SpecificationStep = () => {
     const index = useAppSelector((state) => state.productFrom.SpecificationIndex)
     const [AddRow, toggleAddrow] = UseToggle(true)
 
+    const [selectedRadio, setSelectedRadio] = useState<"color"|"lashes"|"size">('color');
+
+    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedRadio(event.target.value); //fixe interface work !
+    };
 
     React.useEffect(() => {
         if (index > 0) dispatch(setGoNext(true))
@@ -23,6 +28,7 @@ export const SpecificationStep = () => {
     return (
         <div>
             <div>
+
                 {!AddRow && <Button onClick={toggleAddrow}> הוספה
                     <Icon icon="ic:baseline-plus"
                         height={20}
@@ -31,6 +37,46 @@ export const SpecificationStep = () => {
                 }
                 <hr className=' my-3' />
                 <div className='space-y-2' >
+                    <fieldset
+                        className="flex max-w-md gap-4"
+                        id="radio"
+                    >
+                        <legend className="mb-4">
+                            בחר סוג
+                        </legend>
+                        <div className="flex items-center gap-2">
+                            <Radio
+
+                                value="color"
+                                onChange={handleRadioChange}
+                                checked={selectedRadio === 'color'}
+                            />
+                            <Label htmlFor="color">
+                                color
+                            </Label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Radio
+                                value="size"
+                                onChange={handleRadioChange}
+                                checked={selectedRadio === 'size'}
+                            />
+                            <Label htmlFor="size">
+                                size
+                            </Label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Radio
+
+                                value="lashes"
+                                onChange={handleRadioChange}
+                                checked={selectedRadio === 'lashes'}
+                            />
+                            <Label htmlFor="lashes">
+                                lashes
+                            </Label>
+                        </div>
+                    </fieldset>
                     <div className=''>
                         {AddRow &&
 
@@ -47,7 +93,7 @@ export const SpecificationStep = () => {
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="text-gray-500">
                                         <div className="border-x-2 border-b-2 rounded-b-2xl p-10">
-                                            <SpecificationForm index={index} toggleFinish={toggleAddrow} />
+                                            <SpecificationForm index={index} toggleFinish={toggleAddrow} toShow={selectedRadio} />
                                         </div>
                                     </Disclosure.Panel>
 
@@ -78,7 +124,7 @@ export const SpecificationStep = () => {
                                                 </Disclosure.Button>
                                                 <Disclosure.Panel className="text-gray-500 m-0">
                                                     <div className="border-x-2 border-b-2 rounded-b-2xl p-10">
-                                                        <SpecificationForm index={i} toggleFinish={toggleAddrow} />
+                                                        <SpecificationForm index={i} toggleFinish={toggleAddrow} toShow={selectedRadio} />
                                                     </div>
                                                 </Disclosure.Panel>
                                             </>

@@ -26,7 +26,7 @@ const BasicStep = ({ }) => {
   const dispatch = useAppDispatch()
   const basicProductState = useAppSelector((state) => state.productFrom.basicProduct)
 
-  const [active, setActive] = useState<boolean>(false);
+
 
 
   // catogry option for react select field 
@@ -37,7 +37,7 @@ const BasicStep = ({ }) => {
   // use form init hook 
   const { setError, setValue, register, clearErrors, handleSubmit, getValues, formState: { errors, isValid } } = useForm<BasicProduct>({
     // init the form with default values from actual state in redux, for edit mode !
-    defaultValues: basicProductState ?? undefined,
+    defaultValues: basicProductState ?? {active:true},
   });
 
 
@@ -51,7 +51,6 @@ const BasicStep = ({ }) => {
       console.log(image);
       data = {
         image: URL.createObjectURL(image[0]),
-        active: active, // active is registred and conflict with local state you have to register the toggler ui like an input field
         ...rest,
       }
     }
@@ -66,7 +65,6 @@ const BasicStep = ({ }) => {
       message: "נדרשת קטגוריה אחת לפחות"
     }
   })
-
 
 
   return (
@@ -155,23 +153,11 @@ const BasicStep = ({ }) => {
 
         <Button type='submit' className=''>שמור מוצר  <Icon icon="ic:baseline-plus" className='mx-1' /></Button>
         <div className=' space-y-3  w-[110px] ' >
-          <label className='font-semibold  '> סטטוס: <span className={active ? "text-green-500" : "text-gray-500"}>{active ? "פעיל" : "לא זמין"}</span></label>
-          <div dir='ltr' className="mx-auto">
-            <Switch
-              // have to be registred manualy  or use Flowbite def componenet for this usage ! its seems mor aprorpeate 
-              checked={active}
-
-              className={`${active ? 'bg-teal-600' : 'bg-gray-500'}
-          relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-            >
-              <span className="sr-only">Use setting</span>
-              <span
-                aria-hidden="true"
-                className={`${active ? 'translate-x-9' : 'translate-x-0'}
-              pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-              />
-            </Switch>
+          <div dir='ltr' className="flex items-center">
+          
+          
           </div>
+
         </div>
       </div>
     </form>

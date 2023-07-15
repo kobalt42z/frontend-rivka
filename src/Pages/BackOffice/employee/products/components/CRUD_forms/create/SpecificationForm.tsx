@@ -14,10 +14,11 @@ import { RSelectFormatter } from '../../../../../../../functions';
 interface props {
     index: number;
     toggleFinish: toggler
+    toShow: "color" | "size" | "lashes"
 }
 
 //TODO: add error handling for selectors with red border on error
-const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
+const SpecificationForm: FC<props> = ({ index, toggleFinish, toShow }) => {
     const [color, setColor] = useState<string | null>(null)
     const dispatch = useAppDispatch()
     const specification = useAppSelector((state) => state.productFrom.Specifications[index] ?? null)
@@ -71,53 +72,57 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-2 gap-5'>
 
-            <div>
+            {toShow === "size" && < div >
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">מידות</label>
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-                    defaultValue={RSelectFormatter(specification?.size) ?? undefined}
+                    defaultValue={RSelectFormatter(specification?.size??"")  }
                     isMulti={false}
                     options={sizes}
                     onChange={(c: any) => setValue('size', c.value)}
                 />
-            </div >
-            <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">סילסול</label>
-                <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-                    defaultValue={RSelectFormatter(specification?.curve) ?? undefined}
-                    isMulti={false}
-                    options={curves}
-                    onChange={(c: any) => { setValue('curve', c.value) }}
-                />
+            </div >}
+            {toShow === "lashes" &&
+                <>
+                    <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">סילסול</label>
+                        <Select
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            defaultValue={RSelectFormatter(specification?.curve??'') }
+                            isMulti={false}
+                            options={curves}
+                            onChange={(c: any) => { setValue('curve', c.value) }}
+                        />
 
-            </div >
-            <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">עובי</label>
-                <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-                    defaultValue={RSelectFormatter(specification?.thickness) ?? undefined}
-                    isMulti={false}
-                    options={thickness}
-                    onChange={(c: any) => { setValue('thickness', c.value) }}
-                />
+                    </div >
+                    <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">עובי</label>
+                        <Select
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            defaultValue={RSelectFormatter(specification?.thickness??'') }
+                            isMulti={false}
+                            options={thickness}
+                            onChange={(c: any) => { setValue('thickness', c.value) }}
+                        />
 
-            </div >
-            <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">אורך</label>
-                <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-                    defaultValue={RSelectFormatter(specification?.length) ?? undefined}
-                    isMulti={false}
-                    options={length}
-                    onChange={(c: any) => { setValue('length', c.value) }}
-                />
+                    </div >
+                    <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">אורך</label>
+                        <Select
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            defaultValue={RSelectFormatter(specification?.length??"") }
+                            isMulti={false}
+                            options={length}
+                            onChange={(c: any) => { setValue('length', c.value) }}
+                        />
 
-            </div >
+                    </div >
+                </>
+            }
             <ClassicInput
                 labelTitle='כמות'
                 type='number'
@@ -125,16 +130,10 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
                 useFromsParams={register('supply', supplyValidator)}
                 errorMessage={errors.supply?.message}
             />
-            {
-                <div className="flex items-center gap-2">
-                    <Checkbox id="remember" onChange={toggleColor} />
-                    <Label htmlFor="remember">
-                        צבע
-                    </Label>
-                </div>
-            }
 
-            {showColor &&
+
+            {
+                toShow === "color" &&
                 <div id="swatch" className='   '>
                     <input type="color" id="color" value={color ?? "#FFFFF"}   {...register('color', {
                         onBlur: () => color && setValue("color", color),
@@ -155,7 +154,7 @@ const SpecificationForm: FC<props> = ({ index, toggleFinish }) => {
                 /></Button>
             </div>
 
-        </form>
+        </form >
     )
 }
 export default SpecificationForm
