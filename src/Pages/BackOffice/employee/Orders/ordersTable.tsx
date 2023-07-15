@@ -14,7 +14,7 @@ export const OrdersTable = () => {
         setSelectedOrder(data)
         toggleModal();
     }
-
+    use
     return (
 
         <div className='container'>
@@ -45,7 +45,7 @@ export const OrdersTable = () => {
                         return (
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                    {order.user.firstName + " " + order.user.lastName}
+                                    {order.user.fullName}
                                 </Table.Cell>
                                 <Table.Cell>
                                     {order.user.email}

@@ -42,7 +42,7 @@ const Innovice: FC<props> = ({ paid, data }) => {
                         </section>
                         <span className="mt-12 font-extrabold md:hidden lg:hidden xl:hidden print:hidden">TO</span>
                         <section className="flex flex-col md:absolute md:right-0 md:text-right lg:absolute lg:right-0 lg:text-right print:absolute print:right-0 print:text-right">
-                            <span id="person-name" className="font-medium">{data.user.firstName + " " + data.user.lastName}</span>
+                            <span id="person-name" className="font-medium">{data.user.fullName}</span>
                             <span id="person-country"><span className="flag-icon flag-icon-hu"></span> ישראל</span>
                             {/* <div className="flex-row">
                                 <span id="p-postal">3100</span>
