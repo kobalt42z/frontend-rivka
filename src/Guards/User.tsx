@@ -43,7 +43,8 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
     const isRegistred = async () => {
         try {
             const decodedToken = await auth.currentUser?.getIdTokenResult()
-            if (!(Object.values(role).includes(decodedToken?.claims.role))) navigate("/register")
+            if (decodedToken && !(Object.values(role).includes(decodedToken?.claims.role))) navigate("/register")
+            
             return decodedToken;
         } catch (error) {
             console.log(error)
@@ -59,13 +60,13 @@ const UserGuard: FC<props> = ({ children, forceAuth }) => {
                 setLoading(false)
                 const decodedToken = await isRegistred();
                 console.log(decodedToken?.claims);
-                
+
                 dispatch(setUser({
                     uid: user.uid,
                     displayName: user.displayName ?? 'ללא שם ',
                     emailOrNumber: user.email ?? user.phoneNumber,
                     photoURL: user.photoURL ?? 'url to basic avatar !',
-                    role: decodedToken?.claims.role 
+                    role: decodedToken?.claims.role
                 }))
                 dispacthToken()
                 SetPass(true);

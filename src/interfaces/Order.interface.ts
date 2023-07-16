@@ -1,16 +1,12 @@
+import { DBEntity } from "./global.interfaces"
 import { productFromDB } from "./product.interface"
 import { DB_user } from "./user.interface"
 
-export interface Order {
-    id: string,
-    createdAt: string,
-    updatedAt: string
+export interface Order extends DBEntity {
     userId: string,
     cartId: string,
-    totalItems: number,
-    totalPrice: number,
     status: Status,
-    cart:cart,
+    cart:cart[],
     user: DB_user
 }
 enum Status {

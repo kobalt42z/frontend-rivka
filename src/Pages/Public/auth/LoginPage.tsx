@@ -122,13 +122,13 @@ export const LoginPage: React.FC<props> = ({nested,}) => {
           <br />
           <Link to={'/policy'} className='capitalize text-base  '>עייני ב-<span className="underline">תנאי השימוש </span></Link>
         </div>
-        <MainButtons submit disabled={Authing} custom={'  disabled:opacity-70  h-12 w-[250px] lg:w-1/2 self-center text-black text-lg'}  >התחברי</MainButtons>
+        <MainButtons submit disabled={Authing} custom={'  disabled:opacity-70  h-12 w-[250px] lg:w-[400px] self-center text-black text-lg'}  >התחברי</MainButtons>
 
       </form>
       <div className=" flex flex-col justify-center space-y-2 pt-2">
-        <MainButtons disabled={Authing} ClickAction={signInWithGoogle} custom={' disabled:opacity-70  flex items-center h-12 justify-evenly w-[250px] lg:w-1/2 self-center text-black text-lg'}  >
+        <MainButtons disabled={Authing} ClickAction={signInWithGoogle} custom={' disabled:opacity-70  flex items-center h-12 justify-evenly w-[250px] lg:w-[400px] self-center text-black text-lg'}  >
           <Icon icon="logos:google" /> התחברי באמצעות </MainButtons>
-        <MainButtons disabled={Authing} ClickAction={signInWithFacebook} custom={'disabled:opacity-70  flex items-center h-12 justify-evenly h-12 w-[250px] lg:w-1/2 self-center text-black text-lg'}  >
+        <MainButtons disabled={Authing} ClickAction={signInWithFacebook} custom={'disabled:opacity-70  flex items-center h-12 justify-evenly h-12 w-[250px] lg:w-[400px]  self-center text-black text-lg'}  >
           <Icon icon="devicon:facebook" /> התחברי באמצעות </MainButtons>
       </div>
     </div>
