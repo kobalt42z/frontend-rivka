@@ -1,14 +1,14 @@
 import { Spinner } from 'flowbite-react'
 import React from 'react'
-import { DarkVail } from '../special/DarkVail'
+import loading  from '../../assets/loading.svg'
 
 const LoadingScreen = () => {
   return (
-    <DarkVail>
-      <div className=' fixed w-full h-[100vh] flex justify-center items-center'>
-        <Spinner size={'xl'} color={"info"}/>
+    
+      <div className=' fixed w-full h-[100vh] flex justify-center items-center bg-black bg-opacity-60'>
+        <img src={loading} alt="" />
       </div>
-    </DarkVail>
+    
   )
 }
 
