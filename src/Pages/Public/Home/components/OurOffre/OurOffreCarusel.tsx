@@ -42,7 +42,7 @@ const OurOffreCarusel = () => {
 
                 </Carousel>
             
-            <img className='max-md:hidden' src={example} alt="" />
+            <img className='max-md:hidden w-full' src={example} alt="" />
 
 
         </div>

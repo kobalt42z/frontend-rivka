@@ -6,6 +6,7 @@ import MenuDrawer from '../../../Public/SharedLayouts/components/menu/MenuDrawer
 import MenuUl from '../../../Public/SharedLayouts/components/menu/menuUl'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { UseToggle } from 'sk-use-toggle/src'
+import { Link } from 'react-router-dom'
 
 export const BackOfficeNavBar = () => {
     const [showMenu, toggleMenu] = UseToggle();
@@ -18,12 +19,14 @@ export const BackOfficeNavBar = () => {
                 fluid={true}
                 rounded={true}
             >
-                <Navbar.Brand className='' href="https://flowbite.com/">
+                <Navbar.Brand className='' >
+                    <Link to={'/'}>
                     <img
                         src={Logo}
                         className="mr-3 h-15 sm:h-[8vh]"
                         alt="Flowbite Logo"
                     />
+                    </Link>
                     <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
                         מערכת ניהול
                     </span>
