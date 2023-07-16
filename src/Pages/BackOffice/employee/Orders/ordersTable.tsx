@@ -10,11 +10,11 @@ export const OrdersTable = () => {
     const [showModal, toggleModal] = UseToggle();
     const [SelectedOrder, setSelectedOrder] = useState<Order>()
     const { isError, isLoading, isSuccess, data, error } = useGetOrdersQuery(undefined)
-    const showOrderModal =(data:Order)=>{
+    const showOrderModal = (data: Order) => {
         setSelectedOrder(data)
         toggleModal();
     }
-    use
+    
     return (
 
         <div className='container'>
@@ -54,11 +54,11 @@ export const OrdersTable = () => {
                                     {order.user.phone}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {order.totalPrice}
+                                    {0}
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button
-                                        onClick={()=>showOrderModal(order)}
+                                        onClick={() => showOrderModal(order)}
                                         className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                                     >
                                         הצג הזמנה

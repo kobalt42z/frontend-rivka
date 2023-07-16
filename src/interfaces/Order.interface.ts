@@ -1,28 +1,25 @@
 import { DBEntity } from "./global.interfaces"
-import { productFromDB } from "./product.interface"
+import { SpecificationFromDB, productFromDB } from "./product.interface"
 import { DB_user } from "./user.interface"
 
 export interface Order extends DBEntity {
     userId: string,
     cartId: string,
     status: Status,
-    cart:cart[],
+    cartProducts:CartProduct[],
     user: DB_user
 }
+
 enum Status {
     WAITING_FOR_PAYMENT
 }
-export interface CartProducts {
-    id: string,
-    productId: string,
-    count: number,
-    cartId: string,
-    product: productFromDB
+export interface CartProduct extends DBEntity{
+    specificationId:string
+    orderId:string
+    specification:specicationLinked 
+    //add product somewhere!!
+    count:number
 }
-export interface cart {
-    id: string,
-    createdAt: string,
-    updatedAt: string,
-    userId: string,
-    cartProducts: CartProducts[]
+export interface specicationLinked extends SpecificationFromDB{
+    product:productFromDB
 }

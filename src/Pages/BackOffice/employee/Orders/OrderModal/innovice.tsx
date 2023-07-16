@@ -22,7 +22,7 @@ const Innovice: FC<props> = ({ paid, data }) => {
                         <span id="invoice_id" className="text-gray-500">{data.id}</span>
                     </div>
                     <div dir='rtl' className="flex text-start pt-2 px-5 flex-col lg:ml-12 xl:ml-12 print:text-sm">
-                        <span>תאריך קנייה: {dateFormatter(data.createdAt)}</span>
+                        <span>תאריך קנייה: {dateFormatter(data.createdAt??"")}</span>
                         <span>שולם ב-: 2020/09/07</span>
                         {/* <span>Due date: 2020.10.06</span> */}
                     </div>
@@ -67,13 +67,13 @@ const Innovice: FC<props> = ({ paid, data }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.cart.cartProducts.map((item, i) => {
+                                {data.cartProducts.map((item, i) => {
                                     return (
                                         <tr>
-                                            <td className="px-4 py-2 border">{item.product.name +"- "+ item.product.description}</td>
+                                            <td className="px-4 py-2 border">{item.specification.product.name +"- "+ item.specification.product.description}</td>
                                             <td className="px-4 py-2 text-right border tabular-nums slashed-zero">{item.count}</td>
-                                            <td className="px-4 py-2 text-right border tabular-nums slashed-zero">₪{item.product.selling_price}</td>
-                                            <td className="px-4 py-2 text-right border tabular-nums slashed-zero">₪{item.product.selling_price *item.count }</td>
+                                            <td className="px-4 py-2 text-right border tabular-nums slashed-zero">₪{item.specification.product.selling_price}</td>
+                                            <td className="px-4 py-2 text-right border tabular-nums slashed-zero">₪{item.specification.product.selling_price *item.count }</td>
                                         </tr>
                                     )
 
@@ -128,7 +128,7 @@ const Innovice: FC<props> = ({ paid, data }) => {
                                     <td className="invisible"></td>
                                     <td className="invisible"></td>
                                     <td className="px-4 py-2 font-extrabold text-right border">סה"כ לתשלום</td>
-                                    <td className="px-4 py-2 text-right border tabular-nums slashed-zero">₪{data.totalPrice}</td>
+                                    <td className="px-4 py-2 text-right border tabular-nums slashed-zero">₪{0}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,7 +148,7 @@ const Innovice: FC<props> = ({ paid, data }) => {
                     <span className="text-center">Buyer</span>
                 </div> */}
                 <footer className="flex flex-col items-center justify-center pb-20 leading-loose text-white bg-gray-700 print:bg-white print:pb-0">
-                    <span className="mt-4 text-xs print:mt-0">חשבונית זו נוצרה ב-{dateFormatter(data.createdAt)} </span>
+                    <span className="mt-4 text-xs print:mt-0">חשבונית זו נוצרה ב-{dateFormatter(data.createdAt??"")} </span>
                     <span dir='rtl' className="mt-4 text-base print:text-xs">© 2023 רבקה נקש.  כל הזכויות שמורות.</span>
                     <span dir='rtl' className="print:text-xs">ישראל - ירושלים,בית וגן</span>
                 </footer>
